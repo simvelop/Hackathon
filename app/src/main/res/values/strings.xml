@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- PARSE-->
+    <string name="parse_app_id">WwtjaJ3NRipKPP9Vdth9BzJvcKWI5oR7064eb7s9</string>
+    <string name="parse_client_key">EhKUdaCnQuRefHxwNQH89TKYVwmN21sJdSb1r110</string>
+
+    <string name="app_name">droidcon Zagreb</string>
+    <string name="title_activity_conference">ConferenceActivity</string>
+    <string name="action_about">About</string>
+    <string name="action_more">More</string>
+    <string name="speaker_title">Speaker:</string>
+    <string name="text_title">Description:</string>
+    <string name="location">&#160;\@ %1$s</string>
+    <!-- wifi credentials -->
+    <string name="networdSSID">\"droidconZG\"</string>
+    <string name="networkPass">\"\"</string>
+    <string name="wifi_saved">Wifi configuration for droidcon Zagreb is saved!</string>
+    <!-- about -->
+    <string name="venue">Venue</string>
+    <string name="venue_text">On the 28th - 29th April droidcon Zagreb 2016 will take place at Hotel Antunović Zagreb\n\nThe hotel is located at the west Zagreb exit. The distance from the hotel to the city centre is 9 km and to Airport Zagreb 27 km..</string>
+    <string name="venue_gmaps_link">"https://www.google.hr/maps/place/Hotel+Antunovi%C4%87+Zagreb/@45.797288,15.899344,15z/data=!4m2!3m1!1s0x0:0x54c51b5e5d1c8407?sa=X&amp;ei=HkfbVMrEAoWa7AbL1oDABA&amp;ved=0CJsBEPwSMA4"</string>
+    <string name="opensource">Open Source</string>
+    <string name="opensource_text">List of tools and libraries used to make this app.</string>
+    <string name="author">Author</string>
+    <string name="author_text">This app has been originally developed by Arnaud Camus. The further development was done by troido.</string>
+    <string name="evaluation">Evaluation</string>
+    <string name="evaluation_text">Please give us feedback on the event via this form.</string>
+    <string name="wifi">Wifi</string>
+    <string name="wifi_description">Save your wifi configuration for droidcon Zagreb</string>
+    <!-- transition name -->
+    <string name="toolbar">toolbar</string>
+    <string name="image">image</string>
+    <string name="headline">headline</string>
+    <string name="speaker">speaker</string>
+    <!-- timeline -->
+    <string name="SCHEDULE_FILENAME">timeline.tsv</string>
+    <string name="SCHEDULE_LINK">http://www.droidcon.hr/timeline.tsv</string>
+
+    <!-- notification -->
+    <string name="notification_title">Thank you for attending droidcon Zagreb 2016</string>
+    <string name="notification_text">We hope you can help us improve the event by providing some feedback information</string>
+
+    <!-- libraries -->
+    <string name="define_OpenCSV"></string>
+    <string name="library_OpenCSV_author">Bytecode Pty Ltd</string>
+    <string name="library_OpenCSV_libraryName">OpenCSV</string>
+    <string name="library_OpenCSV_libraryDescription">opencsv is a very simple csv (comma-separated values) parser library for Java.</string>
+    <string name="library_OpenCSV_libraryVersion">3.1</string>
+    <string name="library_OpenCSV_libraryWebsite">http://opencsv.sourceforge.net/</string>
+    <string name="library_OpenCSV_licenseId">apache_2_0</string>
+    <string name="library_OpenCSV_isOpenSource">true</string>
+    <string name="library_OpenCSV_repositoryLink">http://opencsv.sourceforge.net</string>
+    <string name="define_PrettySharedPreferences"></string>
+    <string name="library_PrettySharedPreferences_author">Nguyen Truong Giang</string>
+    <string name="library_PrettySharedPreferences_libraryName">PrettySharedPreferences</string>
+    <string name="library_PrettySharedPreferences_libraryDescription">PrettySharedPreferences is a lightweight library to help you deal with SharedPreferences more easily and reduce boilerplate code.</string>
+    <string name="library_PrettySharedPreferences_libraryVersion">1.0.2</string>
+    <string name="library_PrettySharedPreferences_libraryWebsite">https://github.com/talenguyen/PrettySharedPreferences</string>
+    <string name="library_PrettySharedPreferences_licenseId">apache_2_0</string>
+    <string name="library_PrettySharedPreferences_isOpenSource">true</string>
+    <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
+
+</resources>
