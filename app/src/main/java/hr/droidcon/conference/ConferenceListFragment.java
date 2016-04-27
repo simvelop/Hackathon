@@ -1,5 +1,6 @@
 package hr.droidcon.conference;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.utils.Utils;
 import hr.droidcon.conference.views.ConferenceView;
 
 /**
@@ -37,17 +39,8 @@ public class ConferenceListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-//    @Bind(R.id.conference_fragment_list)
-//    ListView conferencesListView;
-
-    @Bind(R.id.stageAContainer)
-    LinearLayout stageAContainer;
-
-    @Bind(R.id.stageBContainer)
-    LinearLayout stageBContainer;
-
-    @Bind(R.id.stageCContainer)
-    LinearLayout stageCContainer;
+    @Bind(R.id.stageContainer)
+    LinearLayout stageContainer;
 
     private String[] stageTab = {"Stage A", "Stage B", "Stage C"};
 
@@ -153,35 +146,43 @@ public class ConferenceListFragment extends Fragment {
         }
 
         for (String time : timeList) {
-            for (String stage : stageTab) {
-                final Conference conference = getConferanceInfo(time + stage);
-                View conferenceView = null;
+            View[] viewTab = new View[3];
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            linearLayout.setWeightSum(1);
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            for (int i = 0; i < stageTab.length; i++) {
+                final Conference conference = getConferenceInfo(time + stageTab[i]);
                 if (conference != null) {
-                    conferenceView = ConferenceView.createView(getContext(), conference);
-                    conferenceView.setOnClickListener(new View.OnClickListener() {
+                    viewTab[i] = ConferenceView.createView(getContext(), conference);
+                    viewTab[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             onItemClick(v, conference);
                         }
                     });
+                    viewTab[i].setTag(conference.isSpeakerNullOrEmpty());
                 } else {
-                    conferenceView = ConferenceView.getBlankView(getContext());
+                    viewTab[i] = ConferenceView.getBlankView(getContext());
+                    viewTab[i].setTag(false);
                 }
-                getStageContainer(stage).addView(conferenceView);
             }
+
+            for (View view : viewTab) {
+                boolean tag = (boolean) view.getTag();
+                setLayoutWeight(view, tag ? 150 : 200, tag ? 1 : .333f);
+                if (tag) {
+                    linearLayout.removeAllViews();
+                }
+                linearLayout.addView(view);
+            }
+            stageContainer.addView(linearLayout);
         }
     }
 
-    private LinearLayout getStageContainer(String location) {
-        if (location.equals("Stage C")) {
-            return stageCContainer;
-        } else if (location.equals("Stage B")) {
-            return stageBContainer;
-        } else { //if (location.equals("Stage A")) {
-//        } else if (location.equals("Stage A")) {
-            return stageAContainer;
-        }
-//        return null;
+    private void setLayoutWeight(View view, int size, float weight) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, Utils.dpToPx(size, getContext()), weight);
+        view.setLayoutParams(params);
     }
 
     private void onItemClick(View view, Conference conferance) {
@@ -196,7 +197,7 @@ public class ConferenceListFragment extends Fragment {
         ActivityCompat.startActivity(getActivity(), intent, bundle);
     }
 
-    private Conference getConferanceInfo(String conferenceId) {
+    private Conference getConferenceInfo(String conferenceId) {
         return conferanceMap.get(conferenceId);
     }
 }

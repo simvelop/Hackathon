@@ -148,4 +148,8 @@ public class Conference implements Serializable {
     public void setSpeakerUID(String speakerUID) {
         this.speakerUID = speakerUID;
     }
+
+    public boolean isSpeakerNullOrEmpty() {
+        return speaker == null || speaker.isEmpty();
+    }
 }

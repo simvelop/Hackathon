@@ -41,32 +41,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/stageContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <LinearLayout
-                android:id="@+id/stageAContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".333"
-                android:orientation="vertical" />
-
-            <LinearLayout
-                android:id="@+id/stageBContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".333"
-                android:orientation="vertical" />
-
-            <LinearLayout
-                android:id="@+id/stageCContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".333"
-                android:orientation="vertical" />
-
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
 </LinearLayout>
