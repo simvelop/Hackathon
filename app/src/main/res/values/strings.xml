@@ -66,4 +66,6 @@
     <string name="menu_item_ux_ui">UX / UI</string>
     <string name="menu_item_other">Other</string>
 
+    <string name="day_of_the_week_thursday">Thursday</string>
+    <string name="day_of_the_week_friday">Friday</string>
 </resources>

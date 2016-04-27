@@ -46,6 +46,9 @@ public class Conference implements Serializable {
         category = session.getCategory();
     }
 
+    public Conference () {
+
+    }
 
     /**
      * Save the new state of the conference.

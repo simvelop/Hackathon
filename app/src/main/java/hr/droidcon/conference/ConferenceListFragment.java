@@ -17,6 +17,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -46,6 +47,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     private int id;
     private List<Conference> conferences;
+    private List<Conference> filteredConferences;
+    private boolean attendingOnly;
     private MainAdapter mAdapter;
 
     public ConferenceListFragment() {
@@ -59,13 +62,14 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
      * @return A new instance of fragment ConferenceListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ConferenceListFragment newInstance(int id, List<Conference> conferences) {
+    public static ConferenceListFragment newInstance(int id, List<Conference> conferences,
+                                                     boolean attendingOnly) {
         ConferenceListFragment fragment = new ConferenceListFragment();
         Bundle args = new Bundle();
         args.putInt(PARAM_ID, id);
 //        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        fragment.setConferences(conferences);
+        fragment.setConferences(conferences, attendingOnly);
         return fragment;
     }
 
@@ -85,13 +89,25 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), 0x00, conferences);
+        filter();
+        mAdapter = new MainAdapter(this.getActivity(), 0x00, filteredConferences);
 
         conferencesListView.setAdapter(mAdapter);
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
 
         return view;
+    }
+
+    private void filter() {
+        if (attendingOnly) {
+        filteredConferences.clear();
+            for (Conference conf: conferences) {
+                if (conf.isFavorite(getActivity())) {
+                    filteredConferences.add(conf);
+                }
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -135,7 +151,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (conferences.get(position).getSpeaker().length()==0) {
+        if (filteredConferences.get(position).getSpeaker().length()==0) {
             // if the speaker field is empty, it's probably a coffee break or lunch
             return;
         }
@@ -152,7 +168,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                 image, speaker).toBundle();
         Intent intent = new Intent(getActivity(), ConferenceActivity.class);
-        intent.putExtra("conference", conferences.get(position));
+        intent.putExtra("conference", filteredConferences.get(position));
         ActivityCompat.startActivity(getActivity(), intent, bundle);
     }
 
@@ -185,15 +201,29 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
 
     public List<Conference> getConferences() {
-        return conferences;
+        return filteredConferences;
     }
 
-    public void setConferences(List<Conference> conferences) {
+    public void setConferences(List<Conference> conferences, boolean attendingOnly) {
         this.conferences = conferences;
+        if (attendingOnly) {
+            filteredConferences = new ArrayList<Conference>();
+        } else {
+            filteredConferences = conferences;
+        }
+        this.attendingOnly = attendingOnly;
 //        if (mAdapter != null) {
 //            mAdapter.notifyDataSetChanged();
 //            Log.e("Fragment " + id, "adapter NULL");
 //        }
+    }
+
+    public void updateConferences(List<Conference> conferences, boolean attendingOnly) {
+        setConferences(conferences, attendingOnly);
+        filter();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
