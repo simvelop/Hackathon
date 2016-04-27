@@ -57,6 +57,20 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll, false);
     }
 
+    public void updateConferences(List<Conference> conferences) {
+        setConferences(conferences);
+        oneListToRuleThemAll.add(createSeparator(Day.THURSDAY));
+        oneListToRuleThemAll.addAll(dayOneConferences);
+        oneListToRuleThemAll.add(createSeparator(Day.FRIDAY));
+        oneListToRuleThemAll.addAll(dayTwoConferences);
+        if (attendingFragment != null) {
+            attendingFragment.updateConferences(conferences, true);
+        }
+        if (scheduleFragment != null) {
+            scheduleFragment.updateConferences(conferences, false);
+        }
+    }
+
     private Conference createSeparator(Day day) {
         Conference conferenceSeparator = new Conference();
         conferenceSeparator.setSpeaker("");

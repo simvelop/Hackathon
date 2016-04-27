@@ -103,7 +103,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         if (attendingOnly) {
         filteredConferences.clear();
             for (Conference conf: conferences) {
-                if (conf.isFavorite(getContext())) {
+                if (conf.isFavorite(getActivity())) {
                     filteredConferences.add(conf);
                 }
             }
@@ -216,6 +216,14 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 //            mAdapter.notifyDataSetChanged();
 //            Log.e("Fragment " + id, "adapter NULL");
 //        }
+    }
+
+    public void updateConferences(List<Conference> conferences, boolean attendingOnly) {
+        setConferences(conferences, attendingOnly);
+        filter();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

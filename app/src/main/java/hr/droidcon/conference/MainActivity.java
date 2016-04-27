@@ -251,18 +251,23 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<Session>> call, Throwable t) {
                 Log.e("TAG", t.getMessage());
                 getCachedContent();
-                Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "No internet connection :(", Toast
+                        .LENGTH_SHORT).show();
             }
         });
     }
 
     private void updateMainAdapterSessions() {
-        mainTabAdapter = new MainTabAdapter(
-                getSupportFragmentManager(),
-                mainTabLayout.getTabCount(),
-                mConferences
-        );
-        mainViewPager.setAdapter(mainTabAdapter);
+        if (mainTabAdapter == null) {
+            mainTabAdapter = new MainTabAdapter(
+                    getSupportFragmentManager(),
+                    mainTabLayout.getTabCount(),
+                    mConferences
+            );
+            mainViewPager.setAdapter(mainTabAdapter);
+        } else {
+            mainTabAdapter.updateConferences(mConferences);
+        }
     }
 
     private void cacheSessions() {
