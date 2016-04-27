@@ -4,12 +4,12 @@
     <color name="colorHeader">#486627</color>
     <color name="colorPrimaryDark">#558B2F</color>
     <color name="colorAccent">#fa6111</color>
-    <color name="accentColor">#0091EA</color>
+    <color name="accentColor">#fa6111</color>
     <color name="textColorPrimary">#FFF</color>
     <color name="textColorSecondary">#121212</color>
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
-    <color name="accentLight">#22b3fd</color>
+    <color name="accentLight">#f7732f</color>
 
     <!-- drawer_menu -->
     <color name="menu_bg">#ffffff</color>
