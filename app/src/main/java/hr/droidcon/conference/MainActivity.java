@@ -8,8 +8,10 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
     private List<Conference> mConferences = new ArrayList<Conference>();
     private Toolbar mToolbar;
     private DrawerLayout drawerLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
 
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
         }
 
         initDrawerLayout();
+        inirSwipeRefreshLayout();
         initTabs();
 
 //        ListView mListView = (ListView) findViewById(R.id.listView);
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
 //        mListView.setOnItemClickListener(this);
 
         trackOpening();
+        readCalendarAPI();
     }
 
     @Override
@@ -198,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
             //we refresh the views in case a conference has been (un)favorite
             mAdapter.notifyDataSetChanged();
         }
-
-        readCalendarAPI();
     }
 
 
@@ -296,12 +297,14 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
                 } else {
                     getCachedContent();
                 }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Session>> call, Throwable t) {
                 Log.e("TAG", "" + t.getMessage());
                 getCachedContent();
+                swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT).show();
             }
         });
@@ -353,22 +356,6 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
         return null;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_more) {
-            startActivity(new Intent(this, AboutActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Track how many times the Activity is launched and send a push notification {@link
      * hr.droidcon.conference.utils.SendNotification} to ask the user for feedback on the event.
@@ -409,9 +396,25 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
             mConferences = gson.fromJson(json, type);
             updateMainAdapterSessions();
 
+            swipeRefreshLayout.setRefreshing(false);
             return true;
         } else {
+            swipeRefreshLayout.setRefreshing(false);
             return false;
         }
+    }
+
+    private void inirSwipeRefreshLayout() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(this, R.color.swipe_refresh_progress_1),
+                ContextCompat.getColor(this, R.color.swipe_refresh_progress_2),
+                ContextCompat.getColor(this, R.color.swipe_refresh_progress_3));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                readCalendarAPI();
+            }
+        });
     }
 }

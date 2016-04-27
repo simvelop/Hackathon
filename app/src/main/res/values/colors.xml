@@ -3,6 +3,7 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorHeader">#486627</color>
     <color name="colorPrimaryDark">#558B2F</color>
+    <color name="colorAccent">#fa6111</color>
     <color name="accentColor">#0091EA</color>
     <color name="textColorPrimary">#FFF</color>
     <color name="textColorSecondary">#121212</color>
@@ -20,4 +21,9 @@
     <color name="border_coupon_frame_pressed">#a3a3a3</color>
     <color name="border_coupon_bg">#ffffff</color>
     <color name="border_coupon_bg_pressed">#d1cfcf</color>
+
+    <!-- swipe_refresh_layout -->
+    <color name="swipe_refresh_progress_1">@color/colorAccent</color>
+    <color name="swipe_refresh_progress_2">@color/colorPrimaryDark</color>
+    <color name="swipe_refresh_progress_3">@color/colorPrimary</color>
 </resources>

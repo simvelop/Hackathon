@@ -1,6 +1,5 @@
 package hr.droidcon.conference;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -170,7 +169,7 @@ public class ConferenceListFragment extends Fragment {
 
             for (View view : viewTab) {
                 boolean tag = (boolean) view.getTag();
-                setLayoutWeight(view, tag ? 150 : 200, tag ? 1 : .333f);
+                setLayoutWeight(view, tag ? 160 : 200, tag ? 1 : .333f);
                 if (tag) {
                     linearLayout.removeAllViews();
                 }
