@@ -1,5 +1,6 @@
 package hr.droidcon.conference.adapters;
 
+import android.app.Application;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,6 +23,11 @@ import hr.droidcon.conference.objects.Conference;
  */
 public class MainTabAdapter extends FragmentStatePagerAdapter {
 
+    private enum Day {
+        THURSDAY,
+        FRIDAY
+    }
+
     private int numberOfTabs;
     private List<Conference> conferences = new ArrayList<>();
 
@@ -31,6 +37,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
+    List<Conference> oneListToRuleThemAll = new ArrayList<>();
 
 
     public MainTabAdapter(FragmentManager fm, int numberOfTabs, List<Conference> conferences) {
@@ -39,9 +46,36 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         setConferences(conferences);
 
+        oneListToRuleThemAll.add(createSeparator(Day.THURSDAY));
+        oneListToRuleThemAll.addAll(dayOneConferences);
+        oneListToRuleThemAll.add(createSeparator(Day.FRIDAY));
+        oneListToRuleThemAll.addAll(dayTwoConferences);
+
         exploreFragment = ExploreFragment.newInstance(0);
         attendingFragment = ConferenceListFragment.newInstance(1, conferences);
-        scheduleFragment = ConferenceListFragment.newInstance(2, conferences);
+        scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll);
+    }
+
+    private Conference createSeparator(Day day) {
+        Conference conferenceSeparator = new Conference();
+        conferenceSeparator.setSpeaker("");
+        conferenceSeparator.setLocation("");
+        conferenceSeparator.setEndDate("");
+        conferenceSeparator.setSpeakerImageUrl("");
+        conferenceSeparator.setStartDate("");
+        conferenceSeparator.setText("");
+        switch (day) {
+            case THURSDAY: {
+                conferenceSeparator.setHeadline("Thursday");
+                break;
+            }
+            case FRIDAY: {
+                conferenceSeparator.setHeadline("Friday");
+            }
+            default:
+        }
+
+        return conferenceSeparator;
     }
 
     private List<Conference> splitConferencesByDays(List<Conference> conferences) {
@@ -120,7 +154,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     public void setConferences(List<Conference> conferences) {
         this.conferences = conferences;
-//        splitConferencesByDays(conferences);
+        splitConferencesByDays(conferences);
     }
 
     @Override

@@ -44,6 +44,9 @@ public class Conference implements Serializable {
         location = session.getRoom().get(0);
     }
 
+    public Conference () {
+
+    }
 
     /**
      * Save the new state of the conference.
