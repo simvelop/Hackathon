@@ -38,6 +38,10 @@
             android:screenOrientation="portrait"
             android:label="@string/action_about" >
         </activity>
+        <activity
+            android:name=".FilteredActivity"
+            android:screenOrientation="portrait"
+            />
 
         <receiver
             android:name=".utils.UAReceiver"

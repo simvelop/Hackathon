@@ -3,4 +3,8 @@
 
     <item android:id="@+id/action_more" android:title="@string/action_more"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/business_cat_id" android:title="Business"/>
+    <item android:id="@+id/development_cat_id" android:title="Development"/>
+    <item android:id="@+id/ux_cat_id" android:title="UX"/>
+    <item android:id="@+id/other_cat_id" android:title="Other"/>
 </menu>

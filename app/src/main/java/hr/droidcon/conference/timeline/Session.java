@@ -41,6 +41,9 @@ public class Session {
     @SerializedName("end_iso")
     private List<String> endISO;
 
+    @SerializedName("category")
+    private String category;
+
     public String getTitle() {
         return title;
     }
@@ -96,5 +99,13 @@ public class Session {
 
     public void setEndISO(List<String> endISO) {
         this.endISO = endISO;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
