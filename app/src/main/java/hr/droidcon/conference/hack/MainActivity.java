@@ -52,7 +52,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private MainAdapter mAdapter;
-    private List<Conference> mConferences = new ArrayList<Conference>();
+    public List<Conference> mConferences = new ArrayList<Conference>();
     private Toolbar mToolbar;
 
     private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
