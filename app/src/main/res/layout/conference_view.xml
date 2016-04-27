@@ -20,6 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"
         android:padding="0dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="2dp"
         android:text="dateStart"
         android:textSize="@dimen/conference_view_text_size" />
 
@@ -46,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateStart"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="speaker"
         android:singleLine="true"
         android:ellipsize="end"
@@ -58,6 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/speaker"
         android:ellipsize="end"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:maxLines="4"
         android:text="headline"
         android:textSize="@dimen/conference_view_title_text_size"
