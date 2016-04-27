@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private List<Conference> mConferences = new ArrayList<Conference>();
+    private List<Conference> mConferences = new ArrayList<>();
     private Toolbar mToolbar;
 
-    private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
+    private int mTimeout = 10 * 60 * 1000; //  10 mins timeout for refreshing data
 
     private List<Speaker> mSpeakers;
 
@@ -102,16 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         initTabs();
 
-//        ListView mListView = (ListView) findViewById(R.id.listView);
-//        mAdapter = new MainAdapter(this, 0x00, mConferences);
-//        mListView.setAdapter(mAdapter);
-
         // TODO: LOADING SPINNER
         // reading API moved to onResume
 //        readCalendarAPI();
-
-//        mListView.setOnScrollListener(this);
-//        mListView.setOnItemClickListener(this);
 
         trackOpening();
     }
@@ -124,8 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 .setText("DAY 2"));
         mainTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
+
         mainViewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(mainTabLayout));
+
         mainTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -172,12 +168,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (prefs.getLong(Constants.PREFS_TIMEOUT_REFRESH, 0) + mTimeout <
                 System.currentTimeMillis()) {
+            Log.d("REFRESH", "5 minutes have passed, refreshing content");
             fetchSpeakers();
-            Log.d("REFRESH", "10 minutes has passed, app refreshed");
-
         }
 
         if (!getCachedContent()) {
+            Log.d(TAG, "no cached content found! refreshing content");
             fetchSpeakers();
         }
     }
@@ -275,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d(TAG, "onPageSelected: " +position);
                 ((BaseApplication) getApplication()).setSelectedTab(position);
             }
 

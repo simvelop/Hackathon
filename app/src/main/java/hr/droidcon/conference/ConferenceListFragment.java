@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -49,8 +50,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     private static final String PARAM_ID = "FRAGMENT_ID";
 
     private static final String TAG = "ConfListFrag";
-
-    private OnFragmentInteractionListener mListener;
 
     @Bind(R.id.conference_fragment_list)
     ListView conferencesListView;
@@ -103,31 +102,17 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
         mAdapter = new MainAdapter(this.getActivity(), new ArrayList<Conference>());
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         updateConferenceList();
 
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
         conferencesListView.setAdapter(mAdapter);
-
-        return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -140,12 +125,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     public void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -217,6 +196,10 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
                 image, speaker).toBundle();
         Intent intent = new Intent(getActivity(), ConferenceActivity.class);
         intent.putExtra("conference", (Conference) parent.getAdapter().getItem(position));
+
+        // store selected position for restoring it later when coming back
+        ((BaseApplication) getActivity().getApplication()).setSelectedListItem(position);
+
         ActivityCompat.startActivity(getActivity(), intent, bundle);
     }
 
@@ -285,5 +268,17 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         mAdapter.clear();
         mAdapter.addAll(filteredConferencesList);
         mAdapter.notifyDataSetChanged();
+
+        // restore position in listview
+        final int position = ((BaseApplication) getActivity().getApplication()).getSelectedListItem();
+        Log.d(TAG, "updateConferenceList: restored pos: " +position);
+
+        conferencesListView.clearFocus();
+        conferencesListView.post(new Runnable() {
+            @Override
+            public void run() {
+                conferencesListView.setSelection(position);
+            }
+        });
     }
 }

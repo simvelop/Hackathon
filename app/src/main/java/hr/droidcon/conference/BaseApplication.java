@@ -26,6 +26,7 @@ public class BaseApplication extends Application {
     private boolean filterFavorites;
 
     private int selectedTab = 0;
+    private int selectedListItem = 0;
 
     @Override
     public void onCreate() {
@@ -80,5 +81,13 @@ public class BaseApplication extends Application {
 
     public int getSelectedTab() {
         return selectedTab;
+    }
+
+    public void setSelectedListItem(int selectedListItem) {
+        this.selectedListItem = selectedListItem;
+    }
+
+    public int getSelectedListItem() {
+        return selectedListItem;
     }
 }
