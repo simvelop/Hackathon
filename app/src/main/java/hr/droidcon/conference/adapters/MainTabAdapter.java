@@ -52,8 +52,9 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         oneListToRuleThemAll.addAll(dayTwoConferences);
 
         exploreFragment = ExploreFragment.newInstance(0);
-        attendingFragment = ConferenceListFragment.newInstance(1, conferences);
-        scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll);
+        attendingFragment = ConferenceListFragment.newInstance(1, conferences, true);
+
+        scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll, false);
     }
 
     private Conference createSeparator(Day day) {
