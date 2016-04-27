@@ -257,7 +257,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
         for (Conference conference : this.conferences) {
             if (filter) {
-                if (conference.isFavorite(getActivity())) {
+                if (conference.isFavorite(getActivity()) || conference.getSpeaker().length() == 0) {
                     filteredConferencesList.add(conference);
                 }
             } else {
@@ -270,15 +270,15 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         mAdapter.notifyDataSetChanged();
 
         // restore position in listview
-        final int position = ((BaseApplication) getActivity().getApplication()).getSelectedListItem();
-        Log.d(TAG, "updateConferenceList: restored pos: " +position);
-
-        conferencesListView.clearFocus();
-        conferencesListView.post(new Runnable() {
-            @Override
-            public void run() {
-                conferencesListView.setSelection(position);
-            }
-        });
+//        final int position = ((BaseApplication) getActivity().getApplication()).getSelectedListItem();
+//        Log.d(TAG, "updateConferenceList: restored pos: " +position);
+//
+//        conferencesListView.clearFocus();
+//        conferencesListView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                conferencesListView.setSelection(position);
+//            }
+//        });
     }
 }
