@@ -1,16 +1,19 @@
 package hr.droidcon.conference;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.transition.ChangeBounds;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -109,6 +112,7 @@ public class ConferenceActivity extends ActionBarActivity {
         });
 
         setupFAB();
+        initSpeakerLayout();
     }
 
     /**
@@ -140,6 +144,21 @@ public class ConferenceActivity extends ActionBarActivity {
                 } else {
                     fab.setFloatingActionButtonDrawable(
                             getResources().getDrawable(R.drawable.ic_favorite_outline_white_24dp));
+                }
+            }
+        });
+    }
+
+    private void initSpeakerLayout() {
+        RelativeLayout speakerLayout = (RelativeLayout) findViewById(R.id.speakerLayout);
+        speakerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("feeedy", "aaa: " + mConference.getSpeakerUID());
+                if (mConference.getSpeakerUID() != null) {
+                    Intent intent = new Intent(ConferenceActivity.this, SpeakerInfoActivity.class);
+                    intent.putExtra(SpeakerInfoActivity.SPEAKER_UID, mConference.getSpeakerUID());
+                    startActivity(intent);
                 }
             }
         });

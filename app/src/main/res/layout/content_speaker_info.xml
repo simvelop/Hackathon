@@ -1,84 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="hr.droidcon.conference.SpeakerInfoActivity"
     tools:showIn="@layout/activity_speaker_info">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_speaker_info_cardview_margin"
-        card_view:cardCornerRadius="@dimen/activity_speaker_info_corner_radius">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_speaker_info_margin">
+            android:layout_margin="@dimen/activity_speaker_info_cardview_margin"
+            card_view:cardCornerRadius="@dimen/activity_speaker_info_corner_radius">
 
-            <ImageView
-                android:id="@+id/speakerImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/activity_speaker_info_margin"
-                android:transitionName="@string/image" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@id/speakerImage"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_speaker_info_margin">
 
-                <TextView
-                    android:id="@+id/speakerName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                <ImageView
+                    android:id="@+id/speakerImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/activity_speaker_info_margin"
+                    android:transitionName="@string/image" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/speakerImage"
                     android:gravity="center"
-                    android:textColor="#363336"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/speakerJob"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="#363336"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/speakerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#363336"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/speakerJob"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#363336"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+            </RelativeLayout>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/activity_speaker_info_cardview_margin"
-        android:foregroundGravity="center"
-        card_view:cardCornerRadius="@dimen/activity_speaker_info_corner_radius">
+        </android.support.v7.widget.CardView>
 
-        <TextView
-            android:id="@+id/description"
+        <android.support.v7.widget.CardView
+            android:id="@+id/contactLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_speaker_info_cardview_margin"
+            card_view:cardCornerRadius="@dimen/activity_speaker_info_corner_radius">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contactList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/menu_bg"
+                app:layoutManager="StaggeredGridLayoutManager" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingLeft="@dimen/activity_speaker_info_margin"
-            android:paddingRight="@dimen/activity_speaker_info_margin"
-            android:paddingTop="@dimen/activity_speaker_info_margin"
-            android:textSize="14sp" />
+            android:layout_margin="@dimen/activity_speaker_info_cardview_margin"
+            android:foregroundGravity="center"
+            card_view:cardCornerRadius="@dimen/activity_speaker_info_corner_radius">
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="@dimen/activity_speaker_info_margin"
+                android:paddingRight="@dimen/activity_speaker_info_margin"
+                android:paddingTop="@dimen/activity_speaker_info_margin"
+                android:textSize="14sp" />
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

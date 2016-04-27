@@ -2,6 +2,7 @@ package hr.droidcon.conference.timeline;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class Speaker {
     private String companyURI;
     @SerializedName("description_short")
     private String description;
+
+    private List<Link> links = new ArrayList<>();
 
     public String getUid() {
         return uid;
@@ -83,5 +86,17 @@ public class Speaker {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }

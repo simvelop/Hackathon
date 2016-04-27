@@ -2,6 +2,8 @@ package hr.droidcon.conference;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
@@ -11,16 +13,20 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import hr.droidcon.conference.adapters.ContactAdapter;
 import hr.droidcon.conference.hack.R;
+import hr.droidcon.conference.timeline.Link;
 import hr.droidcon.conference.timeline.Speaker;
+import hr.droidcon.conference.utils.Utils;
 
 /**
  * Created by
+ *
  * @author Mateusz Kłodnicki
- * on 27.04.16.
+ *         on 27.04.16.
  */
 
-public class SpeakerInfoActivity extends AppCompatActivity {
+public class SpeakerInfoActivity extends AppCompatActivity implements ContactAdapter.OnLinkClickListener {
 
     public static final String SPEAKER_UID = "speaker_uid";
 
@@ -33,8 +39,6 @@ public class SpeakerInfoActivity extends AppCompatActivity {
 
         initToolbar();
         downloadSpeakerInfo();
-
-        setUpSpeakerInfo();
     }
 
     private void setUpSpeakerInfo() {
@@ -53,6 +57,7 @@ public class SpeakerInfoActivity extends AppCompatActivity {
             job.setText(speaker.getCompanyPosition() + " at " + speaker.getCompany());
             description.setText(Html.fromHtml(speaker.getDescription()));
 
+            initContactLayout();
         }
     }
 
@@ -63,6 +68,7 @@ public class SpeakerInfoActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     speaker = SpeakersManager.INSTANCE.getSpeakersSparseArray().get(Integer.valueOf(speakerUId));
+                    setUpSpeakerInfo();
                 }
 
                 @Override
@@ -85,4 +91,21 @@ public class SpeakerInfoActivity extends AppCompatActivity {
         });
     }
 
+    private void initContactLayout() {
+        CardView contactLayout = (CardView) findViewById(R.id.contactLayout);
+
+        if (speaker.getLinks().size() == 0) {
+            contactLayout.setVisibility(View.GONE);
+        } else {
+            ContactAdapter contactAdapter = new ContactAdapter(speaker.getLinks());
+            contactAdapter.setOnLinkClickListener(this);
+            RecyclerView contactList = (RecyclerView) findViewById(R.id.contactList);
+            contactList.setAdapter(contactAdapter);
+        }
+    }
+
+    @Override
+    public void onLinkCLick(Link link) {
+        Utils.openWebURL(this, link.getUrl());
+    }
 }

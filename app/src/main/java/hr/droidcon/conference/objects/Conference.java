@@ -10,6 +10,7 @@ import hr.droidcon.conference.utils.PreferenceManager;
 
 /**
  * Conference object, created by the CSV file
+ *
  * @author Arnaud Camus
  */
 public class Conference implements Serializable {
@@ -21,6 +22,7 @@ public class Conference implements Serializable {
     private String speakerImageUrl;
     private String text;
     private String location;
+    private String speakerUID;
 
     public Conference(String[] fromCSV) {
         startDate = fromCSV[0];
@@ -42,11 +44,17 @@ public class Conference implements Serializable {
         speakerImageUrl = imageURL;
         text = session.getAbstractHTML();
         location = session.getRoom().get(0);
+
+        if (session.getSpeakerUIDs().size() > 0) {
+            speakerUID = session.getSpeakerUIDs().get(0);
+        }
+
     }
 
 
     /**
      * Save the new state of the conference.
+     *
      * @param ctx a valid context
      * @return true if the conference is favorite
      */
@@ -106,7 +114,7 @@ public class Conference implements Serializable {
     }
 
     public String getSpeakerImageUrl() {
-        if (speakerImageUrl.isEmpty()){
+        if (speakerImageUrl.isEmpty()) {
             // TODO: fix this
             return "http://lorempixel.com/200/200/";
         }
@@ -131,5 +139,13 @@ public class Conference implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getSpeakerUID() {
+        return speakerUID;
+    }
+
+    public void setSpeakerUID(String speakerUID) {
+        this.speakerUID = speakerUID;
     }
 }

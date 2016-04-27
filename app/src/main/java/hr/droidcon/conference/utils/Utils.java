@@ -13,8 +13,8 @@ import android.util.DisplayMetrics;
 public class Utils {
 
     public static final String FACEBOOK_URL = "https://www.facebook.com/droidconzg";
-    public static final String INSTAGRAM_URL = "https://www.instagram.com/droidconzg";
-    public static final String TWITTER_URL = "https://twitter.com/hashtag/droidconzg";
+    public static final String INSTAGRAM_URL = "https://www.instagram.com/explore/tags/droidconzg/";
+    public static final String TWITTER_URL = "https://twitter.com/droidconzg";
 
     private Utils() {}
 
