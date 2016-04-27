@@ -57,7 +57,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
             e.printStackTrace();
         }
 
-        v.setBackgroundColor(Color.DKGRAY);
+        v.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
         holder.headline.setText(object.getHeadline());
 

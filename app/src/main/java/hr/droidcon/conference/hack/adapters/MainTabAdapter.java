@@ -42,13 +42,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     public MainTabAdapter(FragmentManager fm, int numberOfTabs, List<Conference> conferences) {
         super(fm);
         this.numberOfTabs = numberOfTabs;
-
-        setConferences(conferences);
-
-        oneListToRuleThemAll.add(createSeparator(Day.THURSDAY));
-        oneListToRuleThemAll.addAll(dayOneConferences);
-        oneListToRuleThemAll.add(createSeparator(Day.FRIDAY));
-        oneListToRuleThemAll.addAll(dayTwoConferences);
+        updateConferences(conferences);
 
         exploreFragment = ExploreFragment.newInstance(0);
         attendingFragment = ConferenceListFragment.newInstance(1, conferences, true);
@@ -57,6 +51,9 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     }
 
     public void updateConferences(List<Conference> conferences) {
+        oneListToRuleThemAll.clear();
+        dayOneConferences.clear();
+        dayTwoConferences.clear();
         setConferences(conferences);
         oneListToRuleThemAll.add(createSeparator(Day.THURSDAY));
         oneListToRuleThemAll.addAll(dayOneConferences);
@@ -66,7 +63,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
             attendingFragment.updateConferences(conferences, true);
         }
         if (scheduleFragment != null) {
-            scheduleFragment.updateConferences(conferences, false);
+            scheduleFragment.updateConferences(oneListToRuleThemAll, false);
         }
     }
 
