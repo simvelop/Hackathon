@@ -7,4 +7,6 @@
     <item android:id="@+id/development_cat_id" android:title="@string/menu_item_development"/>
     <item android:id="@+id/ux_cat_id" android:title="@string/menu_item_ux_ui"/>
     <item android:id="@+id/other_cat_id" android:title="@string/menu_item_other"/>
+    <item android:id="@+id/action_kill_time" android:title="@string/action_kill_time"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>

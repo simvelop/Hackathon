@@ -9,6 +9,7 @@
     <string name="title_activity_conference">ConferenceActivity</string>
     <string name="action_about">About</string>
     <string name="action_more">More</string>
+    <string name="action_kill_time">Kill some time</string>
     <string name="speaker_title">Speaker:</string>
     <string name="text_title">Description:</string>
     <string name="location">&#160;\@ %1$s</string>

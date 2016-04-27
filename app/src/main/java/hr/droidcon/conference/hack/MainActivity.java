@@ -27,7 +27,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.hack.R;
 
 import hr.droidcon.conference.hack.adapters.MainAdapter;
 import hr.droidcon.conference.hack.adapters.MainTabAdapter;
@@ -207,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Speaker>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
+//                Log.e("TAG", t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(",
                         Toast.LENGTH_SHORT)
@@ -349,10 +348,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FilteredActivity.class);
             intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
             startActivity(intent);
+        }
+        if (id == R.id.action_kill_time) {
+            startActivity(new Intent(this, TimeKillGame.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private ArrayList<Conference> filterCategories(String filter) {
         ArrayList<Conference> resultConferences = new ArrayList<>();

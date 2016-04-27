@@ -42,6 +42,11 @@
             android:name=".FilteredActivity"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".TimeKillGame"
+            android:screenOrientation="portrait"
+            android:label="@string/action_kill_time" >
+        </activity>
 
         <receiver
             android:name=".utils.UAReceiver"
