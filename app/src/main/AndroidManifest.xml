@@ -29,11 +29,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.mikepenz.aboutlibraries.ui.LibsActivity"
-            android:label="@string/title_activity_conference"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name="hr.droidcon.conference.hack.AboutActivity"
             android:label="@string/action_about"
             android:screenOrientation="portrait">
