@@ -60,5 +60,6 @@
     <string name="library_PrettySharedPreferences_licenseId">apache_2_0</string>
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
+    <string name="action_favorites_filter">Favorites</string>
 
 </resources>

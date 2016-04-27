@@ -10,7 +10,11 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -38,6 +42,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         AbsListView.OnScrollListener {
 
     private static final String PARAM_ID = "FRAGMENT_ID";
+
+    private static final String TAG = "ConfListFrag";
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,6 +78,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             id = getArguments().getInt(PARAM_ID);
@@ -116,6 +124,29 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_conference_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.action_favorites_filter:
+                // TODO
+                Log.d(TAG, "onOptionsItemSelected: filter favs with id: " +id);
+                return true;
+
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
