@@ -66,6 +66,6 @@
     <string name="drawer_layout_close">Close drawer layout</string>
     <string name="menu_speakers">Speakers</string>
     <string name="title_activity_speakers">Speakers</string>
-    <string name="title_activity_speaker_info">SpeakerInfoActivity</string>
+    <string name="title_activity_speaker_info">Speaker</string>
 
 </resources>

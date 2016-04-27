@@ -1,23 +1,15 @@
 package hr.droidcon.conference;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.List;
-
 import hr.droidcon.conference.adapters.SpeakersAdapter;
 import hr.droidcon.conference.timeline.Speaker;
-import hr.droidcon.conference.timeline.TimelineAPI;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by
@@ -41,7 +33,9 @@ public class SpeakersActivity extends AppCompatActivity implements SpeakersAdapt
 
     @Override
     public void onSpeakerClick(Speaker speaker) {
-        Toast.makeText(SpeakersActivity.this, "Speaker: " + speaker.getFirstName() + " " + speaker.getLastName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, SpeakerInfoActivity.class);
+        intent.putExtra(SpeakerInfoActivity.SPEAKER_UID, speaker.getUid());
+        startActivity(intent);
     }
 
     private void initToolbar() {
@@ -64,31 +58,15 @@ public class SpeakersActivity extends AppCompatActivity implements SpeakersAdapt
     }
 
     private void downloadSpeakers() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Constants.SIMVELOP_ENDPOINT)
-                .build();
-
-        TimelineAPI timelineAPI = retrofit.create(TimelineAPI.class);
-        Call<List<Speaker>> getSpeakers = timelineAPI.getSpeakers();
-
-        getSpeakers.enqueue(new Callback<List<Speaker>>() {
+        SpeakersManager.INSTANCE.downloadAll(new ResultDownloadListener() {
             @Override
-            public void onResponse(Call<List<Speaker>> call, Response<List<Speaker>> response) {
-
-                if (response.isSuccessful()) {
-                    speakersAdapter.setItems(response.body());
-                } else {
-                    Toast.makeText(SpeakersActivity.this, "Something went wrong :(", Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess() {
+                speakersAdapter.setItems(SpeakersManager.INSTANCE.getSpeakers());
             }
 
             @Override
-            public void onFailure(Call<List<Speaker>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
-                Toast.makeText(SpeakersActivity.this, "No internet connection :(",
-                        Toast.LENGTH_SHORT)
-                        .show();
+            public void onFail() {
+                Toast.makeText(SpeakersActivity.this, "Something went wrong :(", Toast.LENGTH_SHORT).show();
             }
         });
     }

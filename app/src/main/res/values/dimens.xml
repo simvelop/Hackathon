@@ -7,4 +7,5 @@
     <!-- activity_speaker_info -->
     <dimen name="activity_speaker_info_cardview_margin">5dp</dimen>
     <dimen name="activity_speaker_info_corner_radius">2dp</dimen>
+    <dimen name="activity_speaker_info_margin">16dp</dimen>
 </resources>
