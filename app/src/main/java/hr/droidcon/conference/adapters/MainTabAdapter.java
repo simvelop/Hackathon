@@ -30,7 +30,6 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
 
-
     public MainTabAdapter(FragmentManager fm, int numberOfTabs, List<Conference> conferences) {
         super(fm);
         this.numberOfTabs = numberOfTabs;

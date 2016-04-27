@@ -42,7 +42,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         View v = convertView;
         ViewHolder holder;
         if (v == null) {
-            v = LayoutInflater.from(mContext).inflate(R.layout.adapter_conference, parent, false);
+            v = LayoutInflater.from(mContext).inflate(R.layout.conference_view, parent, false);
 
             holder = new ViewHolder();
             holder.dateStart = (TextView) v.findViewById(R.id.dateStart);

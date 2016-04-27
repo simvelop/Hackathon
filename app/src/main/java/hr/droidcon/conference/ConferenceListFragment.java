@@ -15,15 +15,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.views.ConferenceView;
 
 
 /**
@@ -34,19 +39,32 @@ import hr.droidcon.conference.utils.Utils;
  * Use the {@link ConferenceListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConferenceListFragment extends Fragment implements AdapterView.OnItemClickListener,
-        AbsListView.OnScrollListener {
+public class ConferenceListFragment extends Fragment {
 
     private static final String PARAM_ID = "FRAGMENT_ID";
 
     private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.conference_fragment_list)
-    ListView conferencesListView;
+//    @Bind(R.id.conference_fragment_list)
+//    ListView conferencesListView;
 
+    @Bind(R.id.stageAContainer)
+    LinearLayout stageAContainer;
+
+    @Bind(R.id.stageBContainer)
+    LinearLayout stageBContainer;
+
+    @Bind(R.id.stageCContainer)
+    LinearLayout stageCContainer;
+
+    private String[] stageTab = {"Stage A", "Stage B", "Stage C"};
+
+    private boolean isCreated = false;
     private int id;
     private List<Conference> conferences;
-    private MainAdapter mAdapter;
+    private Map<String, Conference> conferanceMap = new HashMap<>();
+    private List<String> timeList = new ArrayList<>();
+//    private MainAdapter mAdapter;
 
     public ConferenceListFragment() {
         // Required empty public constructor
@@ -79,18 +97,23 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isCreated = false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), 0x00, conferences);
+        if (conferences != null) {
+            createConferenceView();
+        }
 
-        conferencesListView.setAdapter(mAdapter);
-        conferencesListView.setOnScrollListener(this);
-        conferencesListView.setOnItemClickListener(this);
-
+        isCreated = true;
         return view;
     }
 
@@ -133,63 +156,15 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (conferences.get(position).getSpeaker().length()==0) {
-            // if the speaker field is empty, it's probably a coffee break or lunch
-            return;
-        }
-
-        // TODO: FIX
-        // On Lollipop we animate the speaker's name & picture
-        // to the second activity
-//        Pair<View, String> toolbar = Pair.create((View) mToolbar,
-//                getString(R.string.toolbar));
-        Pair<View, String> image = Pair.create(view.findViewById(R.id.image),
-                getString(R.string.image));
-        Pair<View, String> speaker = Pair.create(view.findViewById(R.id.speaker),
-                getString(R.string.speaker));
-        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                image, speaker).toBundle();
-        Intent intent = new Intent(getActivity(), ConferenceActivity.class);
-        intent.putExtra("conference", conferences.get(position));
-        ActivityCompat.startActivity(getActivity(), intent, bundle);
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {}
-
-    /**
-     * ScrollListener used only on Lollipop to smoothly elevate the {@link Toolbar}
-     * when the user scroll.
-     * @param view
-     * @param firstVisibleItem
-     * @param visibleItemCount
-     * @param totalItemCount
-     */
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                         int totalItemCount) {
-        if (firstVisibleItem == 0 && view != null && view.getChildCount() > 0) {
-            Rect rect = new Rect();
-            view.getChildAt(0).getLocalVisibleRect(rect);
-            final float ratio = (float) Math.min(Math.max(rect.top, 0),
-                    Utils.dpToPx(48, getActivity().getBaseContext()))
-                    / Utils.dpToPx(48, getActivity().getBaseContext());
-            final int newElevation = (int) (ratio * Utils.dpToPx(8, getActivity().getBaseContext()));
-
-            // TODO: FIX
-//            setToolbarElevation(newElevation);
-        }
-    }
-
-
     public List<Conference> getConferences() {
         return conferences;
     }
 
     public void setConferences(List<Conference> conferences) {
         this.conferences = conferences;
+        if (isCreated) {
+            createConferenceView();
+        }
 //        if (mAdapter != null) {
 //            mAdapter.notifyDataSetChanged();
 //            Log.e("Fragment " + id, "adapter NULL");
@@ -204,5 +179,67 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 //            mAdapter.notifyDataSetChanged();
 //            Log.e("Fragment " + id, "adapter NULL");
 //        }
+    }
+
+    private void createConferenceView() {
+        for (final Conference conference : conferences) {
+            if (!timeList.contains(conference.getStartDate())) {
+                timeList.add(conference.getStartDate());
+            }
+            conferanceMap.put(conference.getStartDate() + conference.getLocation(), conference);
+//            View conferenceView = ConferenceView.createView(getContext(), conference);
+//            conferenceView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onItemClick(v, conference);
+//                }
+//            });
+//            getStageContainer(conference.getLocation()).addView(conferenceView);
+        }
+
+        for (String time : timeList) {
+            for (String stage : stageTab) {
+                final Conference conference = getConferanceInfo(time + stage);
+                View conferenceView = null;
+                if (conference != null) {
+                    conferenceView = ConferenceView.createView(getContext(), conference);
+                    conferenceView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClick(v, conference);
+                        }
+                    });
+                } else {
+                    conferenceView = ConferenceView.getBlankView(getContext());
+                }
+                getStageContainer(stage).addView(conferenceView);
+            }
+        }
+    }
+
+    private LinearLayout getStageContainer(String location) {
+        if (location.equals("Stage A")) {
+            return stageAContainer;
+        } else if (location.equals("Stage B")) {
+            return stageBContainer;
+        } else { //if (location.equals("Stage C")) {
+            return stageCContainer;
+        }
+    }
+
+    private void onItemClick(View view, Conference conferance) {
+        Pair<View, String> image = Pair.create(view.findViewById(R.id.image),
+                getString(R.string.image));
+        Pair<View, String> speaker = Pair.create(view.findViewById(R.id.speaker),
+                getString(R.string.speaker));
+        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                image, speaker).toBundle();
+        Intent intent = new Intent(getActivity(), ConferenceActivity.class);
+        intent.putExtra("conference", conferance);
+        ActivityCompat.startActivity(getActivity(), intent, bundle);
+    }
+
+    private Conference getConferanceInfo(String conferenceId) {
+        return conferanceMap.get(conferenceId);
     }
 }
