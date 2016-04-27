@@ -72,11 +72,11 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         // picasso
         Picasso.with(mContext.getApplicationContext())
                 .load(object.getSpeakerImageUrl())
-                .transform(((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
+//                .transform(((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
                 .into(holder.image);
         holder.favorite.setImageResource(object.isFavorite(mContext)
-                ? R.drawable.ic_favorite_grey600_18dp
-                : R.drawable.ic_favorite_outline_grey600_18dp);
+                ? R.drawable.group_checked
+                : R.drawable.group);
 
         if (object.isConflicting()) {
             holder.conflictText.setVisibility(View.VISIBLE);

@@ -82,11 +82,11 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
         // picasso
         Picasso.with(activity.getApplicationContext())
                 .load(object.getSpeakerImageUrl())
-                .transform(((BaseApplication) activity.getApplicationContext()).mPicassoTransformation)
+//                .transform(((BaseApplication) activity.getApplicationContext()).mPicassoTransformation)
                 .into(holder.image);
         holder.favorite.setImageResource(object.isFavorite(activity)
-                ? R.drawable.ic_favorite_grey600_18dp
-                : R.drawable.ic_favorite_outline_grey600_18dp);
+                ? R.drawable.group_checked
+                : R.drawable.group);
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

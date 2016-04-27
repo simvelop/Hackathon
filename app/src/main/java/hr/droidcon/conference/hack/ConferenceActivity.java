@@ -99,8 +99,8 @@ public class ConferenceActivity extends ActionBarActivity {
 
         Picasso.with(getApplicationContext())
                 .load(mConference.getSpeakerImageUrl())
-                .transform(((BaseApplication) getApplicationContext()).mPicassoTransformation)
-                .into((ImageView)findViewById(R.id.image));
+//                .transform(((BaseApplication) getApplicationContext()).mPicassoTransformation)
+                .into((ImageView) findViewById(R.id.image));
 
         findViewById(R.id.text).post(new Runnable() {
             @Override
@@ -117,30 +117,25 @@ public class ConferenceActivity extends ActionBarActivity {
      * user to favorite the current {@link hr.droidcon.conference.hack.objects.Conference}
      */
     private void setupFAB() {
-        final FABView fab = new FABView.Builder(this)
-                .withDrawable(getResources().getDrawable(
-                        (mConference.isFavorite(getBaseContext())
-                                ? R.drawable.ic_favorite_white_24dp
-                                : R.drawable.ic_favorite_outline_white_24dp)
-                )).withButtonColor(getResources().getColor(R.color.accentColor))
-                .withGravity(Gravity.TOP| Gravity.LEFT)
-                .withMargins(14, 80, 0, 0)
-                .create();
+        final ImageView imageView = (ImageView) findViewById(R.id.fav_image);
+        imageView.setBackground(mConference.isFavorite(getBaseContext())
+                ? getResources().getDrawable(R.drawable.group_checked)
+                : getResources().getDrawable(R.drawable.group));
 
         /**
          * On click on the FAB, we save the new state in a
          * {@link android.content.SharedPreferences} file and
          * toggle the heart icon.
          */
-        fab.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mConference.toggleFavorite(getBaseContext())) {
-                    fab.setFloatingActionButtonDrawable(
-                            getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+                    imageView.setBackground(
+                            getResources().getDrawable(R.drawable.group_checked));
                 } else {
-                    fab.setFloatingActionButtonDrawable(
-                            getResources().getDrawable(R.drawable.ic_favorite_outline_white_24dp));
+                    imageView.setBackground(
+                            getResources().getDrawable(R.drawable.group));
                 }
             }
         });
