@@ -1,62 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="16dp"
     android:paddingRight="16dp">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_launcher"
-        android:id="@+id/image"
-        android:transitionName="@string/image"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        />
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_launcher"
+        android:transitionName="@string/image" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/dateStart"
-        android:textSize="14sp"
-        android:padding="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="72dp" />
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/location"
-        android:textSize="14sp"
-        android:padding="0dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginTop="12dp"
-        android:layout_toRightOf="@+id/dateStart"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/headline"
-        android:transitionName="@string/headline"
-        android:textSize="20sp"
-        android:layout_below="@+id/dateStart"
-        android:layout_marginLeft="72dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/speaker"
-        android:transitionName="@string/speaker"
+        android:padding="0dp"
         android:textSize="14sp"
+        tools:text="Su. 12:00 - 13:00" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@+id/dateStart"
+        android:padding="0dp"
+        android:textSize="14sp"
+        tools:text=" at Stage X" />
+
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateStart"
+        android:layout_marginLeft="72dp"
+        android:layout_toLeftOf="@+id/favorite"
+        android:textSize="20sp"
+        android:transitionName="@string/headline"
+        tools:text="headline" />
+
+    <TextView
+        android:id="@+id/speaker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/headline"
+        android:layout_marginLeft="72dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="72dp" />
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:transitionName="@string/speaker"
+        tools:text="Speaker Name" />
+
     <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
         android:id="@+id/favorite"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="24dp"
+        tools:src="@drawable/ic_favorite_grey600_18dp" />
 </RelativeLayout>

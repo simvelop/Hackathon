@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import hr.droidcon.conference.BaseApplication;
 import hr.droidcon.conference.R;
+import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.WordColor;
 
@@ -38,9 +41,9 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
     }
 
     @Override
-    public View getView(final Conference object, int position, View convertView, final ViewGroup parent) {
+    public View getView(final Conference conference, int position, View convertView, final ViewGroup parent) {
         View v = convertView;
-        ViewHolder holder;
+        final ViewHolder holder;
         if (v == null) {
             v = LayoutInflater.from(mContext).inflate(R.layout.adapter_conference, parent, false);
 
@@ -57,25 +60,37 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         }
 
         try {
-            Date startDate = dateFormat.parse(object.getStartDate());
+            Date startDate = dateFormat.parse(conference.getStartDate());
             holder.dateStart.setText(simpleDateFormat.format(startDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         holder.location.setText(String.format(mContext.getString(R.string.location),
-                object.getLocation()));
-        holder.location.setTextColor(WordColor.generateColor(object.getLocation()));
-        holder.headline.setText(Html.fromHtml(object.getHeadline()));
-        holder.speaker.setText(Html.fromHtml(object.getSpeaker()));
+                conference.getLocation()));
+        holder.location.setTextColor(WordColor.generateColor(conference.getLocation()));
+        holder.headline.setText(Html.fromHtml(conference.getHeadline()));
+        holder.speaker.setText(Html.fromHtml(conference.getSpeaker()));
 
         // picasso
         Picasso.with(mContext.getApplicationContext())
-                .load(object.getSpeakerImageUrl())
+                .load(conference.getSpeakerImageUrl())
                 .transform(((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
                 .into(holder.image);
-        holder.favorite.setImageResource(object.isFavorite(mContext)
+        holder.favorite.setImageResource(conference.isFavorite(mContext)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+
+        holder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conference.toggleFavorite(mContext);
+                holder.favorite.setImageResource(conference.isFavorite(mContext)
+                        ? R.drawable.ic_favorite_grey600_18dp
+                        : R.drawable.ic_favorite_outline_grey600_18dp);
+                boolean filterSetting = ((BaseApplication) mContext.getApplicationContext()).isFilterFavorites();
+                EventBus.getDefault().post(new FilterUpdateEvent(filterSetting));
+            }
+        });
 
         return v;
     }

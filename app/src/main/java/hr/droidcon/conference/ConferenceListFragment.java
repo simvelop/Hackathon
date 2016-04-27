@@ -101,10 +101,13 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
+        mAdapter = new MainAdapter(this.getActivity(), new ArrayList<Conference>());
+
         updateConferenceList();
 
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
+        conferencesListView.setAdapter(mAdapter);
 
         return view;
     }
@@ -265,7 +268,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         }
 
         final boolean filter = ((BaseApplication) getActivity().getApplication()).isFilterFavorites();
-        Log.d(TAG, "updateConferenceList: filter: " + filter);
+        Log.d(TAG, "updateConferenceList: show only favorites: " + filter);
 
         List<Conference> filteredConferencesList = new ArrayList<>();
 
@@ -279,7 +282,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
             }
         }
 
-        mAdapter = new MainAdapter(this.getActivity(), filteredConferencesList);
-        conferencesListView.setAdapter(mAdapter);
+        mAdapter.clear();
+        mAdapter.addAll(filteredConferencesList);
+        mAdapter.notifyDataSetChanged();
     }
 }
