@@ -9,4 +9,7 @@
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
     <color name="accentLight">#22b3fd</color>
+    <color name="tabBackgroundColor">#6fa72e</color>
+    <color name="pauseColorDay1">#55b8ea</color>
+    <color name="pauseColorDay2">#2d6b89</color>
 </resources>

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "hr.droidcon.conference"
+        applicationId "hr.droidcon.hr.droidcon.conference.hack.hr.droidcon.conference.hack"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 6

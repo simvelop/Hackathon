@@ -66,4 +66,7 @@
     <string name="remove_from_schedule">Removed from your schedule.</string>
     <string name="replace_scheduled_talk">There is another talk scheduled at that time. Remove that talk to free your schedule.</string>
     <string name="title_activity_schedule">My Schedule</string>
+
+    <string name="add_to_favourites">Added to favorite talks.</string>
+    <string name="remove_from_favorites">Removed from your favourite talks.</string>
 </resources>
