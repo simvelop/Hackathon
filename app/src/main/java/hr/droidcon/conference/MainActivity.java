@@ -319,8 +319,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_more) {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
-        } else if (id == R.id.action_news) {
-            openTwitterStream();
+        } else if (id == R.id.action_news_twitter) {
+            openUrl("https://mobile.twitter.com/droidconzg");
+        } else if (id == R.id.action_news_fb) {
+            openUrl("https://facebook.com/droidconzg/");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -371,8 +373,8 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-    private void openTwitterStream() {
-        String url = "https://mobile.twitter.com/droidconzg";
+    private void openUrl(String url) {
+
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
 

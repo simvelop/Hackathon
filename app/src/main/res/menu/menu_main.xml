@@ -11,9 +11,16 @@
         android:title="@string/action_more" />
 
     <item
-        android:id="@+id/action_news"
+        android:id="@+id/action_news_twitter"
         android:orderInCategory="100"
         android:showAsAction="never"
         app:showAsAction="never"
-        android:title="@string/action_news" />
+        android:title="@string/action_news_twitter" />
+
+    <item
+        android:id="@+id/action_news_fb"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        app:showAsAction="never"
+        android:title="@string/action_news_facebook" />
 </menu>

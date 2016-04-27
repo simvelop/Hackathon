@@ -61,6 +61,7 @@
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
     <string name="action_favorites_filter">Favorites</string>
-    <string name="action_news">News</string>
+    <string name="action_news_twitter">Twitter News</string>
+    <string name="action_news_facebook">Facebook News</string>
 
 </resources>
