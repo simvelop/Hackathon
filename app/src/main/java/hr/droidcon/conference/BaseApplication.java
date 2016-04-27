@@ -25,6 +25,8 @@ public class BaseApplication extends Application {
 
     private boolean filterFavorites;
 
+    private int selectedTab = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -70,5 +72,13 @@ public class BaseApplication extends Application {
     public void toogleFilterFavorite() {
         this.filterFavorites = !filterFavorites;
         EventBus.getDefault().post(new FilterUpdateEvent(filterFavorites));
+    }
+
+    public void setSelectedTab(int selectedTab) {
+        this.selectedTab = selectedTab;
+    }
+
+    public int getSelectedTab() {
+        return selectedTab;
     }
 }

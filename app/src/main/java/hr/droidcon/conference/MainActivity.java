@@ -51,7 +51,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private MainAdapter mAdapter;
+    private static final String TAG = "MainActivity";
+
     private List<Conference> mConferences = new ArrayList<Conference>();
     private Toolbar mToolbar;
 
@@ -147,11 +148,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        if (mAdapter != null) {
-            //we refresh the views in case a conference has been (un)favorite
-            mAdapter.notifyDataSetChanged();
-        }
 
         readCalendarAPI();
     }
@@ -268,6 +264,26 @@ public class MainActivity extends AppCompatActivity {
                 mConferences
         );
         mainViewPager.setAdapter(mainTabAdapter);
+
+        mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
+
+        mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d(TAG, "onPageSelected: " +position);
+                ((BaseApplication) getApplication()).setSelectedTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void cacheSessions() {
