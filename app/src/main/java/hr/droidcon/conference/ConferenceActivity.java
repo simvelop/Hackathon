@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -42,7 +43,7 @@ import hr.droidcon.conference.views.FABView;
  *
  * @author Arnaud Camus
  */
-public class ConferenceActivity extends ActionBarActivity {
+public class ConferenceActivity extends AppCompatActivity {
 
     private static final String TAG = "ConferenceActivity";
     Conference mConference;
