@@ -1,6 +1,7 @@
 package hr.droidcon.conference;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,11 +31,13 @@ import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.MainTabAdapter;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.objects.StaticHelper;
 import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.timeline.Speaker;
 import hr.droidcon.conference.timeline.TimelineAPI;
 import hr.droidcon.conference.utils.PreferenceManager;
 import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.views.ScheduleActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -313,6 +316,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
+        if (id == R.id.action_my_schedule) {
+            StaticHelper.object = mConferences;
+            startActivity(new Intent(this, ScheduleActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -343,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (!mConferences.isEmpty()) {
-                return false;
+                return true;
             }
 
             Gson gson = new Gson();

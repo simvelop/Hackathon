@@ -51,6 +51,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
             holder.speaker = (TextView) v.findViewById(R.id.speaker);
             holder.image = (ImageView) v.findViewById(R.id.image);
             holder.favorite = (ImageView) v.findViewById(R.id.favorite);
+            holder.scheduled = (ImageView) v.findViewById(R.id.scheduled);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -76,6 +77,9 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         holder.favorite.setImageResource(object.isFavorite(mContext)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+        holder.scheduled.setImageResource(object.isInSchedule(mContext)
+                ? R.drawable.ic_watch_later_black_24dp
+                : R.drawable.ic_schedule_black_24dp);
 
         return v;
     }
@@ -87,5 +91,6 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         TextView speaker;
         ImageView image;
         ImageView favorite;
+        ImageView scheduled;
     }
 }
