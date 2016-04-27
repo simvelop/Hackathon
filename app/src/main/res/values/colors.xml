@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimary">#94b81a</color>
     <color name="colorHeader">#486627</color>
-    <color name="colorPrimaryDark">#558B2F</color>
+    <color name="colorPrimaryDark">#74920d</color>
     <color name="accentColor">#0091EA</color>
-    <color name="textColorPrimary">#FFF</color>
+    <color name="textColorPrimary">#ffffff</color>
     <color name="textColorSecondary">#121212</color>
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
     <color name="accentLight">#22b3fd</color>
+    <color name="status_bar">#74920D</color>
+    <color name="action_bar">#94B81A</color>
+
+    <color name="toolbarBackground">#94b81a</color>
+
+    <!-- Explore tab colors -->
+    <color name="exploreDevColor">#FFA700</color>
+    <color name="exploreUxColor">#8B51D5</color>
+    <color name="exploreBizColor">#6482EF</color>
+    <color name="exploreOtherColor">#FF6A47</color>
+
 </resources>

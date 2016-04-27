@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".hack.MainActivity">
 
 
     <android.support.v7.widget.Toolbar
@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"/>
+        android:minHeight="?attr/actionBarSize"
+        app:tabIndicatorColor="#ffffb4"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_view_pager"

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hr.droidcon.conference" >
+    package="hr.droidcon.conference.hack" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="hr.droidcon.conference.BaseApplication"
+        android:name="BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:launchMode="singleTask"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="hr.droidcon.conference.MainActivity"
+            android:name="MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="hr.droidcon.conference.ConferenceActivity"
+            android:name="ConferenceActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_conference" >
         </activity>
@@ -34,10 +34,14 @@
             android:label="@string/title_activity_conference" >
         </activity>
         <activity
-            android:name="hr.droidcon.conference.AboutActivity"
+            android:name=".AboutActivity"
             android:screenOrientation="portrait"
             android:label="@string/action_about" >
         </activity>
+        <activity
+            android:name=".FilteredActivity"
+            android:screenOrientation="portrait"
+            />
 
         <receiver
             android:name=".utils.UAReceiver"

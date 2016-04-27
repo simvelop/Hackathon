@@ -61,4 +61,22 @@
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
 
+    <string name="menu_item_business">Business</string>
+    <string name="menu_item_development">Development</string>
+    <string name="menu_item_ux_ui">UX / UI</string>
+    <string name="menu_item_other">Other</string>
+
+
+    <string name="day_of_the_week_thursday">Thursday</string>
+    <string name="day_of_the_week_friday">Friday</string>
+
+    <string name="exploreDevTitle">Development</string>
+    <string name="exploreDevDetails">Develop.......</string>
+    <string name="exploreUxTitle">UX/UI</string>
+    <string name="exploreUxDetails">Ux.......</string>
+    <string name="exploreBizTitle">Business</string>
+    <string name="exploreBizDetails">Biz.......</string>
+    <string name="exploreOtherTitle">Other</string>
+    <string name="exploreOtherDetails">Other.......</string>
+
 </resources>

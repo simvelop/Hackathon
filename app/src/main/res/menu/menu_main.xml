@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".hack.MainActivity">
 
     <item android:id="@+id/action_more" android:title="@string/action_more"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/business_cat_id" android:title="@string/menu_item_business"/>
+    <item android:id="@+id/development_cat_id" android:title="@string/menu_item_development"/>
+    <item android:id="@+id/ux_cat_id" android:title="@string/menu_item_ux_ui"/>
+    <item android:id="@+id/other_cat_id" android:title="@string/menu_item_other"/>
 </menu>
