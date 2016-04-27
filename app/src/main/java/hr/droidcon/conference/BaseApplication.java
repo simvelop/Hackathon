@@ -42,15 +42,6 @@ public class BaseApplication extends Application {
         Firebase.setAndroidContext(this);
         firebase = new Firebase("https://droidconzg.firebaseio.com/");
 
-        firebase.child("message").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-            }
-            @Override public void onCancelled(FirebaseError error) { }
-        });
-
-
         filterFavorites = false;
 
         UAirship.takeOff(this, new UAirship.OnReadyCallback() {
@@ -109,7 +100,7 @@ public class BaseApplication extends Application {
     public int getSelectedListItem() {
         return selectedListItem;
     }
-    
+
     public Firebase getFirebase(){
         return firebase;
     }
