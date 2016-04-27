@@ -21,12 +21,16 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
+import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
 
@@ -97,9 +101,11 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), this.conferences);
+        //mAdapter = new MainAdapter(this.getActivity(), this.conferences);
+        //conferencesListView.setAdapter(mAdapter);
 
-        conferencesListView.setAdapter(mAdapter);
+        updateConferenceList();
+
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
 
@@ -122,6 +128,18 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnFragmentInteractionListener");
 //        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -148,8 +166,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
                 Log.d(TAG, "onOptionsItemSelected: filter conferences with id: " + id);
                 //toggle favorites
                 ((BaseApplication) getActivity().getApplication()).toogleFilterFavorite();
-                updateMenuItem();
-                updateConferenceList();
                 return true;
 
             default:
@@ -159,14 +175,20 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        Log.d(TAG, "setUserVisibleHint: " +isVisibleToUser + " id: " +id);
-        if(isVisibleToUser){
-            updateConferenceList();
-        }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        Log.d(TAG, "setUserVisibleHint: " +isVisibleToUser + " id: " +id);
+//        if(isVisibleToUser){
+//            updateConferenceList();
+//        }
+//
+//        super.setUserVisibleHint(isVisibleToUser);
+//    }
 
-        super.setUserVisibleHint(isVisibleToUser);
+    @Subscribe
+    public void onMessageEvent(FilterUpdateEvent event){
+        updateConferenceList();
+        updateMenuItem();
     }
 
     /**
@@ -186,7 +208,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (conferences.get(position).getSpeaker().length() == 0) {
+
+        if (((Conference) parent.getAdapter().getItem(position)).getSpeaker().length() == 0) {
             // if the speaker field is empty, it's probably a coffee break or lunch
             return;
         }
@@ -203,7 +226,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                 image, speaker).toBundle();
         Intent intent = new Intent(getActivity(), ConferenceActivity.class);
-        intent.putExtra("conference", conferences.get(position));
+        intent.putExtra("conference", (Conference) parent.getAdapter().getItem(position));
         ActivityCompat.startActivity(getActivity(), intent, bundle);
     }
 

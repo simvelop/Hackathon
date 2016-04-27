@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import com.squareup.picasso.Transformation;
 import com.urbanairship.UAirship;
 
+import org.greenrobot.eventbus.EventBus;
+
+import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.utils.ImageManager;
 
 /**
@@ -66,5 +69,6 @@ public class BaseApplication extends Application {
 
     public void toogleFilterFavorite() {
         this.filterFavorites = !filterFavorites;
+        EventBus.getDefault().post(new FilterUpdateEvent(filterFavorites));
     }
 }
