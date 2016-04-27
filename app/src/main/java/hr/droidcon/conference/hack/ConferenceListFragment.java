@@ -1,7 +1,9 @@
 package hr.droidcon.conference.hack;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -53,6 +56,13 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     private List<Conference> filteredConferences;
     private boolean attendingOnly;
     private MainAdapter mAdapter;
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            filterAndSetAdapter();
+        }
+    };
 
     public ConferenceListFragment() {
         // Required empty public constructor
@@ -96,7 +106,17 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
 
+        if (attendingOnly) {
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                    new IntentFilter("attending-data-set-changed"));
+        }
+
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
     }
 
     private void filterAndSetAdapter() {
