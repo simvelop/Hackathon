@@ -20,9 +20,13 @@ public class BaseApplication extends Application {
      */
     public Transformation mPicassoTransformation;
 
+    private boolean filterFavorites;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        filterFavorites = false;
 
         UAirship.takeOff(this, new UAirship.OnReadyCallback() {
             @Override
@@ -50,5 +54,17 @@ public class BaseApplication extends Application {
         };
 
 
+    }
+
+    public boolean isFilterFavorites() {
+        return filterFavorites;
+    }
+
+    public void setFilterFavorites(boolean filterFavorites) {
+        this.filterFavorites = filterFavorites;
+    }
+
+    public void toogleFilterFavorite() {
+        this.filterFavorites = !filterFavorites;
     }
 }

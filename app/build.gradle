@@ -48,4 +48,6 @@ dependencies {
 
     // Recommended for location services
     compile 'com.google.android.gms:play-services-location:8.4.0'
+
+    compile 'com.annimon:stream:1.0.9'
 }

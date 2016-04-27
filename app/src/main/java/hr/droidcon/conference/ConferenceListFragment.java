@@ -21,6 +21,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -140,6 +144,9 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
             case R.id.action_favorites_filter:
                 // TODO
                 Log.d(TAG, "onOptionsItemSelected: filter favs with id: " +id);
+                //toggle favorites
+                ((BaseApplication) getActivity().getApplication()).toogleFilterFavorite();
+                updateConferenceList();
                 return true;
 
             default:
@@ -235,5 +242,21 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 //            mAdapter.notifyDataSetChanged();
 //            Log.e("Fragment " + id, "adapter NULL");
 //        }
+    }
+
+    private void updateConferenceList() {
+        final boolean filter = ((BaseApplication) getActivity().getApplication()).isFilterFavorites();
+        List<Conference> filteredConferences = Stream.of(conferences).filter(new Predicate<Conference>() {
+            @Override
+            public boolean test(Conference value) {
+                if (filter) {
+                    return value.isFavorite(getActivity());
+                }
+                return true;
+            }
+        }).collect(Collectors.<Conference>toList());
+        mAdapter.clear();
+        mAdapter.addAll(filteredConferences);
+        mAdapter.notifyDataSetChanged();
     }
 }
