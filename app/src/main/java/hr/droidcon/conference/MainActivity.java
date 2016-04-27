@@ -130,6 +130,15 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
             case R.drawable.ic_menu_speakers:
                 startActivity(new Intent(this, SpeakersActivity.class));
                 break;
+            case R.drawable.ic_floating_fb:
+                Utils.openWebURL(this, Utils.FACEBOOK_URL);
+                break;
+            case R.drawable.ic_menu_instagram:
+                Utils.openWebURL(this, Utils.INSTAGRAM_URL);
+                break;
+            case R.drawable.ic_menu_twitter:
+                Utils.openWebURL(this, Utils.TWITTER_URL);
+                break;
             case R.drawable.ic_menu_info:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;

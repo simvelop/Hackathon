@@ -102,7 +102,10 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     public ArrayList<MenuElement> menuElements = new ArrayList<MenuElement>(){{
-        add(new MenuElement(R.drawable.ic_menu_speakers, "Speakers"));
-        add(new MenuElement(R.drawable.ic_menu_info, "About"));
+        add(new MenuElement(R.drawable.ic_menu_speakers, "speakers"));
+        add(new MenuElement(R.drawable.ic_floating_fb, "facebook"));
+        add(new MenuElement(R.drawable.ic_menu_instagram, "instagram"));
+        add(new MenuElement(R.drawable.ic_menu_twitter, "twitter"));
+        add(new MenuElement(R.drawable.ic_menu_info, "about"));
     }};
 }
