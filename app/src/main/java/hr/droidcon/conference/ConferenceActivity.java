@@ -134,17 +134,15 @@ public class ConferenceActivity extends ActionBarActivity {
         final TextView resultRatingTextView = (TextView) findViewById(R.id.rating_result_bar);
         final TextView resultParticipantsTextView = (TextView) findViewById(R.id.rating_result_participants);
 
+        //get the overall rating
         getFireBase().child("ratings").child(getConferenceId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 double ratingSum = 0;
-                Log.d(TAG, "onDataChange:" + snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-               // JSONObject jsonObject  = (JSONObject) snapshot.getValue();
                 for(DataSnapshot object: snapshot.getChildren()) {
-                    Log.d(TAG, "onDataChange: " + object);
                     ratingSum = ratingSum +  (double) object.getValue();
-
                 }
+
                 double rating = ratingSum / (double) snapshot.getChildrenCount();
                 if(Double.isNaN(rating)) {
                     resultRatingTextView.setText(getString(R.string.rating_result_empty));
@@ -165,10 +163,10 @@ public class ConferenceActivity extends ActionBarActivity {
             @Override public void onCancelled(FirebaseError error) { }
         });
 
+        //get my own rating (based on android Id)
         getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "my Result: " +dataSnapshot.getValue());
                 if(dataSnapshot.getValue() == null) {
                     return;
                 }
@@ -220,18 +218,11 @@ public class ConferenceActivity extends ActionBarActivity {
     }
 
     private String getDeviceId() {
-
-
-        final String  androidId;
-
-        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
-
-        return androidId;
+        return android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
     }
 
     private String getConferenceId() {
-        return mConference.getHeadline().replaceAll("[^a-zA-Z0-9]+",""); //'.', '#', '$', '[', or ']
+        return mConference.getHeadline().replaceAll("[^a-zA-Z0-9]+",""); 
     }
 
     private Firebase getFireBase() {
