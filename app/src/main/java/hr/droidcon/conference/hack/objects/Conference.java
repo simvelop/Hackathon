@@ -21,6 +21,7 @@ public class Conference implements Serializable {
     private String speakerImageUrl;
     private String text;
     private String location;
+    private String category;
 
     public Conference(String[] fromCSV) {
         startDate = fromCSV[0];
@@ -42,6 +43,7 @@ public class Conference implements Serializable {
         speakerImageUrl = imageURL;
         text = session.getAbstractHTML();
         location = session.getRoom().get(0);
+        category = session.getCategory();
     }
 
     public Conference () {
@@ -134,5 +136,13 @@ public class Conference implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

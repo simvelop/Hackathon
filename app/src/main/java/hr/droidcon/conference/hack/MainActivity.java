@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -321,7 +322,45 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
+        if (id == R.id.business_cat_id) {
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.BUSINESS_FILTER);
+            Intent intent = new Intent(this, FilteredActivity.class);
+            intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.development_cat_id) {
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.DEVELOPMENT_FILTER);
+            Intent intent = new Intent(this, FilteredActivity.class);
+            intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.ux_cat_id) {
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.UX_UI_FILTER);
+            Intent intent = new Intent(this, FilteredActivity.class);
+            intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.other_cat_id) {
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.OTHER_FILTER);
+            Intent intent = new Intent(this, FilteredActivity.class);
+            intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private ArrayList<Conference> filterCategories(String filter) {
+        ArrayList<Conference> resultConferences = new ArrayList<>();
+        for (Conference conference:this.mConferences){
+            if (conference.getCategory().equalsIgnoreCase(filter)) {
+                resultConferences.add(conference);
+            }
+        }
+        return resultConferences;
     }
 
     /**

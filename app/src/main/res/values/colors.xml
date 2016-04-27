@@ -9,4 +9,7 @@
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
     <color name="accentLight">#22b3fd</color>
+
+    <color name="status_bar">#74920D</color>
+    <color name="action_bar">#94B81A</color>
 </resources>
