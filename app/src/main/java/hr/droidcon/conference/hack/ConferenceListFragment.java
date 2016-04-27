@@ -125,9 +125,11 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
                 }
             }
         }
-        mAdapter = new MainAdapter(this.getActivity(), 0x00, filteredConferences);
+        if (getContext() != null) {
+            mAdapter = new MainAdapter(getContext(), 0x00, filteredConferences);
 
-        conferencesListView.setAdapter(mAdapter);
+            conferencesListView.setAdapter(mAdapter);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

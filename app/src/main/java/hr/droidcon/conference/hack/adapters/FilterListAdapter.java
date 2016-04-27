@@ -1,6 +1,12 @@
 package hr.droidcon.conference.hack.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -18,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 
 import hr.droidcon.conference.hack.BaseApplication;
+
+import hr.droidcon.conference.hack.ConferenceActivity;
 import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.hack.objects.Conference;
 import hr.droidcon.conference.hack.utils.WordColor;
@@ -31,7 +39,7 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
 
     public static final int VIEW_HEADER = 0;
     public static final int VIEW_CONFERENCE = 1;
-    private final Context context;
+    private final Activity activity;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, HH:mm");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
     private List<Conference> conferences;
@@ -57,28 +65,53 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Conference object = getItem(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Conference object = getItem(position);
         try {
             Date startDate = dateFormat.parse(object.getStartDate());
             holder.dateStart.setText(simpleDateFormat.format(startDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.location.setText(String.format(context.getString(R.string.location),
+        holder.location.setText(String.format(activity.getString(R.string.location),
                 object.getLocation()));
         holder.location.setTextColor(WordColor.generateColor(object.getLocation()));
         holder.headline.setText(Html.fromHtml(object.getHeadline()));
         holder.speaker.setText(Html.fromHtml(object.getSpeaker()));
 
         // picasso
-        Picasso.with(context.getApplicationContext())
+        Picasso.with(activity.getApplicationContext())
                 .load(object.getSpeakerImageUrl())
-                .transform(((BaseApplication) context.getApplicationContext()).mPicassoTransformation)
+                .transform(((BaseApplication) activity.getApplicationContext()).mPicassoTransformation)
                 .into(holder.image);
-        holder.favorite.setImageResource(object.isFavorite(context)
+        holder.favorite.setImageResource(object.isFavorite(activity)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (object.getSpeaker().length()==0) {
+                    // if the speaker field is empty, it's probably a coffee break or lunch
+                    return;
+                }
+
+                // TODO: FIX
+                // On Lollipop we animate the speaker's name & picture
+                // to the second activity
+//        Pair<View, String> toolbar = Pair.create((View) mToolbar,
+//                getString(R.string.toolbar));
+                Pair<ImageView, String> image = Pair.create(holder.image,
+                        activity.getString(R.string.image));
+                Pair<TextView, String> speaker = Pair.create(holder.speaker,
+                        activity.getString(R.string.speaker));
+//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, image, speaker).toBundle();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(activity, ConferenceActivity.class);
+                intent.putExtra("conference", object);
+                ActivityCompat.startActivity(activity, intent, bundle);
+            }
+        });
 
     }
 
@@ -95,29 +128,19 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
         public TextView speaker;
         public ImageView image;
         public ImageView favorite;
+        public View view;
 
         public ViewHolder(View view) {
             super(view);
+            this.view = view;
         }
+
+
     }
 
-    public FilterListAdapter(Context context, int resource, List<Conference> objects) {
-        this.context = context;
+    public FilterListAdapter(Activity activity, int resource, List<Conference> objects) {
+        this.activity = activity;
         conferences = objects;
-//        conferences = new ArrayList<>();
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-//
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-//
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-//
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-//
-//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-
-//        viewHeaderInflater = new ViewHeaderInflater(context);
-//        viewConferenceInflater = new ViewConferenceInflater(context);
     }
 
     public Conference getItem(int position) {
