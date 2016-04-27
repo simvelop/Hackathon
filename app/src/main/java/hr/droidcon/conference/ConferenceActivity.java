@@ -97,12 +97,12 @@ public class ConferenceActivity extends ActionBarActivity {
         ((TextView) findViewById(R.id.location)).setTextColor(
                                                 WordColor.generateColor(mConference.getLocation()));
         
-        RatingBar ratingBar = ((RatingBar) findViewById(R.id.rating_bar));
+        final RatingBar ratingBar = ((RatingBar) findViewById(R.id.rating_bar));
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Log.d(TAG, "onRatingChanged: new rating " + rating);
-                getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).setValue(rating);
+                getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).setValue((double) rating);
             }
         });
 
@@ -131,7 +131,8 @@ public class ConferenceActivity extends ActionBarActivity {
 
         setupFAB();
 
-        final RatingBar resultRatingBar = (RatingBar) findViewById(R.id.rating_result_bar);
+        final TextView resultRatingTextView = (TextView) findViewById(R.id.rating_result_bar);
+        final TextView resultParticipantsTextView = (TextView) findViewById(R.id.rating_result_participants);
 
         getFireBase().child("ratings").child(getConferenceId()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,11 +142,25 @@ public class ConferenceActivity extends ActionBarActivity {
                // JSONObject jsonObject  = (JSONObject) snapshot.getValue();
                 for(DataSnapshot object: snapshot.getChildren()) {
                     Log.d(TAG, "onDataChange: " + object);
-                    ratingSum = ratingSum + (double) object.getValue();
+                    ratingSum = ratingSum +  (double) object.getValue();
 
                 }
                 double rating = ratingSum / (double) snapshot.getChildrenCount();
-                resultRatingBar.setRating((float) rating);
+                if(Double.isNaN(rating)) {
+                    resultRatingTextView.setText(getString(R.string.rating_result_empty));
+                    findViewById(R.id.rating_image).setVisibility(View.INVISIBLE);
+
+                    resultParticipantsTextView.setText("");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.INVISIBLE);
+
+
+                } else {
+                    resultRatingTextView.setText("" + (float) rating);
+                    findViewById(R.id.rating_image).setVisibility(View.VISIBLE);
+
+                    resultParticipantsTextView.setText(snapshot.getChildrenCount()+"");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.VISIBLE);
+                }
             }
             @Override public void onCancelled(FirebaseError error) { }
         });
@@ -153,7 +168,14 @@ public class ConferenceActivity extends ActionBarActivity {
         getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: " +dataSnapshot.getValue());
+                Log.d(TAG, "my Result: " +dataSnapshot.getValue());
+                if(dataSnapshot.getValue() == null) {
+                    return;
+                }
+                double rating = (double) dataSnapshot.getValue();
+                if(ratingBar.getRating() != rating) {
+                    ratingBar.setRating((float) rating);
+                }
             }
 
             @Override

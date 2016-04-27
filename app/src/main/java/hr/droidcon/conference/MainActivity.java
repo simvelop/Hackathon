@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Session>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
+                Log.e("TAG","" +  t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT).show();
             }
