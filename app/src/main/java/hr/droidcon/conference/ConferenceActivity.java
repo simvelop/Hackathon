@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
 import hr.droidcon.conference.utils.ViewAnimations;

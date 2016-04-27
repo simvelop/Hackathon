@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Random;
 
 import hr.droidcon.conference.BaseApplication;
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.WordColor;
 
@@ -24,8 +24,6 @@ import hr.droidcon.conference.utils.WordColor;
  * Created by admund on 2016-04-27.
  */
 public class ConferenceView {
-
-    private static Random rand = new Random();
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, HH:mm");
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
@@ -35,7 +33,7 @@ public class ConferenceView {
         View v = LayoutInflater.from(context).inflate(R.layout.conference_view, null, false);
 
         TextView dateStart = (TextView) v.findViewById(R.id.dateStart);
-        TextView location = (TextView) v.findViewById(R.id.location);
+//        TextView location = (TextView) v.findViewById(R.id.location);
         TextView headline = (TextView) v.findViewById(R.id.headline);
         TextView speaker = (TextView) v.findViewById(R.id.speaker);
         ImageView image = (ImageView) v.findViewById(R.id.image);
@@ -49,9 +47,9 @@ public class ConferenceView {
             e.printStackTrace();
         }
 
-        location.setText(String.format(context.getString(R.string.location),
-                conference.getLocation()));
-        location.setTextColor(WordColor.generateColor(conference.getLocation()));
+//        location.setText(String.format(context.getString(R.string.location),
+//                conference.getLocation()));
+//        location.setTextColor(WordColor.generateColor(conference.getLocation()));
         headline.setText(Html.fromHtml(conference.getHeadline()));
         speaker.setText(Html.fromHtml(conference.getSpeaker()));
 

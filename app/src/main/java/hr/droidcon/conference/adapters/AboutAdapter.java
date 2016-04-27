@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.AboutItem;
 
 /**

@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.MainTabAdapter;
 import hr.droidcon.conference.adapters.MenuAdapter;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.timeline.Speaker;
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
 
             @Override
             public void onFailure(Call<List<Session>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
+                Log.e("TAG", "" + t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT).show();
             }
@@ -307,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
     }
 
     private void updateMainAdapterSessions() {
+        Log.d("TAG", "mConf sieze " + mConferences.size());
         mainTabAdapter = new MainTabAdapter(
                 getSupportFragmentManager(),
                 mainTabLayout.getTabCount(),
@@ -329,7 +331,6 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
     }
 
     private void addSession(Session session) {
-
         String imageURL = "";
         for (String speakerUID : session.getSpeakerUIDs()) {
             Speaker speaker = findSpeakerByUID(speakerUID);

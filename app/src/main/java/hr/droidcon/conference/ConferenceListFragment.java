@@ -1,22 +1,16 @@
 package hr.droidcon.conference;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +19,9 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.adapters.MainAdapter;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.Utils;
 import hr.droidcon.conference.views.ConferenceView;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -125,17 +117,6 @@ public class ConferenceListFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -156,29 +137,11 @@ public class ConferenceListFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public List<Conference> getConferences() {
-        return conferences;
-    }
-
     public void setConferences(List<Conference> conferences) {
         this.conferences = conferences;
         if (isCreated) {
             createConferenceView();
         }
-//        if (mAdapter != null) {
-//            mAdapter.notifyDataSetChanged();
-//            Log.e("Fragment " + id, "adapter NULL");
-//        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        if (mAdapter != null) {
-//            mAdapter.notifyDataSetChanged();
-//            Log.e("Fragment " + id, "adapter NULL");
-//        }
     }
 
     private void createConferenceView() {
@@ -187,14 +150,6 @@ public class ConferenceListFragment extends Fragment {
                 timeList.add(conference.getStartDate());
             }
             conferanceMap.put(conference.getStartDate() + conference.getLocation(), conference);
-//            View conferenceView = ConferenceView.createView(getContext(), conference);
-//            conferenceView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onItemClick(v, conference);
-//                }
-//            });
-//            getStageContainer(conference.getLocation()).addView(conferenceView);
         }
 
         for (String time : timeList) {
@@ -218,13 +173,15 @@ public class ConferenceListFragment extends Fragment {
     }
 
     private LinearLayout getStageContainer(String location) {
-        if (location.equals("Stage A")) {
-            return stageAContainer;
+        if (location.equals("Stage C")) {
+            return stageCContainer;
         } else if (location.equals("Stage B")) {
             return stageBContainer;
-        } else { //if (location.equals("Stage C")) {
-            return stageCContainer;
+        } else { //if (location.equals("Stage A")) {
+//        } else if (location.equals("Stage A")) {
+            return stageAContainer;
         }
+//        return null;
     }
 
     private void onItemClick(View view, Conference conferance) {

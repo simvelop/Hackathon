@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import hr.droidcon.conference.adapters.SpeakersAdapter;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.timeline.Speaker;
 
 /**
