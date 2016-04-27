@@ -40,8 +40,8 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         setConferences(conferences);
 
         exploreFragment = ExploreFragment.newInstance(0);
-        attendingFragment = ConferenceListFragment.newInstance(1, conferences);
-        scheduleFragment = ConferenceListFragment.newInstance(2, conferences);
+        attendingFragment = ConferenceListFragment.newInstance(1, conferences, true);
+        scheduleFragment = ConferenceListFragment.newInstance(2, conferences, false);
     }
 
     private List<Conference> splitConferencesByDays(List<Conference> conferences) {
