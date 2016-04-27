@@ -116,7 +116,8 @@ public class Conference implements Serializable {
     public String getSpeakerImageUrl() {
         if (speakerImageUrl.isEmpty()) {
             // TODO: fix this
-            return "http://lorempixel.com/200/200/";
+//            return "http://lorempixel.com/200/200/";
+            return "http://droidcon.hr/sites/global.droidcon.cod.newthinking.net/files/2016_droidcon_banner_128x120_0.png";
         }
         return speakerImageUrl;
     }
