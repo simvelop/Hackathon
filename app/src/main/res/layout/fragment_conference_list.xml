@@ -1,13 +1,33 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="hr.droidcon.conference.ConferenceListFragment">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/conference_fragment_list"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"/>
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/stageAContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".333"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:id="@+id/stageBContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".333"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:id="@+id/stageCContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".333"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+</ScrollView>
