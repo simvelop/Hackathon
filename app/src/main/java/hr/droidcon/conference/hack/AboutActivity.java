@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +15,9 @@ import com.mikepenz.aboutlibraries.ui.LibsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.droidcon.conference.adapters.AboutAdapter;
-import hr.droidcon.conference.objects.AboutItem;
+import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.adapters.AboutAdapter;
+import hr.droidcon.conference.hack.objects.AboutItem;
 
 /**
  * This activity gives access to:

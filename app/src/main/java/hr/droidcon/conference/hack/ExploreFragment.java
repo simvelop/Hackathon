@@ -1,10 +1,12 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import hr.droidcon.conference.R;
 
 /**
  * Created by sonjakesic on 4/27/16.

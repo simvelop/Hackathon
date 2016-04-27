@@ -1,4 +1,4 @@
-package hr.droidcon.conference.timeline;
+package hr.droidcon.conference.hack.timeline;
 
 import java.util.List;
 

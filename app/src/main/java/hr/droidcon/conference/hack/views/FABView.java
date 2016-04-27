@@ -1,4 +1,4 @@
-package hr.droidcon.conference.views;
+package hr.droidcon.conference.hack.views;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.hack.utils.Utils;
 
 /**
  * Implementation of a Floating Action Button

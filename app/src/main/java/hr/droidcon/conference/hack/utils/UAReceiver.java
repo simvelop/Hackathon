@@ -1,4 +1,4 @@
-package hr.droidcon.conference.utils;
+package hr.droidcon.conference.hack.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,7 @@ import com.urbanairship.push.PushMessage;
 
 import java.util.Iterator;
 
-import hr.droidcon.conference.Constants;
+import hr.droidcon.conference.hack.Constants;
 
 /**
  * Created by Ivan Carapovic on 01/04/16.

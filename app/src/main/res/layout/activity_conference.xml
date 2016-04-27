@@ -47,7 +47,7 @@
         android:layout_below="@+id/toolbar">
         <RelativeLayout android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="hr.droidcon.conference.ConferenceActivity">
+            tools:context=".hack.ConferenceActivity">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

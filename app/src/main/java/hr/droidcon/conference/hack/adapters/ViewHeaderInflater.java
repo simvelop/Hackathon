@@ -1,8 +1,7 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import hr.droidcon.conference.R;
-import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.hack.objects.Conference;
 
 /**
  * Render a break/lunch for a Conference object given, every time {@link this#getView(
- *hr.droidcon.conference.objects.Conference, int, android.view.View, android.view.ViewGroup)}
+ *hr.droidcon.conference.hack.objects.Conference, int, android.view.View, android.view.ViewGroup)}
  * is called.
  *
  * @author Arnaud Camus

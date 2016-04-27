@@ -1,4 +1,4 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -14,14 +14,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import hr.droidcon.conference.BaseApplication;
+import hr.droidcon.conference.hack.BaseApplication;
 import hr.droidcon.conference.R;
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.WordColor;
+import hr.droidcon.conference.hack.objects.Conference;
+import hr.droidcon.conference.hack.utils.WordColor;
 
 /**
  * Render a Conference object every time {@link this#getView(
- *hr.droidcon.conference.objects.Conference, int, android.view.View, android.view.ViewGroup)}
+ *hr.droidcon.conference.hack.objects.Conference, int, android.view.View, android.view.ViewGroup)}
  * is called.
  *
  * @author Arnaud Camus

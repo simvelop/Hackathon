@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -27,14 +27,15 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.adapters.MainAdapter;
-import hr.droidcon.conference.adapters.MainTabAdapter;
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.timeline.Session;
-import hr.droidcon.conference.timeline.Speaker;
-import hr.droidcon.conference.timeline.TimelineAPI;
-import hr.droidcon.conference.utils.PreferenceManager;
-import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.adapters.MainAdapter;
+import hr.droidcon.conference.hack.adapters.MainTabAdapter;
+import hr.droidcon.conference.hack.objects.Conference;
+import hr.droidcon.conference.hack.timeline.Session;
+import hr.droidcon.conference.hack.timeline.Speaker;
+import hr.droidcon.conference.hack.timeline.TimelineAPI;
+import hr.droidcon.conference.hack.utils.PreferenceManager;
+import hr.droidcon.conference.hack.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -325,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Track how many times the Activity is launched and send a push notification {@link
-     * hr.droidcon.conference.utils.SendNotification} to ask the user for feedback on the event.
+     * hr.droidcon.conference.hack.utils.SendNotification} to ask the user for feedback on the event.
      */
     private void trackOpening() {
         PreferenceManager prefManager =

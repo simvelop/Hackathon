@@ -1,4 +1,4 @@
-package hr.droidcon.conference.utils;
+package hr.droidcon.conference.hack.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

@@ -1,4 +1,4 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
 import android.content.Context;
 import android.view.View;

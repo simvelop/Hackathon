@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +22,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.adapters.MainAdapter;
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.adapters.MainAdapter;
+import hr.droidcon.conference.hack.objects.Conference;
+import hr.droidcon.conference.hack.utils.Utils;
 
 
 /**

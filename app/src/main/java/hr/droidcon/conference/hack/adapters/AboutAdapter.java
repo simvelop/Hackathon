@@ -1,4 +1,4 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,10 +11,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import hr.droidcon.conference.R;
-import hr.droidcon.conference.objects.AboutItem;
+import hr.droidcon.conference.hack.AboutActivity;
+import hr.droidcon.conference.hack.objects.AboutItem;
 
 /**
- * Adapter for the {@link hr.droidcon.conference.AboutActivity}
+ * Adapter for the {@link AboutActivity}
  * @author Arnaud Camus
  */
 public class AboutAdapter extends ArrayAdapter<AboutItem> {

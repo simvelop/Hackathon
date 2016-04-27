@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -19,11 +19,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.Utils;
-import hr.droidcon.conference.utils.ViewAnimations;
-import hr.droidcon.conference.utils.WordColor;
-import hr.droidcon.conference.views.FABView;
+import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.objects.Conference;
+import hr.droidcon.conference.hack.utils.Utils;
+import hr.droidcon.conference.hack.utils.ViewAnimations;
+import hr.droidcon.conference.hack.utils.WordColor;
+import hr.droidcon.conference.hack.views.FABView;
 
 /**
  * Display the detail for one {@link Conference}
@@ -111,8 +112,8 @@ public class ConferenceActivity extends ActionBarActivity {
     }
 
     /**
-     * Setup a {@link hr.droidcon.conference.views.FABView} to allow the
-     * user to favorite the current {@link hr.droidcon.conference.objects.Conference}
+     * Setup a {@link hr.droidcon.conference.hack.views.FABView} to allow the
+     * user to favorite the current {@link hr.droidcon.conference.hack.objects.Conference}
      */
     private void setupFAB() {
         final FABView fab = new FABView.Builder(this)

@@ -1,4 +1,4 @@
-package hr.droidcon.conference.utils;
+package hr.droidcon.conference.hack.utils;
 
 import android.content.Context;
 import android.os.Build;

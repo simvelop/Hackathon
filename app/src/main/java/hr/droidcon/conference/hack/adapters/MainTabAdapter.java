@@ -1,6 +1,5 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
-import android.app.Application;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,9 +13,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import hr.droidcon.conference.ConferenceListFragment;
-import hr.droidcon.conference.ExploreFragment;
-import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.hack.ConferenceListFragment;
+import hr.droidcon.conference.hack.ExploreFragment;
+import hr.droidcon.conference.hack.objects.Conference;
 
 /**
  * Created by Hrvoje Kozak on 31/03/16.

@@ -1,11 +1,13 @@
-package hr.droidcon.conference.objects;
+package hr.droidcon.conference.hack.objects;
 
 import android.support.annotation.DrawableRes;
 
 import java.io.Serializable;
 
+import hr.droidcon.conference.hack.AboutActivity;
+
 /**
- * Object use in the {@link hr.droidcon.conference.AboutActivity} for each
+ * Object use in the {@link AboutActivity} for each
  * row item.
  * @author Arnaud Camus
  */

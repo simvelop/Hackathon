@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 /**
  * Created by Hrvoje Kozak on 30/03/16.

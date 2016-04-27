@@ -1,4 +1,4 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
 import android.app.Application;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import com.squareup.picasso.Transformation;
 import com.urbanairship.UAirship;
 
-import hr.droidcon.conference.utils.ImageManager;
+import hr.droidcon.conference.hack.utils.ImageManager;
 
 /**
  * Basic implementation of the Application class

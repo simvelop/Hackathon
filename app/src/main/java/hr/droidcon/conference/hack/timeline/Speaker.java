@@ -1,8 +1,6 @@
-package hr.droidcon.conference.timeline;
+package hr.droidcon.conference.hack.timeline;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 /**
  * Created by Hrvoje Kozak on 30/03/16.

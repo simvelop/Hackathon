@@ -1,12 +1,12 @@
-package hr.droidcon.conference.objects;
+package hr.droidcon.conference.hack.objects;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.Serializable;
 
-import hr.droidcon.conference.timeline.Session;
-import hr.droidcon.conference.utils.PreferenceManager;
+import hr.droidcon.conference.hack.timeline.Session;
+import hr.droidcon.conference.hack.utils.PreferenceManager;
 
 /**
  * Conference object, created by the CSV file
