@@ -22,13 +22,20 @@
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
         <item name="titleTextAppearance">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/colorPrimary</item>
     </style>
-
 
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText"
         parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+
+    <style name="ExploreText">
+        <item name="android:textSize">@dimen/exploreTextSize</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+        <item name="android:layout_marginBottom">@dimen/exploreTitleMarginBottom</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

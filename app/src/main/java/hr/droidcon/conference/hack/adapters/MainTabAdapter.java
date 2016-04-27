@@ -34,6 +34,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     private ConferenceListFragment attendingFragment;
     private ConferenceListFragment scheduleFragment;
 
+
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
     List<Conference> oneListToRuleThemAll = new ArrayList<>();
@@ -44,7 +45,9 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         this.numberOfTabs = numberOfTabs;
         updateConferences(conferences);
 
-        exploreFragment = ExploreFragment.newInstance(0);
+
+        exploreFragment = ExploreFragment.newInstance();
+
         attendingFragment = ConferenceListFragment.newInstance(1, conferences, true);
 
         scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll, false);
@@ -65,6 +68,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         if (scheduleFragment != null) {
             scheduleFragment.updateConferences(oneListToRuleThemAll, false);
         }
+
     }
 
     private Conference createSeparator(Day day) {
@@ -90,6 +94,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         }
 
         return conferenceSeparator;
+
     }
 
     private List<Conference> splitConferencesByDays(List<Conference> conferences) {

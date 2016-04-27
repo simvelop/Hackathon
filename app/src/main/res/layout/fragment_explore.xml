@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/explore_dev"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/exploreDevColor">
+            <ImageView
+                android:id="@+id/explore_dev_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/exploreImageMarginTop"
+                android:src="@drawable/development"
+                />
+            <TextView
+                android:id="@+id/explore_dev_title"
+                android:layout_below="@+id/explore_dev_image"
+                android:text="@string/exploreDevTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                style="@style/ExploreText" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/explore_ux"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/exploreUxColor">
+            <ImageView
+                android:id="@+id/explore_ux_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/exploreImageMarginTop"
+                android:src="@drawable/uxui"
+                />
+            <TextView
+                android:id="@+id/explore_ux_title"
+                android:text="@string/exploreUxTitle"
+                android:layout_below="@+id/explore_ux_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                style="@style/ExploreText" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/explore_biz"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/exploreBizColor">
+            <ImageView
+                android:id="@+id/explore_biz_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/exploreImageMarginTop"
+                android:src="@drawable/hackathon_illustration"
+                />
+            <TextView
+                android:id="@+id/explore_biz_title"
+                android:text="@string/exploreBizTitle"
+                android:layout_below="@+id/explore_biz_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                style="@style/ExploreText" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/explore_other"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/exploreOtherColor">
+            <ImageView
+                android:id="@+id/explore_other_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/exploreImageMarginTop"
+                android:src="@drawable/otter"
+                />
+            <TextView
+                android:id="@+id/explore_other_title"
+                android:text="@string/exploreOtherTitle"
+                android:layout_below="@+id/explore_other_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                style="@style/ExploreText" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

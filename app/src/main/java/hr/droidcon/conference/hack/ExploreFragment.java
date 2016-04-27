@@ -13,7 +13,7 @@ import hr.droidcon.conference.hack.R;
  */
 public class ExploreFragment extends Fragment {
 
-    public static ExploreFragment newInstance(int id) {
+    public static ExploreFragment newInstance() {
         ExploreFragment fragment = new ExploreFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

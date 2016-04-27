@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hr.droidcon.conference.hack.R;
+
 import hr.droidcon.conference.hack.adapters.AboutAdapter;
 import hr.droidcon.conference.hack.objects.AboutItem;
 

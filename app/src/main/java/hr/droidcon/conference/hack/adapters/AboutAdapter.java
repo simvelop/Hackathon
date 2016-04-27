@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import hr.droidcon.conference.hack.R;
+
 import hr.droidcon.conference.hack.AboutActivity;
 import hr.droidcon.conference.hack.objects.AboutItem;
 

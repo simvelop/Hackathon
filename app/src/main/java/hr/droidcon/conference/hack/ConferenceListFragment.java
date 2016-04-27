@@ -253,3 +253,4 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 //        }
     }
 }
+

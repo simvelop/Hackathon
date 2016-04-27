@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import hr.droidcon.conference.hack.R;
+
 import hr.droidcon.conference.hack.objects.Conference;
 import hr.droidcon.conference.hack.utils.Utils;
 import hr.droidcon.conference.hack.utils.ViewAnimations;
