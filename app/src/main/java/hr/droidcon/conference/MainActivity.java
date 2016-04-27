@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Speaker>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
+//                Log.e("TAG", t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(",
                         Toast.LENGTH_SHORT)
@@ -311,6 +311,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_more) {
             startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        }
+        if (id == R.id.action_kill_time) {
+            startActivity(new Intent(this, TimeKillGame.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

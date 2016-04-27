@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar"
+        android:icon="@drawable/ic_launcher"
+        android:transitionName="@string/toolbar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorPrimary"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark">
+
+        <RelativeLayout
+            android:id="@+id/game_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="5dp">
+
+            <AbsoluteLayout
+                android:id="@+id/GameField"
+                android:layout_height="320dp"
+                android:layout_width="320dp">
+
+                <Button android:id="@+id/Button00" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="0dp" android:layout_y="0dp" android:text="0" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button01" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="100dp" android:layout_y="0dp" android:text="1" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button02" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="200dp" android:layout_y="0dp" android:text="2" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button03" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="0dp" android:layout_y="100dp" android:text="3" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button04" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="100dp" android:layout_y="100dp" android:text="4" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button05" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="200dp" android:layout_y="100dp" android:text="5" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button06" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="0dp" android:layout_y="200dp" android:text="6" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button07" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="100dp" android:layout_y="200dp" android:text="7" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+                <Button android:id="@+id/Button08" android:layout_height="100dp" android:layout_width="100dp" android:layout_x="200dp" android:layout_y="200dp" android:text="8" android:textSize="48dp" android:textColor="@android:color/transparent"/>
+            </AbsoluteLayout>
+
+            <TextView android:layout_below="@+id/GameField" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/MoveText" android:textSize="28dp" android:text="Moves: "></TextView>
+            <TextView android:layout_below="@+id/GameField" android:layout_toRightOf="@+id/MoveText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/MoveCounter" android:text="0" android:textSize="28dp" android:layout_marginLeft="5dp" android:layout_alignBaseline="@+id/MoveText"></TextView>
+
+            <!--<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/MoveText" android:id="@+id/FeedbackTitleText" android:text="Feedback: " android:textSize="28dp"></TextView>-->
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="28dp" android:id="@+id/FeedbackText" android:layout_alignLeft="@+id/GameField" android:layout_below="@+id/MoveCounter" android:text=" -- "></TextView>
+
+            <Button
+                android:id="@+id/restart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compile another"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/FeedbackText"
+                android:textSize="28dp"
+                android:background="@android:color/transparent"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/start_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/one"
+                android:layout_width="320dp"
+                android:layout_height="320dp"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/start_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wait a bit"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="34sp"
+                android:textColor="@color/card"/>
+
+        </FrameLayout>
+    </FrameLayout>
+
+
+</LinearLayout>
