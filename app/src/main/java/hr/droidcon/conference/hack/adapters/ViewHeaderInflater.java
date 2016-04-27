@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.hack.objects.Conference;
 
 /**

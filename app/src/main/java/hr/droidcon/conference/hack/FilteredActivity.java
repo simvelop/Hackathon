@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.hack.adapters.FilterListAdapter;
 import hr.droidcon.conference.hack.objects.Conference;
 

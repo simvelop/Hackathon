@@ -27,7 +27,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.hack.adapters.MainAdapter;
 import hr.droidcon.conference.hack.adapters.MainTabAdapter;
 import hr.droidcon.conference.hack.objects.Conference;

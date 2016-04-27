@@ -17,13 +17,15 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.R;
 import hr.droidcon.conference.hack.adapters.MainAdapter;
+import hr.droidcon.conference.hack.adapters.ViewConferenceInflater;
 import hr.droidcon.conference.hack.objects.Conference;
 import hr.droidcon.conference.hack.utils.Utils;
 
@@ -102,10 +104,27 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     private void filter() {
         if (attendingOnly) {
-        filteredConferences.clear();
-            for (Conference conf: conferences) {
+            filteredConferences.clear();
+            Conference previousConf = null;
+            Date previousConfEndDate = new Date(0);
+            for (Conference conf : conferences) {
                 if (conf.isFavorite(getActivity())) {
                     filteredConferences.add(conf);
+                    try {
+                        Date startDate = ViewConferenceInflater.dateFormat
+                                .parse(conf.getStartDate());
+                        if (previousConfEndDate.after(startDate)) {
+                            conf.setConflicting(true);
+                            if (previousConf != null) {
+                                previousConf.setConflicting(true);
+                            }
+                        }
+                        previousConf = conf;
+                        previousConfEndDate = ViewConferenceInflater.dateFormat
+                                .parse(conf.getEndDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

@@ -22,6 +22,7 @@ public class Conference implements Serializable {
     private String text;
     private String location;
     private String category;
+    private boolean conflicting = false;
 
     public Conference(String[] fromCSV) {
         startDate = fromCSV[0];
@@ -71,6 +72,13 @@ public class Conference implements Serializable {
     //          GETTERS / SETTERS       //
     //////////////////////////////////////
 
+    public boolean isConflicting() {
+        return conflicting;
+    }
+
+    public void setConflicting(boolean conflicting) {
+        this.conflicting = conflicting;
+    }
 
     public boolean isFavorite(Context ctx) {
         PreferenceManager prefManager =

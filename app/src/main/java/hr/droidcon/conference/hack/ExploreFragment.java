@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 
 /**
  * Created by sonjakesic on 4/27/16.

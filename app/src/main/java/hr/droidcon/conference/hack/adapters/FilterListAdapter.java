@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import hr.droidcon.conference.hack.BaseApplication;
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.hack.objects.Conference;
 import hr.droidcon.conference.hack.utils.WordColor;
 
