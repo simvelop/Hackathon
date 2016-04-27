@@ -92,17 +92,14 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        filter();
-        mAdapter = new MainAdapter(this.getActivity(), 0x00, filteredConferences);
-
-        conferencesListView.setAdapter(mAdapter);
+        filterAndSetAdapter();
         conferencesListView.setOnScrollListener(this);
         conferencesListView.setOnItemClickListener(this);
 
         return view;
     }
 
-    private void filter() {
+    private void filterAndSetAdapter() {
         if (attendingOnly) {
             filteredConferences.clear();
             Conference previousConf = null;
@@ -128,6 +125,9 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
                 }
             }
         }
+        mAdapter = new MainAdapter(this.getActivity(), 0x00, filteredConferences);
+
+        conferencesListView.setAdapter(mAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -240,10 +240,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     public void updateConferences(List<Conference> conferences, boolean attendingOnly) {
         setConferences(conferences, attendingOnly);
-        filter();
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
+        filterAndSetAdapter();
     }
 
     @Override
