@@ -2,6 +2,7 @@ package hr.droidcon.conference.hack.timeline;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class Session {
     private List<String> endISO;
 
     @SerializedName("category")
-    private String category;
+    private Object category;
 
     public String getTitle() {
         return title;
@@ -98,7 +99,7 @@ public class Session {
         this.endISO = endISO;
     }
 
-    public String getCategory() {
+    public Object getCategory() {
         return category;
     }
 

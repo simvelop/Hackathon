@@ -104,17 +104,17 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
     public FilterListAdapter(Context context, int resource, List<Conference> objects) {
         this.context = context;
         conferences = objects;
-        conferences = new ArrayList<>();
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
-
-        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//        conferences = new ArrayList<>();
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
+//
+//        conferences.add(new Conference(new String[]{"sdf","SDF","sdfs ","sdfs","sdfsd","SDFsd","sdfsdf"}));
 
 //        viewHeaderInflater = new ViewHeaderInflater(context);
 //        viewConferenceInflater = new ViewConferenceInflater(context);

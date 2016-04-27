@@ -43,7 +43,8 @@ public class Conference implements Serializable {
         speakerImageUrl = imageURL;
         text = session.getAbstractHTML();
         location = session.getRoom().get(0);
-        category = session.getCategory();
+        category = session.getCategory() instanceof String ? (String) session.getCategory():"";
+//        category="";
     }
 
     public Conference () {
