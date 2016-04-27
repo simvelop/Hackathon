@@ -129,7 +129,50 @@
                 android:transitionName="@string/speaker"
                 android:id="@+id/speaker"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rating_title"
+                android:text="@string/rating_title"
+                android:layout_below="@+id/speaker"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="72dp"
+                android:textSize="20sp"/>
+
+
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rating_title"
+                android:id="@+id/rating_bar"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="72dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rating_result_title"
+                android:text="@string/rating_result_title"
+                android:layout_below="@+id/rating_bar"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="72dp"
+                android:textSize="20sp"/>
+
+
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rating_result_title"
+                android:id="@+id/rating_result_bar"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="72dp"
+                android:isIndicator="true"/>
+
         </RelativeLayout>
     </ScrollView>
+
+
 
 </RelativeLayout>

@@ -3,6 +3,10 @@ package hr.droidcon.conference;
 import android.app.Application;
 import android.graphics.Bitmap;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Transformation;
 import com.urbanairship.UAirship;
 
@@ -26,10 +30,23 @@ public class BaseApplication extends Application {
     private boolean filterFavorites;
 
     private int selectedTab = 0;
+    private Firebase firebase;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase("https://droidconzg.firebaseio.com/");
+
+        firebase.child("message").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+            }
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+
 
         filterFavorites = false;
 
@@ -80,5 +97,9 @@ public class BaseApplication extends Application {
 
     public int getSelectedTab() {
         return selectedTab;
+    }
+
+    public Firebase getFirebase(){
+        return firebase;
     }
 }
