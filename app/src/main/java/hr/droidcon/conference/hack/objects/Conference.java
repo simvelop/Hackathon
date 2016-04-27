@@ -1,7 +1,9 @@
 package hr.droidcon.conference.hack.objects;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.Serializable;
 
@@ -65,7 +67,13 @@ public class Conference implements Serializable {
         prefManager.favorite(getHeadline())
                 .put(!actual)
                 .apply();
+        setAttendingDataSetChangeBrodatcast(ctx);
         return !actual;
+    }
+
+    private static void setAttendingDataSetChangeBrodatcast(Context context) {
+        Intent intent = new Intent("attending-data-set-changed");
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     //////////////////////////////////////
