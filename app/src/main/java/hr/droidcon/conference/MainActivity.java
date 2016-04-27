@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
     private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
 
     private List<Speaker> mSpeakers;
+
+    private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+    public static final String EXTRA_CUSTOM_TABS_EXIT_ANIMATION_BUNDLE =
+            "android.support.customtabs.extra.EXIT_ANIMATION_BUNDLE";
 
     @Bind(R.id.main_tab_layout)
     TabLayout mainTabLayout;
@@ -312,9 +319,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_more) {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
+        } else if (id == R.id.action_news) {
+            openTwitterStream();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Track how many times the Activity is launched and send a push notification {@link
@@ -360,5 +370,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+    private void openTwitterStream() {
+        String url = "https://mobile.twitter.com/droidconzg";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION,
+                    new ChromeBinder() /* Set to null for no session */);
+            intent.putExtras(extras);
+        }
+
+        intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, ContextCompat.getColor(this, R.color.colorPrimary));
+        startActivity(intent);
     }
 }
