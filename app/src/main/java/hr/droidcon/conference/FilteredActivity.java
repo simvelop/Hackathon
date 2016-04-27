@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.utils.Utils;
 
 /**
  * Created by stefan.tanovic on 4/27/2016.
@@ -40,7 +41,6 @@ public class FilteredActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_filtered);
         ButterKnife.bind(this);
@@ -67,6 +67,7 @@ public class FilteredActivity extends AppCompatActivity {
                 ActivityCompat.startActivity(FilteredActivity.this, intent, bundle);
             }
         });
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.status_bar));
         if (mToolbar != null) {
@@ -86,7 +87,11 @@ public class FilteredActivity extends AppCompatActivity {
                 }
             });
         }
-//        mainEventsListView.setOnScrollListener(this);
-//        mainEventsListView.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        Utils.scrollListToStartingConference(conferences, mainEventsListView);
+        super.onResume();
     }
 }
