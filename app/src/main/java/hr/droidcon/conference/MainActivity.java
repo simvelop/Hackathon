@@ -128,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
     public void onMenuCLick(MenuAdapter.MenuElement menuElement) {
         switch (menuElement.getIcon()) {
             case R.drawable.ic_menu_speakers:
-//                startActivity(new Intent(MainActivity.this, CitiesActivity.class));
-                Toast.makeText(MainActivity.this, "Speakers clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, SpeakersActivity.class));
                 break;
             case R.drawable.ic_menu_info:
                 startActivity(new Intent(this, AboutActivity.class));
