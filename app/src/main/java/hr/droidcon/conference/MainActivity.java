@@ -317,28 +317,28 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.business_cat_id) {
-            ArrayList<Conference> resultConferences = filterCategories("business");
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.BUSINESS_FILTER);
             Intent intent = new Intent(this, FilteredActivity.class);
             intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
             startActivity(intent);
             return true;
         }
         if (id == R.id.development_cat_id) {
-            ArrayList<Conference> resultConferences = filterCategories("development");
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.DEVELOPMENT_FILTER);
             Intent intent = new Intent(this, FilteredActivity.class);
             intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
             startActivity(intent);
             return true;
         }
         if (id == R.id.ux_cat_id) {
-            ArrayList<Conference> resultConferences = filterCategories("ux / ui");
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.UX_UI_FILTER);
             Intent intent = new Intent(this, FilteredActivity.class);
             intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
             startActivity(intent);
             return true;
         }
         if (id == R.id.other_cat_id) {
-            ArrayList<Conference> resultConferences = filterCategories("other");
+            ArrayList<Conference> resultConferences = filterCategories(FilteredActivity.OTHER_FILTER);
             Intent intent = new Intent(this, FilteredActivity.class);
             intent.putExtra(FilteredActivity.ARGS_KEY, resultConferences);
             startActivity(intent);

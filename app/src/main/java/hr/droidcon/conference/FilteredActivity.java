@@ -25,6 +25,11 @@ public class FilteredActivity extends AppCompatActivity {
     private ArrayList<Conference> conferences;
 
     public static final String ARGS_KEY = "conferences";
+
+    public static final String BUSINESS_FILTER = "BUSINESS";
+    public static final String DEVELOPMENT_FILTER = "DEVELOPMENT";
+    public static final String UX_UI_FILTER = "UX / UI";
+    public static final String OTHER_FILTER = "OTHER";
     private Toolbar mToolbar;
 
     @Override
@@ -41,8 +46,15 @@ public class FilteredActivity extends AppCompatActivity {
         mainEventsListView.setAdapter(mAdapter);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.status_bar));
         if (mToolbar != null) {
-            mToolbar.setTitle(conferences.isEmpty()? "" : conferences.get(0).getCategory());
+            if (!conferences.isEmpty()) {
+                String category = conferences.get(0).getCategory();
+                String lowercaseTitle = category.toLowerCase();
+                String title = String.valueOf(lowercaseTitle.charAt(0)).toUpperCase() + lowercaseTitle.substring(1, lowercaseTitle.length());
+                mToolbar.setTitle(title);
+            }
+
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

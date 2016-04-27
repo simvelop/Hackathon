@@ -61,4 +61,9 @@
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
 
+    <string name="menu_item_business">Business</string>
+    <string name="menu_item_development">Development</string>
+    <string name="menu_item_ux_ui">UX / UI</string>
+    <string name="menu_item_other">Other</string>
+
 </resources>
