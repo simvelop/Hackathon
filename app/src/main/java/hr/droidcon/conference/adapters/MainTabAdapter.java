@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import hr.droidcon.conference.ConferenceListFragment;
+import hr.droidcon.conference.ExploreFragment;
 import hr.droidcon.conference.objects.Conference;
 
 /**
@@ -24,8 +25,9 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     private int numberOfTabs;
     private List<Conference> conferences = new ArrayList<>();
 
-    private ConferenceListFragment dayOneFragment;
-    private ConferenceListFragment dayTwoFragment;
+    private Fragment exploreFragment;
+    private ConferenceListFragment attendingFragment;
+    private ConferenceListFragment scheduleFragment;
 
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
@@ -37,8 +39,9 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         setConferences(conferences);
 
-        dayOneFragment = ConferenceListFragment.newInstance(0, dayOneConferences);
-        dayTwoFragment = ConferenceListFragment.newInstance(1, dayTwoConferences);
+        exploreFragment = ExploreFragment.newInstance(0);
+        attendingFragment = ConferenceListFragment.newInstance(1, conferences);
+        scheduleFragment = ConferenceListFragment.newInstance(2, conferences);
     }
 
     private List<Conference> splitConferencesByDays(List<Conference> conferences) {
@@ -101,9 +104,11 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                return dayOneFragment;
+                return exploreFragment;
             case 1:
-                return dayTwoFragment;
+                return attendingFragment;
+            case 2:
+                return scheduleFragment;
             default:
                 return null;
         }
@@ -115,7 +120,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     public void setConferences(List<Conference> conferences) {
         this.conferences = conferences;
-        splitConferencesByDays(conferences);
+//        splitConferencesByDays(conferences);
     }
 
     @Override

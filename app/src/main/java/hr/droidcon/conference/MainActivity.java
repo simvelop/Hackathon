@@ -111,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
     private void initTabs() {
         mainTabLayout.setTabTextColors(Color.parseColor("#64FFFFFF"), Color.WHITE);
         mainTabLayout.addTab(mainTabLayout.newTab()
-                .setText("DAY 1"));
+                .setText("EXPLORE"));
         mainTabLayout.addTab(mainTabLayout.newTab()
-                .setText("DAY 2"));
+                .setText("ATTENDING"));
+        mainTabLayout.addTab(mainTabLayout.newTab()
+                .setText("SCHEDULE"));
         mainTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         mainViewPager.addOnPageChangeListener(
