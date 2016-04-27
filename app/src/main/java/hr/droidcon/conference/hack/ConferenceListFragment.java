@@ -117,6 +117,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 
     private void filterAndSetAdapter() {
