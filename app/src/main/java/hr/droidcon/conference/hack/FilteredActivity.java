@@ -1,27 +1,19 @@
-package hr.droidcon.conference;
+package hr.droidcon.conference.hack;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hr.droidcon.conference.adapters.FilterListAdapter;
-import hr.droidcon.conference.adapters.MainAdapter;
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.Utils;
+import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.adapters.FilterListAdapter;
+import hr.droidcon.conference.hack.objects.Conference;
 
 /**
  * Created by stefan.tanovic on 4/27/2016.

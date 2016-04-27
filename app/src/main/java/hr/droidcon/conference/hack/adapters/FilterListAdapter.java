@@ -1,4 +1,4 @@
-package hr.droidcon.conference.adapters;
+package hr.droidcon.conference.hack.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import hr.droidcon.conference.BaseApplication;
+import hr.droidcon.conference.hack.BaseApplication;
 import hr.droidcon.conference.R;
-import hr.droidcon.conference.objects.Conference;
-import hr.droidcon.conference.utils.WordColor;
+import hr.droidcon.conference.hack.objects.Conference;
+import hr.droidcon.conference.hack.utils.WordColor;
 
 /**
  * Created by stefan.tanovic on 4/27/2016.

@@ -39,7 +39,7 @@
             android:label="@string/action_about" >
         </activity>
         <activity
-            android:name=".FilteredActivity"
+            android:name=".hack.FilteredActivity"
             android:screenOrientation="portrait"
             />
 

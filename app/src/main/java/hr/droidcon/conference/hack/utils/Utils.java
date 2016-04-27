@@ -8,11 +8,9 @@ import android.widget.ListView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
-import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.hack.objects.Conference;
 
 /**
  * Utility class
