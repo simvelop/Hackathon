@@ -43,6 +43,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
             holder = new ViewHolder();
             holder.dateStart = (TextView) v.findViewById(R.id.dateStart);
             holder.headline = (TextView) v.findViewById(R.id.headline);
+            holder.headline.setTextColor(Color.parseColor("#5B5B5B"));
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -57,7 +58,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
             e.printStackTrace();
         }
 
-        v.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        v.setBackgroundColor(Color.parseColor("#E2E2E2"));
 
         holder.headline.setText(object.getHeadline());
 
