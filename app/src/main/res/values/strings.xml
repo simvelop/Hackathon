@@ -61,4 +61,9 @@
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
 
+    <!-- drawer_menu.xml -->
+    <string name="drawer_layout_open">Open drawer layout</string>
+    <string name="drawer_layout_close">Close drawer layout</string>
+    <string name="menu_speakers">Speakers</string>
+
 </resources>

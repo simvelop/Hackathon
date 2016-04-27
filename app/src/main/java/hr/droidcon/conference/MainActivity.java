@@ -9,10 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -29,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.MainTabAdapter;
+import hr.droidcon.conference.adapters.MenuAdapter;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.timeline.Speaker;
@@ -47,11 +52,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *
  * @author Arnaud Camus
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMenuElementClickListener {
 
     private MainAdapter mAdapter;
     private List<Conference> mConferences = new ArrayList<Conference>();
     private Toolbar mToolbar;
+    private DrawerLayout drawerLayout;
 
     private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
 
@@ -92,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(mToolbar);
         }
 
+        initDrawerLayout();
         initTabs();
 
 //        ListView mListView = (ListView) findViewById(R.id.listView);
@@ -106,6 +113,43 @@ public class MainActivity extends AppCompatActivity {
 //        mListView.setOnItemClickListener(this);
 
         trackOpening();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onMenuCLick(MenuAdapter.MenuElement menuElement) {
+        switch (menuElement.getIcon()) {
+            case R.drawable.ic_menu_speakers:
+//                startActivity(new Intent(MainActivity.this, CitiesActivity.class));
+                Toast.makeText(MainActivity.this, "Speakers clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.drawable.ic_menu_info:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initDrawerLayout() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar,
+                R.string.drawer_layout_open, R.string.drawer_layout_close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        MenuAdapter menuAdapter = new MenuAdapter(this);
+        menuAdapter.setOnMenuElementClickListener(this);
+        RecyclerView menuList = (RecyclerView) findViewById(R.id.menuList);
+        menuList.setAdapter(menuAdapter);
     }
 
     private void initTabs() {

@@ -9,4 +9,10 @@
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
     <color name="accentLight">#22b3fd</color>
+
+    <!-- drawer_menu -->
+    <color name="menu_bg">#ffffff</color>
+    <color name="menu_icon">@color/colorPrimary</color>
+    <color name="menu_item">#2b2b2b</color>
+
 </resources>
