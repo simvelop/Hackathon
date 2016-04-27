@@ -54,6 +54,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
             Date endDate = dateFormat.parse(object.getEndDate());
             String time = simpleDateFormat.format(startDate) + simpleDateFormat2.format(endDate);
             holder.dateStart.setText(time);
+            holder.dateStart.setTextColor(Color.parseColor("#5B5B5B"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
