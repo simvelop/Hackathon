@@ -21,12 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -59,6 +54,8 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     private int id;
     private List<Conference> conferences;
     private MainAdapter mAdapter;
+
+    private MenuItem menuItemFavorites;
 
     public ConferenceListFragment() {
         // Required empty public constructor
@@ -100,7 +97,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), conferences);
+        mAdapter = new MainAdapter(this.getActivity(), this.conferences);
 
         conferencesListView.setAdapter(mAdapter);
         conferencesListView.setOnScrollListener(this);
@@ -137,18 +134,21 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_conference_list, menu);
+
+        menuItemFavorites = menu.findItem(R.id.action_favorites_filter);
+        updateMenuItem();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.action_favorites_filter:
-                // TODO
-                Log.d(TAG, "onOptionsItemSelected: filter favs with id: " +id);
+                Log.d(TAG, "onOptionsItemSelected: filter conferences with id: " + id);
                 //toggle favorites
                 ((BaseApplication) getActivity().getApplication()).toogleFilterFavorite();
+                updateMenuItem();
                 updateConferenceList();
                 return true;
 
@@ -157,6 +157,16 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.d(TAG, "setUserVisibleHint: " +isVisibleToUser + " id: " +id);
+        if(isVisibleToUser){
+            updateConferenceList();
+        }
+
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     /**
@@ -176,7 +186,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (conferences.get(position).getSpeaker().length()==0) {
+        if (conferences.get(position).getSpeaker().length() == 0) {
             // if the speaker field is empty, it's probably a coffee break or lunch
             return;
         }
@@ -198,11 +208,13 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {}
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
 
     /**
      * ScrollListener used only on Lollipop to smoothly elevate the {@link Toolbar}
      * when the user scroll.
+     *
      * @param view
      * @param firstVisibleItem
      * @param visibleItemCount
@@ -224,39 +236,39 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         }
     }
 
-
-    public List<Conference> getConferences() {
-        return conferences;
-    }
-
     public void setConferences(List<Conference> conferences) {
         Log.d(TAG, "setConferences: called" + conferences.size());
         this.conferences = conferences;
-//        if (mAdapter != null) {
-//            mAdapter.notifyDataSetChanged();
-//            Log.e("Fragment " + id, "adapter NULL");
-//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-//        if (mAdapter != null) {
-//            mAdapter.notifyDataSetChanged();
-//            Log.e("Fragment " + id, "adapter NULL");
-//        }
+        Log.d(TAG, "onResume: " + id);
+    }
+
+    private void updateMenuItem(){
+        if (((BaseApplication) getActivity().getApplication()).isFilterFavorites()) {
+            menuItemFavorites.setIcon(getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+        } else {
+            menuItemFavorites.setIcon(getResources().getDrawable(R.drawable.ic_favorite_outline_white_24dp));
+        }
     }
 
     private void updateConferenceList() {
+        if(getActivity() == null){
+            return;
+        }
+
         final boolean filter = ((BaseApplication) getActivity().getApplication()).isFilterFavorites();
-        Log.d(TAG, "updateConferenceList: filter: " +filter);
+        Log.d(TAG, "updateConferenceList: filter: " + filter);
 
         List<Conference> filteredConferencesList = new ArrayList<>();
 
-        for(Conference conference : this.conferences){
-            if(filter){
-                if(conference.isFavorite(getActivity())){
+        for (Conference conference : this.conferences) {
+            if (filter) {
+                if (conference.isFavorite(getActivity())) {
                     filteredConferencesList.add(conference);
                 }
             } else {
