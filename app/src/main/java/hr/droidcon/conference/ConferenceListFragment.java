@@ -101,9 +101,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        //mAdapter = new MainAdapter(this.getActivity(), this.conferences);
-        //conferencesListView.setAdapter(mAdapter);
-
         updateConferenceList();
 
         conferencesListView.setOnScrollListener(this);
@@ -174,16 +171,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        Log.d(TAG, "setUserVisibleHint: " +isVisibleToUser + " id: " +id);
-//        if(isVisibleToUser){
-//            updateConferenceList();
-//        }
-//
-//        super.setUserVisibleHint(isVisibleToUser);
-//    }
 
     @Subscribe
     public void onMessageEvent(FilterUpdateEvent event){
@@ -262,13 +249,6 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     public void setConferences(List<Conference> conferences) {
         Log.d(TAG, "setConferences: called" + conferences.size());
         this.conferences = conferences;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Log.d(TAG, "onResume: " + id);
     }
 
     private void updateMenuItem(){
