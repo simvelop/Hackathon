@@ -5,7 +5,7 @@
     <string name="parse_app_id">WwtjaJ3NRipKPP9Vdth9BzJvcKWI5oR7064eb7s9</string>
     <string name="parse_client_key">EhKUdaCnQuRefHxwNQH89TKYVwmN21sJdSb1r110</string>
 
-    <string name="app_name">droidcon Zagreb c4c</string>
+    <string name="app_name">droidcon Zagreb</string>
     <string name="title_activity_conference">ConferenceActivity</string>
     <string name="action_about">About</string>
     <string name="action_more">More</string>
