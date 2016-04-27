@@ -25,6 +25,8 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -70,6 +72,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
      */
     // TODO: Rename and change types and number of parameters
     public static ConferenceListFragment newInstance(int id, List<Conference> conferences) {
+        Log.d(TAG, "newInstance: called");
         ConferenceListFragment fragment = new ConferenceListFragment();
         Bundle args = new Bundle();
         args.putInt(PARAM_ID, id);
@@ -97,7 +100,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), 0x00, conferences);
+        mAdapter = new MainAdapter(this.getActivity(), conferences);
 
         conferencesListView.setAdapter(mAdapter);
         conferencesListView.setOnScrollListener(this);
@@ -227,6 +230,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     }
 
     public void setConferences(List<Conference> conferences) {
+        Log.d(TAG, "setConferences: called" + conferences.size());
         this.conferences = conferences;
 //        if (mAdapter != null) {
 //            mAdapter.notifyDataSetChanged();
@@ -246,17 +250,21 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     private void updateConferenceList() {
         final boolean filter = ((BaseApplication) getActivity().getApplication()).isFilterFavorites();
-        List<Conference> filteredConferences = Stream.of(conferences).filter(new Predicate<Conference>() {
-            @Override
-            public boolean test(Conference value) {
-                if (filter) {
-                    return value.isFavorite(getActivity());
+        Log.d(TAG, "updateConferenceList: filter: " +filter);
+
+        List<Conference> filteredConferencesList = new ArrayList<>();
+
+        for(Conference conference : this.conferences){
+            if(filter){
+                if(conference.isFavorite(getActivity())){
+                    filteredConferencesList.add(conference);
                 }
-                return true;
+            } else {
+                filteredConferencesList.add(conference);
             }
-        }).collect(Collectors.<Conference>toList());
-        mAdapter.clear();
-        mAdapter.addAll(filteredConferences);
-        mAdapter.notifyDataSetChanged();
+        }
+
+        mAdapter = new MainAdapter(this.getActivity(), filteredConferencesList);
+        conferencesListView.setAdapter(mAdapter);
     }
 }
