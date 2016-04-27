@@ -1,23 +1,34 @@
 package hr.droidcon.conference;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.transition.ChangeBounds;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
@@ -33,9 +44,11 @@ import hr.droidcon.conference.views.FABView;
  */
 public class ConferenceActivity extends ActionBarActivity {
 
+    private static final String TAG = "ConferenceActivity";
     Conference mConference;
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleDateFormat2;
+    
 
     /**
      * Enable to share views across activities with animation
@@ -83,6 +96,15 @@ public class ConferenceActivity extends ActionBarActivity {
                 mConference.getLocation()));
         ((TextView) findViewById(R.id.location)).setTextColor(
                                                 WordColor.generateColor(mConference.getLocation()));
+        
+        final RatingBar ratingBar = ((RatingBar) findViewById(R.id.rating_bar));
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                Log.d(TAG, "onRatingChanged: new rating " + rating);
+                getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).setValue((double) rating);
+            }
+        });
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
         try {
@@ -108,6 +130,59 @@ public class ConferenceActivity extends ActionBarActivity {
         });
 
         setupFAB();
+
+        final TextView resultRatingTextView = (TextView) findViewById(R.id.rating_result_bar);
+        final TextView resultParticipantsTextView = (TextView) findViewById(R.id.rating_result_participants);
+
+        getFireBase().child("ratings").child(getConferenceId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                double ratingSum = 0;
+                Log.d(TAG, "onDataChange:" + snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+               // JSONObject jsonObject  = (JSONObject) snapshot.getValue();
+                for(DataSnapshot object: snapshot.getChildren()) {
+                    Log.d(TAG, "onDataChange: " + object);
+                    ratingSum = ratingSum +  (double) object.getValue();
+
+                }
+                double rating = ratingSum / (double) snapshot.getChildrenCount();
+                if(Double.isNaN(rating)) {
+                    resultRatingTextView.setText(getString(R.string.rating_result_empty));
+                    findViewById(R.id.rating_image).setVisibility(View.INVISIBLE);
+
+                    resultParticipantsTextView.setText("");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.INVISIBLE);
+
+
+                } else {
+                    resultRatingTextView.setText("" + (float) rating);
+                    findViewById(R.id.rating_image).setVisibility(View.VISIBLE);
+
+                    resultParticipantsTextView.setText(snapshot.getChildrenCount()+"");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.VISIBLE);
+                }
+            }
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+
+        getFireBase().child("ratings").child(getConferenceId()).child(getDeviceId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "my Result: " +dataSnapshot.getValue());
+                if(dataSnapshot.getValue() == null) {
+                    return;
+                }
+                double rating = (double) dataSnapshot.getValue();
+                if(ratingBar.getRating() != rating) {
+                    ratingBar.setRating((float) rating);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     /**
@@ -143,5 +218,26 @@ public class ConferenceActivity extends ActionBarActivity {
             }
         });
     }
+
+    private String getDeviceId() {
+
+
+        final String  androidId;
+
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
+
+        return androidId;
+    }
+
+    private String getConferenceId() {
+        return mConference.getHeadline().replaceAll("[^a-zA-Z0-9]+",""); //'.', '#', '$', '[', or ']
+    }
+
+    private Firebase getFireBase() {
+        return ((BaseApplication) getApplication()).getFirebase();
+    }
+
+
 
 }

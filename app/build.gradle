@@ -16,6 +16,12 @@ android {
             minifyEnabled false
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
 }
 repositories {
     mavenCentral()
@@ -51,4 +57,6 @@ dependencies {
 
     // GreenRobot EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.firebase:firebase-client-android:2.5.2'
 }

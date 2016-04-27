@@ -63,5 +63,7 @@
     <string name="action_favorites_filter">Favorites</string>
     <string name="action_news_twitter">Twitter News</string>
     <string name="action_news_facebook">Facebook News</string>
+    <string name="rating_title">Rate the talk:</string>
+    <string name="rating_result_empty">Not yet rated</string>
 
 </resources>
