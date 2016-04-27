@@ -1,6 +1,7 @@
 package hr.droidcon.conference.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
         super(ctx);
         simpleDateFormat = new SimpleDateFormat("E, HH:mm");
         simpleDateFormat2 = new SimpleDateFormat(" - HH:mm");
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     }
 
     @Override
@@ -57,11 +58,8 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
             e.printStackTrace();
         }
 
-        if (object.getHeadline().contentEquals("DAY 2")) {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorHeader));
-        } else {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorPrimary));
-        }
+        v.setBackgroundColor(Color.DKGRAY);
+
         holder.headline.setText(object.getHeadline());
 
         return v;

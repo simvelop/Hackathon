@@ -63,14 +63,17 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         conferenceSeparator.setLocation("");
         conferenceSeparator.setEndDate("");
         conferenceSeparator.setSpeakerImageUrl("");
-        conferenceSeparator.setStartDate("");
         conferenceSeparator.setText("");
         switch (day) {
             case THURSDAY: {
+                conferenceSeparator.setStartDate("2016-04-28 10:00");
+                conferenceSeparator.setEndDate("2016-04-28 20:00");
                 conferenceSeparator.setHeadline("Thursday");
                 break;
             }
             case FRIDAY: {
+                conferenceSeparator.setStartDate("2016-04-29 10:00");
+                conferenceSeparator.setEndDate("2016-04-29 20:00");
                 conferenceSeparator.setHeadline("Friday");
             }
             default:
