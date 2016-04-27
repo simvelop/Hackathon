@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.timeline.Speaker;
 
 /**

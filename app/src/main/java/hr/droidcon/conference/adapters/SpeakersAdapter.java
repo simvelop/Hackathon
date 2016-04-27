@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import hr.droidcon.conference.BaseApplication;
-import hr.droidcon.conference.R;
+import hr.droidcon.conference.hack.R;
 import hr.droidcon.conference.timeline.Speaker;
 
 public class SpeakersAdapter extends RecyclerView.Adapter<SpeakersAdapter.ViewHolder> {

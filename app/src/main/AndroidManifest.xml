@@ -56,7 +56,7 @@
         <activity
             android:name="hr.droidcon.conference.SpeakerInfoActivity"
             android:label="@string/title_activity_speaker_info"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
