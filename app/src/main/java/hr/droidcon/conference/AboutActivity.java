@@ -8,15 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.ui.LibsActivity;
+import hr.droidcon.conference.adapters.AboutAdapter;
+import hr.droidcon.conference.objects.AboutItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import hr.droidcon.conference.adapters.AboutAdapter;
-import hr.droidcon.conference.objects.AboutItem;
 
 /**
  * This activity gives access to:

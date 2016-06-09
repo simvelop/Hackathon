@@ -17,16 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.tale.prettysharedpreferences.BooleanEditor;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.MainTabAdapter;
 import hr.droidcon.conference.objects.Conference;
@@ -41,6 +36,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main activity of the application, list all conferences slots into a listView
@@ -49,19 +47,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private MainAdapter mAdapter;
-    private List<Conference> mConferences = new ArrayList<Conference>();
-    private Toolbar mToolbar;
-
-    private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
-
-    private List<Speaker> mSpeakers;
+    public static final String EXTRA_CONFERENCES = "conferences";
 
     @Bind(R.id.main_tab_layout)
     TabLayout mainTabLayout;
 
     @Bind(R.id.main_view_pager)
     ViewPager mainViewPager;
+
+    private MainAdapter mAdapter;
+
+    private ArrayList<Conference> mConferences = new ArrayList<>();
+
+    private Toolbar mToolbar;
+
+    private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
+
+    private List<Speaker> mSpeakers;
 
     private MainTabAdapter mainTabAdapter;
 
@@ -94,26 +96,24 @@ public class MainActivity extends AppCompatActivity {
 
         initTabs();
 
-//        ListView mListView = (ListView) findViewById(R.id.listView);
-//        mAdapter = new MainAdapter(this, 0x00, mConferences);
-//        mListView.setAdapter(mAdapter);
+        //        ListView mListView = (ListView) findViewById(R.id.listView);
+        //        mAdapter = new MainAdapter(this, 0x00, mConferences);
+        //        mListView.setAdapter(mAdapter);
 
         // TODO: LOADING SPINNER
         // reading API moved to onResume
-//        readCalendarAPI();
+        //        readCalendarAPI();
 
-//        mListView.setOnScrollListener(this);
-//        mListView.setOnItemClickListener(this);
+        //        mListView.setOnScrollListener(this);
+        //        mListView.setOnItemClickListener(this);
 
         trackOpening();
     }
 
     private void initTabs() {
         mainTabLayout.setTabTextColors(Color.parseColor("#64FFFFFF"), Color.WHITE);
-        mainTabLayout.addTab(mainTabLayout.newTab()
-                .setText("DAY 1"));
-        mainTabLayout.addTab(mainTabLayout.newTab()
-                .setText("DAY 2"));
+        mainTabLayout.addTab(mainTabLayout.newTab().setText("DAY 1"));
+        mainTabLayout.addTab(mainTabLayout.newTab().setText("DAY 2"));
         mainTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         mainViewPager.addOnPageChangeListener(
@@ -147,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         readCalendarAPI();
+
+        BooleanEditor<PreferenceManager> editor =
+                new PreferenceManager(getSharedPreferences("MyPref", Context.MODE_PRIVATE))
+                        .scheduleChanged();
+        if (editor.getOr(true)) {
+            editor.put(false).apply();
+            updateMainAdapterSessions();
+        }
     }
 
 
@@ -171,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 System.currentTimeMillis()) {
             fetchSpeakers();
             Log.d("REFRESH", "10 minutes has passed, app refreshed");
-
         }
 
         if (!getCachedContent()) {
@@ -205,9 +212,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<Speaker>> call, Throwable t) {
                 Log.e("TAG", t.getMessage());
                 getCachedContent();
-                Toast.makeText(MainActivity.this, "No internet connection :(",
-                        Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT)
+                     .show();
             }
         });
     }
@@ -238,8 +244,8 @@ public class MainActivity extends AppCompatActivity {
                     updateMainAdapterSessions();
                     cacheSessions();
                     prefs.edit()
-                            .putLong(Constants.PREFS_TIMEOUT_REFRESH, System.currentTimeMillis())
-                            .apply();
+                         .putLong(Constants.PREFS_TIMEOUT_REFRESH, System.currentTimeMillis())
+                         .apply();
                 } else {
                     getCachedContent();
                 }
@@ -249,7 +255,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<Session>> call, Throwable t) {
                 Log.e("TAG", t.getMessage());
                 getCachedContent();
-                Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT)
+                     .show();
             }
         });
     }
@@ -272,8 +279,8 @@ public class MainActivity extends AppCompatActivity {
         String json = gson.toJson(mConferences);
 
         prefs.edit()
-                .putString(Constants.PREFS_SESSIONS_CACHE, json)
-                .apply();
+             .putString(Constants.PREFS_SESSIONS_CACHE, json)
+             .apply();
     }
 
     private void addSession(Session session) {
@@ -293,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (Speaker speaker : mSpeakers) {
             if (speaker.getUid()
-                    .equals(speakerUID)) {
+                       .equals(speakerUID)) {
                 return speaker;
             }
         }
@@ -313,6 +320,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
+        if (id == R.id.action_my_schedule) {
+            Intent intent = new Intent(this, ScheduleActivity.class);
+            intent.putExtra(EXTRA_CONFERENCES, mConferences);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -324,10 +337,10 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager prefManager =
                 new PreferenceManager(getSharedPreferences("MyPref", Context.MODE_PRIVATE));
         long nb = prefManager.openingApp()
-                .getOr(0L);
+                             .getOr(0L);
         prefManager.openingApp()
-                .put(++nb)
-                .apply();
+                   .put(++nb)
+                   .apply();
 
         if (nb == 10) {
             // SendNotification.feedbackForm(this);
@@ -341,9 +354,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (prefs.contains(Constants.PREFS_SESSIONS_CACHE)) {
 
-
             if (!mConferences.isEmpty()) {
-                return false;
+                return true;
             }
 
             Gson gson = new Gson();

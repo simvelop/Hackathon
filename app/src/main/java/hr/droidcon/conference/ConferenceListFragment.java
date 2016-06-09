@@ -16,14 +16,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
+
+import java.util.List;
 
 
 /**

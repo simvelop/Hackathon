@@ -7,17 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import hr.droidcon.conference.BaseApplication;
 import hr.droidcon.conference.R;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.WordColor;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Render a Conference object every time {@link this#getView(
@@ -29,6 +27,7 @@ import hr.droidcon.conference.utils.WordColor;
 public class ViewConferenceInflater extends ItemInflater<Conference> {
 
     private SimpleDateFormat simpleDateFormat;
+
     private SimpleDateFormat dateFormat;
 
     public ViewConferenceInflater(Context ctx) {
@@ -38,9 +37,10 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
     }
 
     @Override
-    public View getView(final Conference object, int position, View convertView, final ViewGroup parent) {
+    public View getView(final Conference object, int position, final View convertView,
+            final ViewGroup parent) {
         View v = convertView;
-        ViewHolder holder;
+        final ViewHolder holder;
         if (v == null) {
             v = LayoutInflater.from(mContext).inflate(R.layout.adapter_conference, parent, false);
 
@@ -51,6 +51,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
             holder.speaker = (TextView) v.findViewById(R.id.speaker);
             holder.image = (ImageView) v.findViewById(R.id.image);
             holder.favorite = (ImageView) v.findViewById(R.id.favorite);
+            holder.scheduled = (ImageView) v.findViewById(R.id.scheduled);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -70,12 +71,36 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
 
         // picasso
         Picasso.with(mContext.getApplicationContext())
-                .load(object.getSpeakerImageUrl())
-                .transform(((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
-                .into(holder.image);
+               .load(object.getSpeakerImageUrl())
+               .transform(
+                       ((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
+               .into(holder.image);
         holder.favorite.setImageResource(object.isFavorite(mContext)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+        holder.scheduled.setImageResource(object.isInSchedule(mContext)
+                ? R.drawable.ic_watch_later_black_24dp
+                : R.drawable.ic_schedule_black_24dp);
+
+        holder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                object.toggleFavorite(mContext);
+                holder.favorite.setImageResource(object.isFavorite(mContext)
+                        ? R.drawable.ic_favorite_grey600_18dp
+                        : R.drawable.ic_favorite_outline_grey600_18dp);
+            }
+        });
+
+        holder.scheduled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                object.toggleInSchedule(mContext);
+                holder.scheduled.setImageResource(object.isInSchedule(mContext)
+                        ? R.drawable.ic_watch_later_black_24dp
+                        : R.drawable.ic_schedule_black_24dp);
+            }
+        });
 
         return v;
     }
@@ -87,5 +112,6 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         TextView speaker;
         ImageView image;
         ImageView favorite;
+        ImageView scheduled;
     }
 }

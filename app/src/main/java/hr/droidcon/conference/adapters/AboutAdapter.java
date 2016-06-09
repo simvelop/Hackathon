@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
-
+import hr.droidcon.conference.AboutActivity;
 import hr.droidcon.conference.R;
 import hr.droidcon.conference.objects.AboutItem;
 
+import java.util.List;
+
 /**
- * Adapter for the {@link hr.droidcon.conference.AboutActivity}
+ * Adapter for the {@link AboutActivity}
  * @author Arnaud Camus
  */
 public class AboutAdapter extends ArrayAdapter<AboutItem> {
