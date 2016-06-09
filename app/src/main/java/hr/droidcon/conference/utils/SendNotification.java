@@ -38,5 +38,4 @@ public class SendNotification {
                                         context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
-
 }

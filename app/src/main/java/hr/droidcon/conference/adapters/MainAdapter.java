@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import hr.droidcon.conference.MainActivity;
+import hr.droidcon.conference.objects.Conference;
 
 import java.util.List;
 
-import hr.droidcon.conference.objects.Conference;
-
 /**
- * Adapter for the {@link hr.droidcon.conference.MainActivity},
+ * Adapter for the {@link MainActivity},
  * display either a Conference slot or a break.
  * @author Arnaud Camus
  */

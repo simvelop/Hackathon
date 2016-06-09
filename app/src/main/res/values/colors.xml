@@ -9,4 +9,5 @@
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
     <color name="accentLight">#22b3fd</color>
+    <color name="tabBackgroundColor">#6fa72e</color>
 </resources>
