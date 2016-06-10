@@ -23,8 +23,8 @@ public class MainAdapter extends ArrayAdapter<Conference> {
     private ViewHeaderInflater viewHeaderInflater;
     private ViewConferenceInflater viewConferenceInflater;
 
-    public MainAdapter(Context context, int resource, List<Conference> objects) {
-        super(context, resource, objects);
+    public MainAdapter(Context context, List<Conference> objects) {
+        super(context, 0x00, objects);
         viewHeaderInflater = new ViewHeaderInflater(context);
         viewConferenceInflater = new ViewConferenceInflater(context);
     }

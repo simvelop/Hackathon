@@ -70,39 +70,6 @@ public class Conference implements Serializable {
         return !actual;
     }
 
-    /**
-     * Save the new schedule state of the conference.
-     * @param ctx a valid context
-     * @return true if the conference is scheduled
-     */
-    public boolean toggleInSchedule(Context ctx) {
-
-        PreferenceManager prefManager = new PreferenceManager(
-                ctx.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-        );
-        String title = prefManager.schedule(getStartDate()).getOr(null);
-
-        if (title == null) {
-            prefManager.schedule(getStartDate()).put(headline).apply();
-            Toast.makeText(ctx, ctx.getString(R.string.add_to_schedule), Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        if (headline.equals(title)) {
-            prefManager.schedule(getStartDate()).put(null).apply();
-            Toast.makeText(ctx, ctx.getString(R.string.remove_from_schedule), Toast.LENGTH_SHORT)
-                 .show();
-        } else {
-            Toast.makeText(ctx, ctx.getString(R.string.replace_scheduled_talk), Toast.LENGTH_SHORT)
-                 .show();
-        }
-
-        new PreferenceManager(ctx.getSharedPreferences("MyPref", Context.MODE_PRIVATE))
-                .scheduleChanged().put(true).apply();
-
-        return false;
-    }
-
     //////////////////////////////////////
     //          GETTERS / SETTERS       //
     //////////////////////////////////////
@@ -113,15 +80,6 @@ public class Conference implements Serializable {
                 new PreferenceManager(ctx.getSharedPreferences("MyPref", Context.MODE_PRIVATE));
         return prefManager.favorite(getHeadline())
                 .getOr(false);
-    }
-
-    public boolean isInSchedule(Context ctx) {
-        PreferenceManager prefManager = new PreferenceManager(
-                ctx.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-        );
-        return headline.equals(
-                prefManager.schedule(getStartDate()).getOr(null)
-        );
     }
 
     public String getStartDate() {

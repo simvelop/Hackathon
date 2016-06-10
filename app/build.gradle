@@ -16,6 +16,12 @@ android {
             minifyEnabled false
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
 }
 repositories {
     mavenCentral()
@@ -49,4 +55,9 @@ dependencies {
     // Recommended for location services
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+
+    // GreenRobot EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.firebase:firebase-client-android:2.5.2'
 }
