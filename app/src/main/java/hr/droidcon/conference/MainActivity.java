@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +50,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONFERENCES = "conferences";
+
+    private static final String EXTRA_CUSTOM_TABS_SESSION =
+            "android.support.customtabs.extra.SESSION";
+
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR =
+            "android.support.customtabs.extra.TOOLBAR_COLOR";
+
+    public static final String EXTRA_CUSTOM_TABS_EXIT_ANIMATION_BUNDLE =
+            "android.support.customtabs.extra.EXIT_ANIMATION_BUNDLE";
 
     @Bind(R.id.main_tab_layout)
     TabLayout mainTabLayout;
@@ -116,8 +127,12 @@ public class MainActivity extends AppCompatActivity {
         mainTabLayout.addTab(mainTabLayout.newTab().setText("DAY 2"));
         mainTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
+
         mainViewPager.addOnPageChangeListener(
-                new TabLayout.TabLayoutOnPageChangeListener(mainTabLayout));
+                new TabLayout.TabLayoutOnPageChangeListener(mainTabLayout)
+        );
+
         mainTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -141,16 +156,13 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if (mAdapter != null) {
-            //we refresh the views in case a conference has been (un)favorite
-            mAdapter.notifyDataSetChanged();
-        }
-
         readCalendarAPI();
 
         BooleanEditor<PreferenceManager> editor =
                 new PreferenceManager(getSharedPreferences("MyPref", Context.MODE_PRIVATE))
-                        .scheduleChanged();
+                        .favoritesChanged();
+
+        // Update main adapter if favorite's have been changed through conference activity.
         if (editor.getOr(true)) {
             editor.put(false).apply();
             updateMainAdapterSessions();
@@ -174,14 +186,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs =
                 android.preference.PreferenceManager.getDefaultSharedPreferences(this);
 
-
         if (prefs.getLong(Constants.PREFS_TIMEOUT_REFRESH, 0) + mTimeout <
-                System.currentTimeMillis()) {
-            fetchSpeakers();
-            Log.d("REFRESH", "10 minutes has passed, app refreshed");
-        }
-
-        if (!getCachedContent()) {
+                System.currentTimeMillis() || !getCachedContent()) {
             fetchSpeakers();
         }
     }
@@ -253,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Session>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT)
                      .show();
@@ -268,6 +273,23 @@ public class MainActivity extends AppCompatActivity {
                 mConferences
         );
         mainViewPager.setAdapter(mainTabAdapter);
+
+        mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
+
+        mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                ((BaseApplication) getApplication()).setSelectedTab(position);
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {}
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 
     private void cacheSessions() {
@@ -319,15 +341,14 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_more) {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
-        }
-        if (id == R.id.action_my_schedule) {
-            Intent intent = new Intent(this, ScheduleActivity.class);
-            intent.putExtra(EXTRA_CONFERENCES, mConferences);
-            startActivity(intent);
-            return true;
+        } else if (id == R.id.action_news_twitter) {
+            openUrl("https://mobile.twitter.com/droidconzg");
+        } else if (id == R.id.action_news_fb) {
+            openUrl("https://facebook.com/droidconzg/");
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Track how many times the Activity is launched and send a push notification {@link
@@ -372,5 +393,23 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    private void openUrl(String url) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION,
+                    new ChromeBinder() /* Set to null for no session */);
+            intent.putExtras(extras);
+        }
+
+        intent.putExtra(
+                EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
+                ContextCompat.getColor(this, R.color.colorPrimary)
+        );
+        startActivity(intent);
     }
 }

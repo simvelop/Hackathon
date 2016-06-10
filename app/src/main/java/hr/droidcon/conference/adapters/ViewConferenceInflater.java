@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import hr.droidcon.conference.BaseApplication;
 import hr.droidcon.conference.R;
+import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.WordColor;
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
     }
 
     @Override
-    public View getView(final Conference object, int position, final View convertView,
+    public View getView(final Conference conference, int position, View convertView,
             final ViewGroup parent) {
         View v = convertView;
         final ViewHolder holder;
@@ -51,54 +53,48 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
             holder.speaker = (TextView) v.findViewById(R.id.speaker);
             holder.image = (ImageView) v.findViewById(R.id.image);
             holder.favorite = (ImageView) v.findViewById(R.id.favorite);
-            holder.scheduled = (ImageView) v.findViewById(R.id.scheduled);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
         }
 
         try {
-            Date startDate = dateFormat.parse(object.getStartDate());
+            Date startDate = dateFormat.parse(conference.getStartDate());
             holder.dateStart.setText(simpleDateFormat.format(startDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.location.setText(String.format(mContext.getString(R.string.location),
-                object.getLocation()));
-        holder.location.setTextColor(WordColor.generateColor(object.getLocation()));
-        holder.headline.setText(Html.fromHtml(object.getHeadline()));
-        holder.speaker.setText(Html.fromHtml(object.getSpeaker()));
+
+        holder.location.setText(mContext.getString(R.string.location, conference.getLocation()));
+        holder.location.setTextColor(WordColor.generateColor(conference.getLocation()));
+        holder.headline.setText(Html.fromHtml(conference.getHeadline()));
+        holder.speaker.setText(Html.fromHtml(conference.getSpeaker()));
 
         // picasso
         Picasso.with(mContext.getApplicationContext())
-               .load(object.getSpeakerImageUrl())
+               .load(conference.getSpeakerImageUrl())
                .transform(
-                       ((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation)
+                       ((BaseApplication) mContext.getApplicationContext()).mPicassoTransformation
+               )
                .into(holder.image);
-        holder.favorite.setImageResource(object.isFavorite(mContext)
+
+        holder.favorite.setImageResource(conference.isFavorite(mContext)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
-        holder.scheduled.setImageResource(object.isInSchedule(mContext)
-                ? R.drawable.ic_watch_later_black_24dp
-                : R.drawable.ic_schedule_black_24dp);
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                object.toggleFavorite(mContext);
-                holder.favorite.setImageResource(object.isFavorite(mContext)
+            public void onClick(View v) {
+
+                conference.toggleFavorite(mContext);
+                holder.favorite.setImageResource(conference.isFavorite(mContext)
                         ? R.drawable.ic_favorite_grey600_18dp
                         : R.drawable.ic_favorite_outline_grey600_18dp);
-            }
-        });
 
-        holder.scheduled.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                object.toggleInSchedule(mContext);
-                holder.scheduled.setImageResource(object.isInSchedule(mContext)
-                        ? R.drawable.ic_watch_later_black_24dp
-                        : R.drawable.ic_schedule_black_24dp);
+                boolean filterSetting = ((BaseApplication) mContext.getApplicationContext())
+                        .isFilterFavorites();
+                EventBus.getDefault().post(new FilterUpdateEvent(filterSetting));
             }
         });
 
@@ -112,6 +108,5 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         TextView speaker;
         ImageView image;
         ImageView favorite;
-        ImageView scheduled;
     }
 }

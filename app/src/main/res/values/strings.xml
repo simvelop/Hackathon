@@ -60,12 +60,11 @@
     <string name="library_PrettySharedPreferences_licenseId">apache_2_0</string>
     <string name="library_PrettySharedPreferences_isOpenSource">true</string>
     <string name="library_PrettySharedPreferences_repositoryLink">https://github.com/talenguyen/PrettySharedPreferences</string>
-
-    <string name="schedule">Schedule</string>
-    <string name="add_to_schedule">Added to your schedule.</string>
-    <string name="remove_from_schedule">Removed from your schedule.</string>
-    <string name="replace_scheduled_talk">There is another talk scheduled at that time. Remove that talk to free your schedule.</string>
-    <string name="title_activity_schedule">My Schedule</string>
+    <string name="action_favorites_filter">Favorites</string>
+    <string name="action_news_twitter">Twitter News</string>
+    <string name="action_news_facebook">Facebook News</string>
+    <string name="rating_title">Rate the talk:</string>
+    <string name="rating_result_empty">Not yet rated</string>
 
     <string name="add_to_favourites">Added to favorite talks.</string>
     <string name="remove_from_favorites">Removed from your favourite talks.</string>

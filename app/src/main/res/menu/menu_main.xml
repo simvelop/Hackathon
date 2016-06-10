@@ -2,14 +2,22 @@
       xmlns:tools="http://schemas.android.com/tools"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       tools:context="hr.droidcon.conference.MainActivity">
+
     <item
-            android:id="@+id/action_my_schedule"
-            android:title="@string/schedule"
-            android:icon="@drawable/ic_schedule_white_24dp"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/action_more"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/action_more" />
+
     <item
-            android:id="@+id/action_more"
-            android:title="@string/action_more"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
+        android:id="@+id/action_news_twitter"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/action_news_twitter" />
+
+    <item
+        android:id="@+id/action_news_fb"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/action_news_facebook" />
 </menu>

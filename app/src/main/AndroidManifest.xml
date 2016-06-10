@@ -54,15 +54,5 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity
-            android:name="hr.droidcon.conference.ScheduleActivity"
-            android:label="@string/title_activity_schedule"
-            android:parentActivityName="hr.droidcon.conference.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="hr.droidcon.conference.MainActivity"/>
-        </activity>
     </application>
-
 </manifest>
