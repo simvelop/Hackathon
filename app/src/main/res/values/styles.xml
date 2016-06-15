@@ -16,8 +16,7 @@
         <item name="colorAccent">@color/accentColor</item>
     </style>
 
-    <style name="MyToolBar"
-           parent="@style/Widget.AppCompat.Toolbar">
+    <style name="MyToolBar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>

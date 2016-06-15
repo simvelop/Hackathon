@@ -23,7 +23,6 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
         super(context, resource, objects);
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;

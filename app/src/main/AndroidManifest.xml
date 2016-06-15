@@ -33,6 +33,14 @@
             android:label="@string/action_about"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name="hr.droidcon.conference.SpeakersActivity"
+            android:label="@string/title_activity_speakers"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name="hr.droidcon.conference.SpeakerInfoActivity"
+            android:label="@string/title_activity_speaker_info"
+            android:theme="@style/AppTheme"/>
 
         <receiver
             android:name="hr.droidcon.conference.utils.UAReceiver"

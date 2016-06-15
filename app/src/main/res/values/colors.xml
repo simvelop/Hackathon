@@ -3,11 +3,25 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorHeader">#486627</color>
     <color name="colorPrimaryDark">#558B2F</color>
-    <color name="accentColor">#0091EA</color>
+    <color name="colorAccent">#0091ea</color>
+    <color name="accentColor">#0091ea</color>
     <color name="textColorPrimary">#FFF</color>
     <color name="textColorSecondary">#121212</color>
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
+    <!--OLD:<color name="accentLight">#22b3fd</color>-->
+    <color name="colorBreak">#7cb342</color>
     <color name="accentLight">#22b3fd</color>
     <color name="tabBackgroundColor">#6fa72e</color>
+
+    <!-- drawer_menu -->
+    <color name="menu_bg">#ffffff</color>
+    <color name="menu_icon">@color/colorPrimary</color>
+    <color name="menu_item">#2b2b2b</color>
+
+    <color name="border_coupon_frame">#b4b3b3</color>
+    <color name="border_coupon_divider">#d6d4d4</color>
+    <color name="border_coupon_frame_pressed">#a3a3a3</color>
+    <color name="border_coupon_bg">#ffffff</color>
+    <color name="border_coupon_bg_pressed">#d1cfcf</color>
 </resources>

@@ -4,17 +4,22 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -24,7 +29,6 @@ import butterknife.ButterKnife;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tale.prettysharedpreferences.BooleanEditor;
-import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.MainTabAdapter;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.timeline.Session;
@@ -47,18 +51,8 @@ import java.util.List;
  *
  * @author Arnaud Camus
  */
-public class MainActivity extends AppCompatActivity {
-
-    public static final String EXTRA_CONFERENCES = "conferences";
-
-    private static final String EXTRA_CUSTOM_TABS_SESSION =
-            "android.support.customtabs.extra.SESSION";
-
-    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR =
-            "android.support.customtabs.extra.TOOLBAR_COLOR";
-
-    public static final String EXTRA_CUSTOM_TABS_EXIT_ANIMATION_BUNDLE =
-            "android.support.customtabs.extra.EXIT_ANIMATION_BUNDLE";
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.main_tab_layout)
     TabLayout mainTabLayout;
@@ -66,17 +60,24 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.main_view_pager)
     ViewPager mainViewPager;
 
-    private MainAdapter mAdapter;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
-    private ArrayList<Conference> mConferences = new ArrayList<>();
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
-    private Toolbar mToolbar;
+    @Bind(R.id.nav_view)
+    NavigationView navView;
+
+    private List<Conference> mConferences = new ArrayList<>();
 
     private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
 
     private List<Speaker> mSpeakers;
 
     private MainTabAdapter mainTabAdapter;
+
+    private ActionBarDrawerToggle drawerToggle;
 
     /**
      * Enable to share views across activities with animation on Android 5.0 Lollipop
@@ -99,13 +100,13 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             mToolbar.setTitle(getString(R.string.app_name));
             setSupportActionBar(mToolbar);
         }
 
         initTabs();
+        initDrawer();
 
         //        ListView mListView = (ListView) findViewById(R.id.listView);
         //        mAdapter = new MainAdapter(this, 0x00, mConferences);
@@ -119,6 +120,95 @@ public class MainActivity extends AppCompatActivity {
         //        mListView.setOnItemClickListener(this);
 
         trackOpening();
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        drawerToggle.onConfigurationChanged(config);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        drawerLayout.closeDrawers();
+        switch (item.getItemId()) {
+            case R.id.drawer_speakers:
+                startActivity(new Intent(this, SpeakersActivity.class));
+                break;
+            case R.id.drawer_facebook:
+                Utils.openFb(this);
+                break;
+            case R.id.drawer_instagram:
+                Utils.openUrl(this, Utils.INSTAGRAM_URL);
+                break;
+            case R.id.drawer_twitter:
+                Utils.openUrl(this, Utils.TWITTER_URL);
+                break;
+            case R.id.drawer_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_more:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+            case R.id.action_news_twitter:
+                Utils.openUrl(this, Utils.TWITTER_URL);
+                break;
+            case R.id.action_news_fb:
+                Utils.openFb(this);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    private void initDrawer() {
+
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                mToolbar,
+                R.string.drawer_layout_open,
+                R.string.drawer_layout_close
+        );
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        navView.setNavigationItemSelectedListener(this);
     }
 
     private void initTabs() {
@@ -140,14 +230,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
     }
@@ -306,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addSession(Session session) {
-
         String imageURL = "";
         for (String speakerUID : session.getSpeakerUIDs()) {
             Speaker speaker = findSpeakerByUID(speakerUID);
@@ -327,26 +412,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return null;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_more) {
-            startActivity(new Intent(this, AboutActivity.class));
-            return true;
-        } else if (id == R.id.action_news_twitter) {
-            openUrl("https://mobile.twitter.com/droidconzg");
-        } else if (id == R.id.action_news_fb) {
-            openUrl("https://facebook.com/droidconzg/");
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -393,23 +458,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return false;
         }
-    }
-
-    private void openUrl(String url) {
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            Bundle extras = new Bundle();
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION,
-                    new ChromeBinder() /* Set to null for no session */);
-            intent.putExtras(extras);
-        }
-
-        intent.putExtra(
-                EXTRA_CUSTOM_TABS_TOOLBAR_COLOR,
-                ContextCompat.getColor(this, R.color.colorPrimary)
-        );
-        startActivity(intent);
     }
 }

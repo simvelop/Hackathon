@@ -3,7 +3,7 @@ package hr.droidcon.conference;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +25,7 @@ import java.util.List;
  *
  *  @author Arnaud Camus
  */
-public class AboutActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class AboutActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private List<AboutItem> mAboutItems = new ArrayList<AboutItem>();
 

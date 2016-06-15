@@ -11,9 +11,13 @@ import java.io.Serializable;
 
 /**
  * Conference object, created by the CSV file
+ *
  * @author Arnaud Camus
  */
 public class Conference implements Serializable {
+
+    public static final String DEFAULT_SPEAKER_IMG =
+            "http://droidcon.hr/sites/global.droidcon.cod.newthinking.net/files/2016_droidcon_banner_128x120_0.png";
 
     private String startDate;
     private String endDate;
@@ -22,6 +26,7 @@ public class Conference implements Serializable {
     private String speakerImageUrl;
     private String text;
     private String location;
+    private String speakerUID;
 
     public Conference(String[] fromCSV) {
         startDate = fromCSV[0];
@@ -43,6 +48,10 @@ public class Conference implements Serializable {
         speakerImageUrl = imageURL;
         text = session.getAbstractHTML();
         location = session.getRoom().get(0);
+
+        if (session.getSpeakerUIDs().size() > 0) {
+            speakerUID = session.getSpeakerUIDs().get(0);
+        }
     }
 
 
@@ -115,11 +124,9 @@ public class Conference implements Serializable {
     }
 
     public String getSpeakerImageUrl() {
-        if (speakerImageUrl.isEmpty()){
-            // TODO: fix this
-            return "http://lorempixel.com/200/200/";
-        }
-        return speakerImageUrl;
+        return speakerImageUrl.isEmpty()
+                ? DEFAULT_SPEAKER_IMG
+                : speakerImageUrl;
     }
 
     public void setSpeakerImageUrl(String speakerImageUrl) {
@@ -140,5 +147,17 @@ public class Conference implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getSpeakerUID() {
+        return speakerUID;
+    }
+
+    public void setSpeakerUID(String speakerUID) {
+        this.speakerUID = speakerUID;
+    }
+
+    public boolean isSpeakerNullOrEmpty() {
+        return speaker == null || speaker.isEmpty();
     }
 }

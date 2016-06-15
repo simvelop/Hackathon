@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -46,8 +47,6 @@ import java.util.regex.Pattern;
 public class ConferenceActivity extends AppCompatActivity {
 
     private static final Pattern CONFERENCE_ID_PAT = Pattern.compile("[^a-zA-Z0-9]+");
-
-    private static final String TAG = "ConferenceActivity";
 
     Conference mConference;
     SimpleDateFormat simpleDateFormat;
@@ -198,6 +197,8 @@ public class ConferenceActivity extends AppCompatActivity {
             @Override
             public void onCancelled(FirebaseError firebaseError) {}
         });
+
+        initSpeakerLayout();
     }
 
     /**
@@ -292,5 +293,19 @@ public class ConferenceActivity extends AppCompatActivity {
 
     private Firebase getFireBase() {
         return ((BaseApplication) getApplication()).getFirebase();
+    }
+
+    private void initSpeakerLayout() {
+        RelativeLayout speakerLayout = (RelativeLayout) findViewById(R.id.speakerLayout);
+        speakerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mConference.getSpeakerUID() != null) {
+                    Intent intent = new Intent(ConferenceActivity.this, SpeakerInfoActivity.class);
+                    intent.putExtra(SpeakerInfoActivity.SPEAKER_UID, mConference.getSpeakerUID());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
