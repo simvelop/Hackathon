@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_speakers"
+            android:icon="@drawable/ic_menu_speakers"
+            android:title="@string/drawer_speakers"/>
+
+        <item
+            android:id="@+id/drawer_facebook"
+            android:icon="@drawable/ic_floating_fb"
+            android:title="@string/drawer_facebook"/>
+
+        <item
+            android:id="@+id/drawer_instagram"
+            android:icon="@drawable/ic_menu_instagram"
+            android:title="@string/drawer_instagram"/>
+
+        <item
+            android:id="@+id/drawer_twitter"
+            android:icon="@drawable/ic_menu_twitter"
+            android:title="@string/drawer_twitter"/>
+
+        <item
+            android:id="@+id/drawer_about"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/drawer_about"/>
+    </group>
+</menu>

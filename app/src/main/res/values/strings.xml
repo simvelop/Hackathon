@@ -68,4 +68,20 @@
 
     <string name="add_to_favourites">Added to favorite talks.</string>
     <string name="remove_from_favorites">Removed from your favourite talks.</string>
+
+    <!-- drawer_menu.xml -->
+    <string name="drawer_layout_open">Open drawer layout</string>
+    <string name="drawer_layout_close">Close drawer layout</string>
+    <string name="menu_speakers">Speakers</string>
+    <string name="title_activity_speakers">Speakers</string>
+    <string name="title_activity_speaker_info">Speaker</string>
+    <string name="speaker_name">%1$s %2$s</string>
+    <string name="speaker_company">%1$s at %2$s</string>
+    <string name="drawer_header_title">droidcon Zagreb 2016</string>
+    <string name="drawer_speakers">Speakers</string>
+    <string name="drawer_facebook">Facebook</string>
+    <string name="drawer_instagram">Instagram</string>
+    <string name="drawer_twitter">Twitter</string>
+    <string name="drawer_about">About</string>
+
 </resources>

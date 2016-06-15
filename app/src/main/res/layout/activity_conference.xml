@@ -105,43 +105,47 @@
                 android:layout_marginLeft="72dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/speaker_title"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/speaker_title"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:transitionName="@string/image" />
-
-            <TextView
-                android:id="@+id/speaker"
+            <RelativeLayout
+                android:id="@+id/speakerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/speaker_title"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="72dp"
-                android:layout_marginStart="72dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:textSize="14sp"
-                android:transitionName="@string/speaker" />
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_below="@+id/speaker_title">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:transitionName="@string/image"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/image"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginBottom="8dp"
+                    android:transitionName="@string/speaker"
+                    android:id="@+id/speaker"/>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/rating_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/speaker"
+                android:layout_below="@+id/speakerLayout"
                 android:layout_marginLeft="72dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/rating_title"
                 android:textSize="20sp" />
-
 
             <RatingBar
                 android:id="@+id/rating_bar"
@@ -152,7 +156,6 @@
                 android:layout_marginTop="8dp"
                 android:isIndicator="false"
                 android:stepSize="1" />
-
 
             <TextView
                 android:id="@+id/rating_result_bar"

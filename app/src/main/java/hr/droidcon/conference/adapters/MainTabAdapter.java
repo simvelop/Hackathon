@@ -3,6 +3,8 @@ package hr.droidcon.conference.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import hr.droidcon.conference.ConferenceListFragment;
+import hr.droidcon.conference.objects.Conference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,9 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import hr.droidcon.conference.ConferenceListFragment;
-import hr.droidcon.conference.objects.Conference;
 
 /**
  * Created by Hrvoje Kozak on 31/03/16.
@@ -29,7 +28,6 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
-
 
     public MainTabAdapter(FragmentManager fm, int numberOfTabs, List<Conference> conferences) {
         super(fm);

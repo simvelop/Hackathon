@@ -24,6 +24,7 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
     private SimpleDateFormat simpleDateFormat;
     private SimpleDateFormat simpleDateFormat2;
     private SimpleDateFormat dateFormat;
+
     public ViewHeaderInflater(Context ctx) {
         super(ctx);
         simpleDateFormat = new SimpleDateFormat("E, HH:mm");
@@ -56,9 +57,9 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
         }
 
         if (object.getHeadline().contentEquals("DAY 2")) {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorHeader));
+            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorBreak));
         } else {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorPrimary));
+            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorBreak));
         }
         holder.headline.setText(object.getHeadline());
 
