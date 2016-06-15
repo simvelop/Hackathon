@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_news_fb:
                 Utils.openFb(this);
                 break;
+            case R.id.action_kill_time:
+                startActivity(new Intent(this, TimeKillGame.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -84,4 +84,5 @@
     <string name="drawer_twitter">Twitter</string>
     <string name="drawer_about">About</string>
 
+    <string name="action_kill_time">Kill some time</string>
 </resources>

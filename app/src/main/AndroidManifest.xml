@@ -41,6 +41,11 @@
             android:name="hr.droidcon.conference.SpeakerInfoActivity"
             android:label="@string/title_activity_speaker_info"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".TimeKillGame"
+            android:screenOrientation="portrait"
+            android:label="@string/action_kill_time">
+        </activity>
 
         <receiver
             android:name="hr.droidcon.conference.utils.UAReceiver"

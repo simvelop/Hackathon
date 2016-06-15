@@ -20,4 +20,10 @@
         android:orderInCategory="100"
         app:showAsAction="never"
         android:title="@string/action_news_facebook" />
+
+    <item
+        android:id="@+id/action_kill_time"
+        android:title="@string/action_kill_time"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
 </menu>
