@@ -2,54 +2,35 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp">
+    android:paddingBottom="16dp"
+    android:paddingRight="16dp">
 
     <ImageView
         android:id="@+id/speakerImage"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_launcher"
-        android:transitionName="@string/image" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_launcher"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/speakerName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_marginRight="12dp"
-        android:layout_toRightOf="@id/speakerImage"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="0dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="12dp"/>
 
-        <TextView
-            android:id="@+id/speakerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#363336"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/speakerJob"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="#363336"
-            android:textSize="15sp" />
-    </LinearLayout>
-
-    <View
+    <TextView
+        android:id="@+id/speakerJob"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="#b6b6b6" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@+id/speakerName"
+        android:textSize="14sp"/>
 
 </RelativeLayout>
