@@ -28,14 +28,12 @@ import java.util.Date;
  */
 public class ViewConferenceInflater extends ItemInflater<Conference> {
 
-    private SimpleDateFormat simpleDateFormat;
-
-    private SimpleDateFormat dateFormat;
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, HH:mm");
+    public static final SimpleDateFormat dateFormat =
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
 
     public ViewConferenceInflater(Context ctx) {
         super(ctx);
-        simpleDateFormat = new SimpleDateFormat("E, HH:mm");
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
     }
 
     @Override
@@ -50,6 +48,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
             holder.dateStart = (TextView) v.findViewById(R.id.dateStart);
             holder.location = (TextView) v.findViewById(R.id.location);
             holder.headline = (TextView) v.findViewById(R.id.headline);
+            holder.conflictText = (TextView) v.findViewById(R.id.conflictText);
             holder.speaker = (TextView) v.findViewById(R.id.speaker);
             holder.image = (ImageView) v.findViewById(R.id.image);
             holder.favorite = (ImageView) v.findViewById(R.id.favorite);
@@ -70,7 +69,6 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         holder.headline.setText(Html.fromHtml(conference.getHeadline()));
         holder.speaker.setText(Html.fromHtml(conference.getSpeaker()));
 
-        // picasso
         Picasso.with(mContext.getApplicationContext())
                .load(conference.getSpeakerImageUrl())
                .transform(
@@ -81,6 +79,12 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         holder.favorite.setImageResource(conference.isFavorite(mContext)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+
+        if (conference.isConflicting()) {
+            holder.conflictText.setVisibility(View.VISIBLE);
+        } else {
+            holder.conflictText.setVisibility(View.GONE);
+        }
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
 
@@ -105,6 +109,7 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         TextView dateStart;
         TextView location;
         TextView headline;
+        TextView conflictText;
         TextView speaker;
         ImageView image;
         ImageView favorite;

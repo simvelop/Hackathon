@@ -34,5 +34,4 @@ public class ImageManager {
         c.drawCircle(size / 2, size / 2, size / 2, paint);
         return circleBitmap;
     }
-
 }

@@ -1,20 +1,19 @@
 package hr.droidcon.conference;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -23,15 +22,14 @@ import android.widget.ListView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
-import hr.droidcon.conference.events.FilterUpdateEvent;
+import hr.droidcon.conference.adapters.ViewConferenceInflater;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.Utils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,11 +51,18 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     private int id;
 
+    private OnFragmentInteractionListener mListener;
     private List<Conference> conferences;
-
+    private List<Conference> filteredConferences;
+    private boolean attendingOnly;
     private MainAdapter mAdapter;
-
-    private MenuItem menuItemFavorites;
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            filterAndSetAdapter();
+        }
+    };
 
     public ConferenceListFragment() {
         // Required empty public constructor
@@ -70,14 +75,14 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
      * @return A new instance of fragment ConferenceListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ConferenceListFragment newInstance(int id, List<Conference> conferences) {
-        Log.d(TAG, "newInstance: called");
+    public static ConferenceListFragment newInstance(int id, List<Conference> conferences,
+            boolean attendingOnly) {
         ConferenceListFragment fragment = new ConferenceListFragment();
         Bundle args = new Bundle();
         args.putInt(PARAM_ID, id);
         //        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        fragment.setConferences(conferences);
+        fragment.setConferences(conferences, attendingOnly);
         return fragment;
     }
 
@@ -99,65 +104,58 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_conference_list, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new MainAdapter(this.getActivity(), new ArrayList<Conference>());
+        filterAndSetAdapter();
+        conferencesListView.setOnScrollListener(this);
+        conferencesListView.setOnItemClickListener(this);
+
+        if (attendingOnly) {
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+                    mMessageReceiver,
+                    new IntentFilter("attending-data-set-changed")
+            );
+        }
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        updateConferenceList();
 
-        conferencesListView.setOnScrollListener(this);
-        conferencesListView.setOnItemClickListener(this);
-        conferencesListView.setAdapter(mAdapter);
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity())
+                             .unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_conference_list, menu);
-
-        menuItemFavorites = menu.findItem(R.id.action_favorites_filter);
-        updateMenuItem();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_favorites_filter:
-                Log.d(TAG, "onOptionsItemSelected: filter conferences with id: " + id);
-                //toggle favorites
-                ((BaseApplication) getActivity().getApplication()).toggleFilterFavorite();
-                return true;
-
-            default:
-                break;
+    private void filterAndSetAdapter() {
+        if (attendingOnly) {
+            filteredConferences.clear();
+            Conference previousConf = null;
+            Date previousConfEndDate = new Date(0);
+            for (Conference conf : conferences) {
+                if (conf.isFavorite(getActivity())) {
+                    filteredConferences.add(conf);
+                    try {
+                        Date startDate = ViewConferenceInflater.dateFormat
+                                .parse(conf.getStartDate());
+                        if (previousConfEndDate.after(startDate)) {
+                            conf.setConflicting(true);
+                            if (previousConf != null) {
+                                previousConf.setConflicting(true);
+                            }
+                        }
+                        previousConf = conf;
+                        previousConfEndDate = ViewConferenceInflater.dateFormat
+                                .parse(conf.getEndDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Subscribe
-    public void onMessageEvent(FilterUpdateEvent event) {
-        updateConferenceList();
-        updateMenuItem();
+        if (getContext() != null) {
+            mAdapter = new MainAdapter(getContext(), filteredConferences);
+            conferencesListView.setAdapter(mAdapter);
+        }
     }
 
     /**
@@ -179,7 +177,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (((Conference) parent.getAdapter().getItem(position)).getSpeaker().length() == 0) {
+        if (filteredConferences.get(position).getSpeaker().length()==0) {
             // if the speaker field is empty, it's probably a coffee break or lunch
             return;
         }
@@ -196,11 +194,10 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                 image, speaker).toBundle();
         Intent intent = new Intent(getActivity(), ConferenceActivity.class);
-        intent.putExtra("conference", (Conference) parent.getAdapter().getItem(position));
+        intent.putExtra("conference", filteredConferences.get(position));
 
         // store selected position for restoring it later when coming back
         ((BaseApplication) getActivity().getApplication()).setSelectedListItem(position);
-
         ActivityCompat.startActivity(getActivity(), intent, bundle);
     }
 
@@ -237,40 +234,35 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
         this.conferences = conferences;
     }
 
-    private void updateMenuItem() {
-        if (((BaseApplication) getActivity().getApplication()).isFilterFavorites()) {
-            menuItemFavorites
-                    .setIcon(getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+    public List<Conference> getConferences() {
+        return filteredConferences;
+    }
+
+    public void setConferences(List<Conference> conferences, boolean attendingOnly) {
+        this.conferences = conferences;
+        if (attendingOnly) {
+            filteredConferences = new ArrayList<>();
         } else {
-            menuItemFavorites
-                    .setIcon(getResources().getDrawable(R.drawable.ic_favorite_outline_white_24dp));
+            filteredConferences = conferences;
+        }
+        this.attendingOnly = attendingOnly;
+    }
+
+    public void updateConferences(List<Conference> conferences, boolean attendingOnly) {
+        setConferences(conferences, attendingOnly);
+        filterAndSetAdapter();
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
         }
     }
 
-    private void updateConferenceList() {
-
-        if (getActivity() == null) {
-            return;
-        }
-
-        final boolean filter = ((BaseApplication) getActivity().getApplication())
-                .isFilterFavorites();
-
-        List<Conference> filteredConferences;
-
-        if (filter) {
-            filteredConferences = new ArrayList<>();
-            for (Conference conference : conferences) {
-                if (conference.isFavorite(getActivity()) || conference.getSpeaker().length() == 0) {
-                    filteredConferences.add(conference);
-                }
-            }
-        } else {
-            filteredConferences = new ArrayList<>(conferences);
-        }
-
-        mAdapter.clear();
-        mAdapter.addAll(filteredConferences);
-        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

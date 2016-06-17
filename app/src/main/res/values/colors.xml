@@ -2,16 +2,19 @@
 <resources>
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorHeader">#486627</color>
-    <color name="colorPrimaryDark">#558B2F</color>
-    <color name="colorAccent">#0091ea</color>
-    <color name="accentColor">#0091ea</color>
+    <color name="colorPrimaryDark">#689f38</color>
+    <color name="colorAccent">#FF9800</color>
     <color name="textColorPrimary">#FFF</color>
-    <color name="textColorSecondary">#121212</color>
+    <color name="textColorSecondary">#212121</color>
     <color name="textColorDetail">#424242</color>
+    <color name="colorPrimaryLight">#DCEDC8</color>
     <color name="windowBackground">#efebe9</color>
-    <!--OLD:<color name="accentLight">#22b3fd</color>-->
-    <color name="colorBreak">#7cb342</color>
-    <color name="accentLight">#22b3fd</color>
+
+    <color name="icons">#212121</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="colorBreak">@color/colorPrimaryLight</color>
+    <color name="colorBreakText">#5B5B5B</color>
     <color name="tabBackgroundColor">#6fa72e</color>
 
     <!-- drawer_menu -->
@@ -24,4 +27,10 @@
     <color name="border_coupon_frame_pressed">#a3a3a3</color>
     <color name="border_coupon_bg">#ffffff</color>
     <color name="border_coupon_bg_pressed">#d1cfcf</color>
+
+    <!-- Explore tab colors -->
+    <color name="exploreDevColor">#FFA700</color>
+    <color name="exploreUxColor">#8B51D5</color>
+    <color name="exploreBizColor">#6482EF</color>
+    <color name="exploreOtherColor">#FF6A47</color>
 </resources>

@@ -7,10 +7,9 @@ import android.util.Log;
 import com.urbanairship.actions.ActionValue;
 import com.urbanairship.push.BaseIntentReceiver;
 import com.urbanairship.push.PushMessage;
+import hr.droidcon.conference.Constants;
 
 import java.util.Iterator;
-
-import hr.droidcon.conference.Constants;
 
 /**
  * Created by Ivan Carapovic on 01/04/16.

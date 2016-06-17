@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import hr.droidcon.conference.ConferenceListFragment;
+import hr.droidcon.conference.ExploreFragment;
 import hr.droidcon.conference.objects.Conference;
 
 import java.text.ParseException;
@@ -20,23 +21,74 @@ import java.util.List;
  */
 public class MainTabAdapter extends FragmentStatePagerAdapter {
 
+    private enum Day {
+        THURSDAY,
+        FRIDAY
+    }
+
     private int numberOfTabs;
     private List<Conference> conferences = new ArrayList<>();
 
-    private ConferenceListFragment dayOneFragment;
-    private ConferenceListFragment dayTwoFragment;
+    private Fragment exploreFragment;
+    private ConferenceListFragment attendingFragment;
+    private ConferenceListFragment scheduleFragment;
 
     List<Conference> dayOneConferences = new ArrayList<>();
     List<Conference> dayTwoConferences = new ArrayList<>();
+    List<Conference> oneListToRuleThemAll = new ArrayList<>();
 
     public MainTabAdapter(FragmentManager fm, int numberOfTabs, List<Conference> conferences) {
         super(fm);
         this.numberOfTabs = numberOfTabs;
+        updateConferences(conferences);
 
+        exploreFragment = ExploreFragment.newInstance();
+
+        attendingFragment = ConferenceListFragment.newInstance(1, conferences, true);
+
+        scheduleFragment = ConferenceListFragment.newInstance(2, oneListToRuleThemAll, false);
+    }
+
+    public void updateConferences(List<Conference> conferences) {
+        oneListToRuleThemAll.clear();
+        dayOneConferences.clear();
+        dayTwoConferences.clear();
         setConferences(conferences);
+        oneListToRuleThemAll.add(createSeparator(Day.THURSDAY));
+        oneListToRuleThemAll.addAll(dayOneConferences);
+        oneListToRuleThemAll.add(createSeparator(Day.FRIDAY));
+        oneListToRuleThemAll.addAll(dayTwoConferences);
+        if (attendingFragment != null) {
+            attendingFragment.updateConferences(conferences, true);
+        }
+        if (scheduleFragment != null) {
+            scheduleFragment.updateConferences(oneListToRuleThemAll, false);
+        }
+    }
 
-        dayOneFragment = ConferenceListFragment.newInstance(0, dayOneConferences);
-        dayTwoFragment = ConferenceListFragment.newInstance(1, dayTwoConferences);
+    private Conference createSeparator(Day day) {
+
+        Conference conferenceSeparator = new Conference();
+        conferenceSeparator.setSpeaker("");
+        conferenceSeparator.setLocation("");
+        conferenceSeparator.setSpeakerImageUrl("");
+        conferenceSeparator.setText("");
+
+        switch (day) {
+            case THURSDAY: {
+                conferenceSeparator.setStartDate("2016-04-28T10:00:00+0000");
+                conferenceSeparator.setEndDate("2016-04-28T20:00:00+0000");
+                conferenceSeparator.setHeadline("Day One - Thursday");
+                break;
+            }
+            case FRIDAY: {
+                conferenceSeparator.setStartDate("2016-04-29T10:00:00+0000");
+                conferenceSeparator.setEndDate("2016-04-29T20:00:00+0000");
+                conferenceSeparator.setHeadline("Day Two - Friday");
+            }
+        }
+
+        return conferenceSeparator;
     }
 
     private List<Conference> splitConferencesByDays(List<Conference> conferences) {
@@ -44,9 +96,10 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
         final Calendar cal = Calendar.getInstance();
 
-        Comparator timeComparator = new Comparator<Conference>(){
+        Comparator<Conference> timeComparator = new Comparator<Conference>(){
             @Override
             public int compare(Conference c1, Conference c2) {
+
                 Date date1 = null;
                 Date date2 = null;
 
@@ -67,7 +120,6 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
                 } else {
                     return (int) (date1.getTime() - date2.getTime());
                 }
-
             }
         };
 
@@ -75,14 +127,18 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         for (Conference conference : conferences) {
             try {
+
                 Date conferenceDate = dateFormat.parse(conference.getStartDate());
                 cal.setTime(conferenceDate);
+
                 if (cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == 3
                         && cal.get(Calendar.DAY_OF_MONTH) == 28) {
+
                     dayOneConferences.add(conference);
-                }
-                else if (cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == 3
+
+                } else if (cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == 3
                         && cal.get(Calendar.DAY_OF_MONTH) == 29) {
+
                     dayTwoConferences.add(conference);
                 }
 
@@ -99,9 +155,11 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                return dayOneFragment;
+                return exploreFragment;
             case 1:
-                return dayTwoFragment;
+                return attendingFragment;
+            case 2:
+                return scheduleFragment;
             default:
                 return null;
         }

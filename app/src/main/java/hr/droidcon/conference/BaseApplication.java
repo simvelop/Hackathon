@@ -5,9 +5,7 @@ import android.graphics.Bitmap;
 import com.firebase.client.Firebase;
 import com.squareup.picasso.Transformation;
 import com.urbanairship.UAirship;
-import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.utils.ImageManager;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Basic implementation of the Application class
@@ -70,11 +68,6 @@ public class BaseApplication extends Application {
 
     public void setFilterFavorites(boolean filterFavorites) {
         this.filterFavorites = filterFavorites;
-    }
-
-    public void toggleFilterFavorite() {
-        this.filterFavorites = !filterFavorites;
-        EventBus.getDefault().post(new FilterUpdateEvent(filterFavorites));
     }
 
     public void setSelectedTab(int selectedTab) {

@@ -1,6 +1,8 @@
 package hr.droidcon.conference.objects;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 import hr.droidcon.conference.R;
@@ -8,6 +10,7 @@ import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.utils.PreferenceManager;
 
 import java.io.Serializable;
+
 
 /**
  * Conference object, created by the CSV file
@@ -27,6 +30,8 @@ public class Conference implements Serializable {
     private String text;
     private String location;
     private String speakerUID;
+    private String category;
+    private boolean conflicting = false;
 
     public Conference(String[] fromCSV) {
         startDate = fromCSV[0];
@@ -52,8 +57,12 @@ public class Conference implements Serializable {
         if (session.getSpeakerUIDs().size() > 0) {
             speakerUID = session.getSpeakerUIDs().get(0);
         }
+
+        Object sessionCategory = session.getCategory();
+        category = sessionCategory instanceof String ? (String) sessionCategory : "";
     }
 
+    public Conference () {}
 
     /**
      * Save the new favorite state of the conference.
@@ -61,10 +70,13 @@ public class Conference implements Serializable {
      * @return true if the hr.droidcon.conference is favorite
      */
     public boolean toggleFavorite(Context ctx) {
+
         PreferenceManager prefManager =
                 new PreferenceManager(ctx.getSharedPreferences("MyPref", Context.MODE_PRIVATE));
+
         boolean actual = prefManager.favorite(getHeadline())
-                .getOr(false);
+                                    .getOr(false);
+
         prefManager.favorite(getHeadline())
                 .put(!actual)
                 .apply();
@@ -76,13 +88,27 @@ public class Conference implements Serializable {
                         : ctx.getString(R.string.add_to_favourites),
                 Toast.LENGTH_SHORT
         ).show();
+
+        setAttendingDataSetChangeBroadcast(ctx);
         return !actual;
+    }
+
+    private static void setAttendingDataSetChangeBroadcast(Context context) {
+        Intent intent = new Intent("attending-data-set-changed");
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     //////////////////////////////////////
     //          GETTERS / SETTERS       //
     //////////////////////////////////////
 
+    public boolean isConflicting() {
+        return conflicting;
+    }
+
+    public void setConflicting(boolean conflicting) {
+        this.conflicting = conflicting;
+    }
 
     public boolean isFavorite(Context ctx) {
         PreferenceManager prefManager =
@@ -159,5 +185,13 @@ public class Conference implements Serializable {
 
     public boolean isSpeakerNullOrEmpty() {
         return speaker == null || speaker.isEmpty();
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

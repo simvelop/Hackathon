@@ -4,20 +4,26 @@
       tools:context="hr.droidcon.conference.MainActivity">
 
     <item
-        android:id="@+id/action_more"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:title="@string/action_more" />
-
-    <item
         android:id="@+id/action_news_twitter"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="@string/action_news_twitter" />
+        android:title="@string/action_news_twitter"/>
 
     <item
         android:id="@+id/action_news_fb"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="@string/action_news_facebook" />
+        android:title="@string/action_news_facebook"/>
+
+    <item
+        android:id="@+id/action_more"
+        android:title="@string/action_more"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_kill_time"
+        android:title="@string/action_kill_time"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
 </menu>

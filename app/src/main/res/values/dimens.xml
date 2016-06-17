@@ -10,4 +10,8 @@
     <dimen name="activity_speaker_info_cardview_margin">5dp</dimen>
     <dimen name="activity_speaker_info_corner_radius">2dp</dimen>
     <dimen name="activity_speaker_info_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="exploreTextSize">22sp</dimen>
+    <dimen name="exploreTitleMarginBottom">22dp</dimen>
+    <dimen name="exploreImageMarginTop">1dp</dimen>
 </resources>

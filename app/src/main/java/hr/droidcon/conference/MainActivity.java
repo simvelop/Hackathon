@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +34,7 @@ import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.timeline.Speaker;
 import hr.droidcon.conference.timeline.TimelineAPI;
 import hr.droidcon.conference.utils.PreferenceManager;
+import hr.droidcon.conference.utils.SendNotification;
 import hr.droidcon.conference.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +54,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int TIMEOUT = 5 * 60 * 1000; //  5 mins timeout for refreshing data
+
     @Bind(R.id.main_tab_layout)
     TabLayout mainTabLayout;
 
@@ -69,9 +71,7 @@ public class MainActivity extends AppCompatActivity implements
     @Bind(R.id.nav_view)
     NavigationView navView;
 
-    private List<Conference> mConferences = new ArrayList<>();
-
-    private int mTimeout = 5 * 60 * 1000; //  5 mins timeout for refreshing data
+    List<Conference> mConferences = new ArrayList<>();
 
     private List<Speaker> mSpeakers;
 
@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_news_fb:
                 Utils.openFb(this);
                 break;
+            case R.id.action_kill_time:
+                startActivity(new Intent(this, TimeKillGame.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -212,9 +215,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void initTabs() {
+
         mainTabLayout.setTabTextColors(Color.parseColor("#64FFFFFF"), Color.WHITE);
-        mainTabLayout.addTab(mainTabLayout.newTab().setText("DAY 1"));
-        mainTabLayout.addTab(mainTabLayout.newTab().setText("DAY 2"));
+
+        mainTabLayout.addTab(mainTabLayout.newTab().setText("EXPLORE"));
+        mainTabLayout.addTab(mainTabLayout.newTab().setText("ATTENDING"));
+        mainTabLayout.addTab(mainTabLayout.newTab().setText("SCHEDULE"));
+
         mainTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
@@ -235,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
-
     }
 
     @Override
@@ -272,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences prefs =
                 android.preference.PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (prefs.getLong(Constants.PREFS_TIMEOUT_REFRESH, 0) + mTimeout <
+        if (prefs.getLong(Constants.PREFS_TIMEOUT_REFRESH, 0) + TIMEOUT <
                 System.currentTimeMillis() || !getCachedContent()) {
             fetchSpeakers();
         }
@@ -302,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<List<Speaker>> call, Throwable t) {
-                Log.e("TAG", t.getMessage());
                 getCachedContent();
                 Toast.makeText(MainActivity.this, "No internet connection :(", Toast.LENGTH_SHORT)
                      .show();
@@ -353,12 +358,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void updateMainAdapterSessions() {
-        mainTabAdapter = new MainTabAdapter(
-                getSupportFragmentManager(),
-                mainTabLayout.getTabCount(),
-                mConferences
-        );
-        mainViewPager.setAdapter(mainTabAdapter);
+
+        if (mainTabAdapter == null) {
+            mainTabAdapter = new MainTabAdapter(
+                    getSupportFragmentManager(),
+                    mainTabLayout.getTabCount(),
+                    mConferences
+            );
+            mainViewPager.setAdapter(mainTabAdapter);
+        } else {
+            mainTabAdapter.updateConferences(mConferences);
+        }
 
         mainViewPager.setCurrentItem(((BaseApplication) getApplication()).getSelectedTab());
 
@@ -378,6 +388,19 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+    private void addSession(Session session) {
+
+        String imageURL = "";
+        for (String speakerUID : session.getSpeakerUIDs()) {
+            Speaker speaker = findSpeakerByUID(speakerUID);
+            if (speaker != null) {
+                imageURL = speaker.getImage();
+            }
+        }
+
+        mConferences.add(new Conference(session, imageURL));
+    }
+
     private void cacheSessions() {
 
         SharedPreferences prefs =
@@ -389,18 +412,6 @@ public class MainActivity extends AppCompatActivity implements
         prefs.edit()
              .putString(Constants.PREFS_SESSIONS_CACHE, json)
              .apply();
-    }
-
-    private void addSession(Session session) {
-        String imageURL = "";
-        for (String speakerUID : session.getSpeakerUIDs()) {
-            Speaker speaker = findSpeakerByUID(speakerUID);
-            if (speaker != null) {
-                imageURL = speaker.getImage();
-            }
-        }
-
-        mConferences.add(new Conference(session, imageURL));
     }
 
     private Speaker findSpeakerByUID(String speakerUID) {
@@ -415,9 +426,19 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    private ArrayList<Conference> filterCategories(String filter) {
+        ArrayList<Conference> resultConferences = new ArrayList<>();
+        for (Conference conference:this.mConferences){
+            if (conference.getCategory().equalsIgnoreCase(filter)) {
+                resultConferences.add(conference);
+            }
+        }
+        return resultConferences;
+    }
+
     /**
      * Track how many times the Activity is launched and send a push notification {@link
-     * hr.droidcon.conference.utils.SendNotification} to ask the user for feedback on the event.
+     * SendNotification} to ask the user for feedback on the event.
      */
     private void trackOpening() {
         PreferenceManager prefManager =

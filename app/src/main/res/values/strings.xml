@@ -9,6 +9,7 @@
     <string name="title_activity_conference">ConferenceActivity</string>
     <string name="action_about">About</string>
     <string name="action_more">More</string>
+    <string name="action_kill_time">Kill some time</string>
     <string name="speaker_title">Speaker:</string>
     <string name="text_title">Description:</string>
     <string name="location">&#160;\@ %1$s</string>
@@ -84,4 +85,21 @@
     <string name="drawer_twitter">Twitter</string>
     <string name="drawer_about">About</string>
 
+    <string name="menu_item_business">Business</string>
+    <string name="menu_item_development">Development</string>
+    <string name="menu_item_ux_ui">UX / UI</string>
+    <string name="menu_item_other">Other</string>
+
+
+    <string name="day_of_the_week_thursday">Thursday</string>
+    <string name="day_of_the_week_friday">Friday</string>
+
+    <string name="exploreDevTitle">Development</string>
+    <string name="exploreDevDetails">Develop.......</string>
+    <string name="exploreUxTitle">UX/UI</string>
+    <string name="exploreUxDetails">Ux.......</string>
+    <string name="exploreBizTitle">Business</string>
+    <string name="exploreBizDetails">Biz.......</string>
+    <string name="exploreOtherTitle">Other</string>
+    <string name="exploreOtherDetails">Other.......</string>
 </resources>

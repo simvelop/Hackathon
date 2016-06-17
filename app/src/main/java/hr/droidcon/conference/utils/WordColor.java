@@ -45,5 +45,4 @@ public class WordColor {
         float[] hsv = new float[] { hue*360, saturation, lightness};
         return Color.HSVToColor(hsv);
     }
-
 }

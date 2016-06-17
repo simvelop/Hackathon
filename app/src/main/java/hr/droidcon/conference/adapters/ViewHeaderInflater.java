@@ -1,6 +1,7 @@
 package hr.droidcon.conference.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,11 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
     }
 
     @Override
-    public View getView(Conference object, int position, View convertView, ViewGroup parent) {
+    public View getView(Conference conference, int position, View convertView, ViewGroup parent) {
+
         View v = convertView;
         ViewHolder holder;
+
         if (v == null) {
             v = LayoutInflater.from(mContext).inflate(R.layout.adapter_header, parent, false);
 
@@ -48,20 +51,22 @@ public class ViewHeaderInflater extends ItemInflater<Conference> {
         }
 
         try {
-            Date startDate = dateFormat.parse(object.getStartDate());
-            Date endDate = dateFormat.parse(object.getEndDate());
+            Date startDate = dateFormat.parse(conference.getStartDate());
+            Date endDate = dateFormat.parse(conference.getEndDate());
             String time = simpleDateFormat.format(startDate) + simpleDateFormat2.format(endDate);
             holder.dateStart.setText(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if (object.getHeadline().contentEquals("DAY 2")) {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorBreak));
-        } else {
-            v.setBackgroundColor(parent.getContext().getResources().getColor(R.color.colorBreak));
-        }
-        holder.headline.setText(object.getHeadline());
+        Resources resources = parent.getContext().getResources();
+        v.setBackgroundColor(resources.getColor(R.color.colorBreak));
+
+        int textColor = resources.getColor(R.color.colorBreakText);
+        holder.headline.setTextColor(textColor);
+        holder.dateStart.setTextColor(textColor);
+
+        holder.headline.setText(conference.getHeadline());
 
         return v;
     }

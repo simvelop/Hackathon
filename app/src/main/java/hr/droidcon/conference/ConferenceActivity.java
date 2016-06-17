@@ -183,6 +183,7 @@ public class ConferenceActivity extends AppCompatActivity {
         Firebase ownRating = getFireBase().child("ratings")
                                           .child(getConferenceId())
                                           .child(getDeviceId());
+
         ownRating.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -212,7 +213,7 @@ public class ConferenceActivity extends AppCompatActivity {
                                 ? R.drawable.ic_favorite_white_24dp
                                 : R.drawable.ic_favorite_outline_white_24dp
                 ))
-                .withButtonColor(getResources().getColor(R.color.accentColor))
+                .withButtonColor(getResources().getColor(R.color.colorAccent))
                 .withGravity(Gravity.TOP | Gravity.LEFT)
                 .withMargins(14, 80, 0, 0)
                 .create();
