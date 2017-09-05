@@ -5,7 +5,7 @@ package hr.droidcon.conference;
  */
 public class Constants {
 
-    public static final String SIMVELOP_ENDPOINT = "http://simvelop.de/";
+    public static final String SIMVELOP_ENDPOINT = "http://droidcon.hr/rest/";
 
     public static final String PREFS_SESSIONS_CACHE = "prefs_sessions_cache";
 

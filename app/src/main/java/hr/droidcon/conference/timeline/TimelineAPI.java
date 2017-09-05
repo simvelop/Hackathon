@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface TimelineAPI {
 
-    @GET("droidconschedule.php")
+    @GET("sessions.json")
     Call<List<Session>> getSessions();
 
-    @GET("droidconspeakers.php")
+    @GET("speakers.json")
     Call<List<Speaker>> getSpeakers();
 }
