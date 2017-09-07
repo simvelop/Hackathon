@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.FilterListAdapter;
 import hr.droidcon.conference.objects.Conference;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class FilteredActivity extends AppCompatActivity {
 
-    @Bind(R.id.main_events_list)
+    @BindView(R.id.main_events_list)
     RecyclerView mainEventsListView;
 
     private RecyclerView.LayoutManager layoutManager;

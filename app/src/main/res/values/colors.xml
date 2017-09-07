@@ -33,4 +33,7 @@
     <color name="exploreUxColor">#8B51D5</color>
     <color name="exploreBizColor">#6482EF</color>
     <color name="exploreOtherColor">#FF6A47</color>
+
+    <!-- Kill some time colors -->
+    <color name="killSomeTimeMsgColor">#EEEEEE</color>
 </resources>

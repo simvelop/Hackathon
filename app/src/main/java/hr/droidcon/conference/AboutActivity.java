@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.ui.LibsActivity;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import hr.droidcon.conference.adapters.AboutAdapter;
 import hr.droidcon.conference.objects.AboutItem;
 
@@ -81,14 +81,14 @@ public class AboutActivity extends AppCompatActivity implements AdapterView.OnIt
                 startActivity(i);
                 break;
             case 1: // Display the Open Source projects used for this application
-                Intent i1 = new Intent(getApplicationContext(), LibsActivity.class);
-                i1.putExtra(Libs.BUNDLE_FIELDS, Libs.toStringArray(R.string.class.getFields()));
-                i1.putExtra(Libs.BUNDLE_LIBS, new String[]{"OpenCSV", "PrettySharedPreferences"});
-                i1.putExtra(Libs.BUNDLE_VERSION, true);
-                i1.putExtra(Libs.BUNDLE_LICENSE, true);
-                i1.putExtra(Libs.BUNDLE_TITLE, "Open Source");
-                i1.putExtra(Libs.BUNDLE_THEME, R.style.AppThemeBar);
-                startActivity(i1);
+                new LibsBuilder()
+                        .withFields(Libs.toStringArray(R.string.class.getFields()))
+                        .withLibraries("OpenCSV", "PrettySharedPreferences")
+                        .withVersionShown(true)
+                        .withLicenseShown(true)
+                        .withActivityTitle("Open Source")
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .start(getApplicationContext());
                 break;
             case 2: //Open my twitter ;)
                 Intent i2 = new Intent(Intent.ACTION_VIEW);

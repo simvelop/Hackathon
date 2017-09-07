@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import hr.droidcon.conference.adapters.MainAdapter;
 import hr.droidcon.conference.adapters.ViewConferenceInflater;
@@ -46,7 +46,7 @@ public class ConferenceListFragment extends Fragment implements AdapterView.OnIt
 
     private static final String TAG = "ConfListFrag";
 
-    @Bind(R.id.conference_fragment_list)
+    @BindView(R.id.conference_fragment_list)
     ListView conferencesListView;
 
     private int id;

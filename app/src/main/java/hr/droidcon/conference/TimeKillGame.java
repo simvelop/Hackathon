@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 import hr.droidcon.conference.timeline.Speaker;
@@ -47,10 +47,10 @@ public class TimeKillGame extends Activity {
     private List<Speaker> mSpeakers;
     private Bitmap[] bitmapsArray = new Bitmap[9];
 
-    @Bind(R.id.game_container) RelativeLayout gameContainer;
-    @Bind(R.id.start_frame) FrameLayout startFrame;
-    @Bind(R.id.start_message) TextView startMessage;
-    @Bind(R.id.restart) TextView restartButton;
+    @BindView(R.id.game_container) RelativeLayout gameContainer;
+    @BindView(R.id.start_frame) FrameLayout startFrame;
+    @BindView(R.id.start_message) TextView startMessage;
+    @BindView(R.id.restart) TextView restartButton;
 
     private Speaker speaker;
 

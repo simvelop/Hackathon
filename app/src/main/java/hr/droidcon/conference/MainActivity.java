@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,19 +56,19 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int TIMEOUT = 5 * 60 * 1000; //  5 mins timeout for refreshing data
 
-    @Bind(R.id.main_tab_layout)
+    @BindView(R.id.main_tab_layout)
     TabLayout mainTabLayout;
 
-    @Bind(R.id.main_view_pager)
+    @BindView(R.id.main_view_pager)
     ViewPager mainViewPager;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-    @Bind(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView navView;
 
     List<Conference> mConferences = new ArrayList<>();

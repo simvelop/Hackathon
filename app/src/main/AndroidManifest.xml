@@ -42,10 +42,6 @@
             android:label="@string/title_activity_speaker_info"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name="com.mikepenz.aboutlibraries.ui.LibsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_conference"/>
-        <activity
             android:name=".FilteredActivity"
             android:screenOrientation="portrait"
             />
@@ -54,18 +50,6 @@
             android:screenOrientation="portrait"
             android:label="@string/action_kill_time"/>
 
-        <receiver
-            android:name="hr.droidcon.conference.utils.UAReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.urbanairship.push.CHANNEL_UPDATED"/>
-                <action android:name="com.urbanairship.push.OPENED"/>
-                <action android:name="com.urbanairship.push.RECEIVED"/>
-                <action android:name="com.urbanairship.push.DISMISSED"/>
-
-                <category android:name="${applicationId}"/>
-            </intent-filter>
-        </receiver>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -73,6 +57,5 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
-
     </application>
 </manifest>

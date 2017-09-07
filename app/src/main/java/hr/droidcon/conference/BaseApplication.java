@@ -2,9 +2,7 @@ package hr.droidcon.conference;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import com.firebase.client.Firebase;
 import com.squareup.picasso.Transformation;
-import com.urbanairship.UAirship;
 import hr.droidcon.conference.utils.ImageManager;
 
 /**
@@ -24,26 +22,9 @@ public class BaseApplication extends Application {
     private int selectedTab = 0;
     private int selectedListItem = 0;
 
-    private Firebase firebase;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Firebase.setAndroidContext(this);
-        firebase = new Firebase("https://droidconzg.firebaseio.com/");
-
-        filterFavorites = false;
-
-        UAirship.takeOff(this, new UAirship.OnReadyCallback() {
-            @Override
-            public void onAirshipReady(UAirship airship) {
-
-                // Enable user notifications
-                airship.getPushManager().setUserNotificationsEnabled(true);
-            }
-        });
 
         mPicassoTransformation = new Transformation(){
             @Override
@@ -84,9 +65,5 @@ public class BaseApplication extends Application {
 
     public int getSelectedListItem() {
         return selectedListItem;
-    }
-
-    public Firebase getFirebase(){
-        return firebase;
     }
 }

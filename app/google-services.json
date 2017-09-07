@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "57224944200",
+    "firebase_url": "https://droidconzg-d0479.firebaseio.com",
+    "project_id": "droidconzg-d0479",
+    "storage_bucket": "droidconzg-d0479.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57224944200:android:df263c56337a7b61",
+        "android_client_info": {
+          "package_name": "hr.droidcon.conference"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57224944200-ra06a345f0hrgciao2kfef1rmutaqlab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqeuQP_l2TROyWdLNmFidU5COFu6jzJQM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,10 +18,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -105,15 +101,6 @@ public class ConferenceActivity extends AppCompatActivity {
                 WordColor.generateColor(mConference.getLocation())
         );
         final RatingBar ratingBar = ((RatingBar) findViewById(R.id.rating_bar));
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                getFireBase().child("ratings")
-                             .child(getConferenceId())
-                             .child(getDeviceId())
-                             .setValue((double) rating);
-            }
-        });
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
         try {
@@ -147,57 +134,6 @@ public class ConferenceActivity extends AppCompatActivity {
                 findViewById(R.id.rating_result_bar);
         final TextView resultParticipantsTextView = (TextView)
                 findViewById(R.id.rating_result_participants);
-
-        //get the overall rating
-        Firebase overallRating = getFireBase().child("ratings")
-                                              .child(getConferenceId());
-        overallRating.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                double ratingSum = 0;
-                for(DataSnapshot object: snapshot.getChildren()) {
-                    ratingSum = ratingSum +  (double) object.getValue();
-                }
-
-                double rating = ratingSum / (double) snapshot.getChildrenCount();
-                if (Double.isNaN(rating)) {
-                    resultRatingTextView.setText(getString(R.string.rating_result_empty));
-                    findViewById(R.id.rating_image).setVisibility(View.INVISIBLE);
-
-                    resultParticipantsTextView.setText("");
-                    findViewById(R.id.rating_participants_image).setVisibility(View.INVISIBLE);
-                } else {
-                    resultRatingTextView.setText("" + (float) rating);
-                    findViewById(R.id.rating_image).setVisibility(View.VISIBLE);
-
-                    resultParticipantsTextView.setText(snapshot.getChildrenCount()+"");
-                    findViewById(R.id.rating_participants_image).setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {}
-        });
-
-        //get my own rating (based on android Id)
-        Firebase ownRating = getFireBase().child("ratings")
-                                          .child(getConferenceId())
-                                          .child(getDeviceId());
-
-        ownRating.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    double rating = (double) dataSnapshot.getValue();
-                    if (ratingBar.getRating() != rating) {
-                        ratingBar.setRating((float) rating);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {}
-        });
 
         initSpeakerLayout();
     }
@@ -290,10 +226,6 @@ public class ConferenceActivity extends AppCompatActivity {
 
     private String getConferenceId() {
         return CONFERENCE_ID_PAT.matcher(mConference.getHeadline()).replaceAll("");
-    }
-
-    private Firebase getFireBase() {
-        return ((BaseApplication) getApplication()).getFirebase();
     }
 
     private void initSpeakerLayout() {
