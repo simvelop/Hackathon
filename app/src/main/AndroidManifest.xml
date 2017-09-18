@@ -13,6 +13,7 @@
         android:label="@string/app_name"
         android:launchMode="singleTask"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="hr.droidcon.conference.MainActivity"
             android:label="@string/app_name"
@@ -23,32 +24,44 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name="hr.droidcon.conference.ConferenceActivity"
             android:label="@string/title_activity_conference"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name="hr.droidcon.conference.AboutActivity"
             android:label="@string/action_about"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name="hr.droidcon.conference.SpeakersActivity"
             android:label="@string/title_activity_speakers"
             android:theme="@style/AppTheme"/>
+
         <activity
             android:name="hr.droidcon.conference.SpeakerInfoActivity"
             android:label="@string/title_activity_speaker_info"
             android:theme="@style/AppTheme"/>
+
         <activity
             android:name=".FilteredActivity"
             android:screenOrientation="portrait"
             />
+
         <activity
             android:name=".TimeKillGame"
             android:screenOrientation="portrait"
             android:label="@string/action_kill_time"/>
+
+        <service
+            android:name=".notifications.DroidconFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for

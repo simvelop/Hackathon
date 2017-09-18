@@ -21,6 +21,11 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import hr.droidcon.conference.objects.Conference;
 import hr.droidcon.conference.utils.PreferenceManager;
@@ -37,7 +42,6 @@ import java.util.regex.Pattern;
 /**
  * Display the detail for one {@link Conference}
  * Must receive one {@link Conference} object in its {@link Intent}
- *
  * @author Arnaud Camus
  */
 public class ConferenceActivity extends AppCompatActivity {
@@ -100,7 +104,6 @@ public class ConferenceActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.location)).setTextColor(
                 WordColor.generateColor(mConference.getLocation())
         );
-        final RatingBar ratingBar = ((RatingBar) findViewById(R.id.rating_bar));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
         try {
@@ -130,12 +133,68 @@ public class ConferenceActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        final TextView resultRatingTextView = (TextView)
-                findViewById(R.id.rating_result_bar);
-        final TextView resultParticipantsTextView = (TextView)
-                findViewById(R.id.rating_result_participants);
-
         initSpeakerLayout();
+        initRatings();
+    }
+
+    private void initRatings() {
+        final RatingBar ratingBar = findViewById(R.id.rating_bar);
+        final TextView resultRatingTextView = findViewById(R.id.rating_result_bar);
+        final TextView resultParticipantsTextView = findViewById(R.id.rating_result_participants);
+
+        final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference overallRating = db.child("ratings").child(getConferenceId());
+        final DatabaseReference ownRating = overallRating.child(getDeviceId());
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ownRating.setValue((double) rating);
+            }
+        });
+
+        overallRating.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                double ratingSum = 0;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    ratingSum += ((Number) child.getValue()).doubleValue();
+                }
+
+                double rating = ratingSum / (double) dataSnapshot.getChildrenCount();
+                if (Double.isNaN(rating)) {
+                    resultRatingTextView.setText(getString(R.string.rating_result_empty));
+                    findViewById(R.id.rating_image).setVisibility(View.INVISIBLE);
+
+                    resultParticipantsTextView.setText("");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.INVISIBLE);
+                } else {
+                    resultRatingTextView.setText("" + (float) rating);
+                    findViewById(R.id.rating_image).setVisibility(View.VISIBLE);
+
+                    resultParticipantsTextView.setText(dataSnapshot.getChildrenCount() + "");
+                    findViewById(R.id.rating_participants_image).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        ownRating.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    double rating = ((Number) dataSnapshot.getValue()).doubleValue();
+                    if (ratingBar.getRating() != rating) {
+                        ratingBar.setRating((float) rating);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     /**

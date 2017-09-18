@@ -47,6 +47,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.talenguyen:prettysharedpreferences:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.toxxmeister:Ekstend:1.1.1'
     compile('com.mikepenz:aboutlibraries:5.9.7@aar') { transitive = true }
 
     compile 'com.opencsv:opencsv:4.0'
@@ -55,6 +56,7 @@ dependencies {
 repositories {
     mavenCentral()
     maven { url "https://maven.google.com" }
+    maven { url "https://jitpack.io" }
 }
 
 apply plugin: 'com.google.gms.google-services'
