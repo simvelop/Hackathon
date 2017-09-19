@@ -10,6 +10,7 @@ import hr.droidcon.conference.timeline.Session;
 import hr.droidcon.conference.utils.PreferenceManager;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 
 /**
@@ -18,6 +19,8 @@ import java.io.Serializable;
  * @author Arnaud Camus
  */
 public class Conference implements Serializable {
+
+    private static final Pattern CONFERENCE_ID_PAT = Pattern.compile("[^a-zA-Z0-9]+");
 
     public static final String DEFAULT_SPEAKER_IMG =
             "http://droidcon.hr/sites/global.droidcon.cod.newthinking.net/files/2016_droidcon_banner_128x120_0.png";
@@ -193,5 +196,9 @@ public class Conference implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getConferenceId() {
+        return CONFERENCE_ID_PAT.matcher(headline).replaceAll("");
     }
 }

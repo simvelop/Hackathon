@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import hr.droidcon.conference.BaseApplication;
 import hr.droidcon.conference.R;
+import hr.droidcon.conference.database.DatabaseKt;
 import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.utils.DeviceInfoKt;
 import hr.droidcon.conference.utils.WordColor;
 import org.greenrobot.eventbus.EventBus;
 
@@ -87,11 +89,9 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
         }
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
-                conference.toggleFavorite(mContext);
+                boolean isFav = conference.toggleFavorite(mContext);
                 holder.favorite.setImageResource(conference.isFavorite(mContext)
                         ? R.drawable.ic_favorite_grey600_18dp
                         : R.drawable.ic_favorite_outline_grey600_18dp);
@@ -99,6 +99,11 @@ public class ViewConferenceInflater extends ItemInflater<Conference> {
                 boolean filterSetting = ((BaseApplication) mContext.getApplicationContext())
                         .isFilterFavorites();
                 EventBus.getDefault().post(new FilterUpdateEvent(filterSetting));
+                DatabaseKt.setFavorite(
+                        conference.getConferenceId(),
+                        DeviceInfoKt.getDeviceId(mContext.getApplicationContext()),
+                        isFav
+                );
             }
         });
 

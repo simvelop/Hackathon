@@ -1,5 +1,6 @@
 package hr.droidcon.conference;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +22,12 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import hr.droidcon.conference.database.DatabaseKt;
+import hr.droidcon.conference.database.OnTotalRatingChange;
+import hr.droidcon.conference.database.OnUserRatingChange;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.utils.DeviceInfoKt;
 import hr.droidcon.conference.utils.PreferenceManager;
 import hr.droidcon.conference.utils.Utils;
 import hr.droidcon.conference.utils.ViewAnimations;
@@ -48,9 +48,7 @@ public class ConferenceActivity extends AppCompatActivity {
 
     private static final Pattern CONFERENCE_ID_PAT = Pattern.compile("[^a-zA-Z0-9]+");
 
-    Conference mConference;
-    SimpleDateFormat simpleDateFormat;
-    SimpleDateFormat simpleDateFormat2;
+    Conference conference;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -76,8 +74,8 @@ public class ConferenceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conference);
 
-        simpleDateFormat = new SimpleDateFormat("E, HH:mm");
-        simpleDateFormat2 = new SimpleDateFormat(" - HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, HH:mm");
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(" - HH:mm");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -94,21 +92,21 @@ public class ConferenceActivity extends AppCompatActivity {
             });
         }
 
-        mConference = (Conference) getIntent().getSerializableExtra("conference");
+        conference = (Conference) getIntent().getSerializableExtra("conference");
 
-        ((TextView) findViewById(R.id.headline)).setText(Html.fromHtml(mConference.getHeadline()));
-        ((TextView) findViewById(R.id.speaker)).setText(Html.fromHtml(mConference.getSpeaker()));
-        ((TextView) findViewById(R.id.text)).setText(Html.fromHtml(mConference.getText()));
+        ((TextView) findViewById(R.id.headline)).setText(Html.fromHtml(conference.getHeadline()));
+        ((TextView) findViewById(R.id.speaker)).setText(Html.fromHtml(conference.getSpeaker()));
+        ((TextView) findViewById(R.id.text)).setText(Html.fromHtml(conference.getText()));
         ((TextView) findViewById(R.id.location)).setText(String.format(getString(R.string.location),
-                mConference.getLocation()));
+                conference.getLocation()));
         ((TextView) findViewById(R.id.location)).setTextColor(
-                WordColor.generateColor(mConference.getLocation())
+                WordColor.generateColor(conference.getLocation())
         );
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
         try {
-            Date startDate = dateFormat.parse(mConference.getStartDate());
-            Date endDate = dateFormat.parse(mConference.getEndDate());
+            Date startDate = dateFormat.parse(conference.getStartDate());
+            Date endDate = dateFormat.parse(conference.getEndDate());
             ((TextView) findViewById(R.id.date)).setText(
                     simpleDateFormat.format(startDate)
                             + simpleDateFormat2.format(endDate));
@@ -117,7 +115,7 @@ public class ConferenceActivity extends AppCompatActivity {
         }
 
         Picasso.with(getApplicationContext())
-                .load(mConference.getSpeakerImageUrl())
+                .load(conference.getSpeakerImageUrl())
                 .transform(((BaseApplication) getApplicationContext()).mPicassoTransformation)
                 .into((ImageView) findViewById(R.id.image));
 
@@ -142,26 +140,20 @@ public class ConferenceActivity extends AppCompatActivity {
         final TextView resultRatingTextView = findViewById(R.id.rating_result_bar);
         final TextView resultParticipantsTextView = findViewById(R.id.rating_result_participants);
 
-        final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference overallRating = db.child("ratings").child(getConferenceId());
-        final DatabaseReference ownRating = overallRating.child(getDeviceId());
+        final String conferenceId = conference.getConferenceId();
+        final String deviceId = DeviceInfoKt.getDeviceId(this);
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ownRating.setValue((double) rating);
+                DatabaseKt.setRating(conferenceId, deviceId, rating);
             }
         });
 
-        overallRating.addValueEventListener(new ValueEventListener() {
+        DatabaseKt.onOverallRatingChange(conferenceId, new OnTotalRatingChange() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                double ratingSum = 0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ratingSum += ((Number) child.getValue()).doubleValue();
-                }
-
-                double rating = ratingSum / (double) dataSnapshot.getChildrenCount();
+            @SuppressLint("SetTextI18n")
+            public void onChange(double rating, int count) {
                 if (Double.isNaN(rating)) {
                     resultRatingTextView.setText(getString(R.string.rating_result_empty));
                     findViewById(R.id.rating_image).setVisibility(View.INVISIBLE);
@@ -169,31 +161,20 @@ public class ConferenceActivity extends AppCompatActivity {
                     resultParticipantsTextView.setText("");
                     findViewById(R.id.rating_participants_image).setVisibility(View.INVISIBLE);
                 } else {
-                    resultRatingTextView.setText("" + (float) rating);
+                    resultRatingTextView.setText(Double.toString(rating));
                     findViewById(R.id.rating_image).setVisibility(View.VISIBLE);
 
-                    resultParticipantsTextView.setText(dataSnapshot.getChildrenCount() + "");
+                    resultParticipantsTextView.setText(Integer.toString(count));
                     findViewById(R.id.rating_participants_image).setVisibility(View.VISIBLE);
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
         });
 
-        ownRating.addValueEventListener(new ValueEventListener() {
+        DatabaseKt.onUserRatingChange(conferenceId, deviceId, new OnUserRatingChange() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    double rating = ((Number) dataSnapshot.getValue()).doubleValue();
-                    if (ratingBar.getRating() != rating) {
-                        ratingBar.setRating((float) rating);
-                    }
-                }
+            public void onChange(double rating) {
+                ratingBar.setRating((float) rating);
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
@@ -204,7 +185,7 @@ public class ConferenceActivity extends AppCompatActivity {
     private void setupFAB() {
         final FABView fab = new FABView.Builder(this)
                 .withDrawable(getResources().getDrawable(
-                        mConference.isFavorite(getBaseContext())
+                        conference.isFavorite(getBaseContext())
                                 ? R.drawable.ic_favorite_white_24dp
                                 : R.drawable.ic_favorite_outline_white_24dp
                 ))
@@ -221,7 +202,8 @@ public class ConferenceActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mConference.toggleFavorite(getBaseContext())) {
+                boolean isFav = conference.toggleFavorite(getBaseContext());
+                if (isFav) {
                     fab.setFloatingActionButtonDrawable(
                             getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
                 } else {
@@ -232,6 +214,12 @@ public class ConferenceActivity extends AppCompatActivity {
                         .favoritesChanged()
                         .put(true)
                         .apply();
+
+                DatabaseKt.setFavorite(
+                        conference.getConferenceId(),
+                        DeviceInfoKt.getDeviceId(ConferenceActivity.this),
+                        isFav
+                );
             }
         });
     }
@@ -283,18 +271,14 @@ public class ConferenceActivity extends AppCompatActivity {
         );
     }
 
-    private String getConferenceId() {
-        return CONFERENCE_ID_PAT.matcher(mConference.getHeadline()).replaceAll("");
-    }
-
     private void initSpeakerLayout() {
         RelativeLayout speakerLayout = (RelativeLayout) findViewById(R.id.speakerLayout);
         speakerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mConference.getSpeakerUID() != null) {
+                if (conference.getSpeakerUID() != null) {
                     Intent intent = new Intent(ConferenceActivity.this, SpeakerInfoActivity.class);
-                    intent.putExtra(SpeakerInfoActivity.SPEAKER_UID, mConference.getSpeakerUID());
+                    intent.putExtra(SpeakerInfoActivity.SPEAKER_UID, conference.getSpeakerUID());
                     startActivity(intent);
                 }
             }

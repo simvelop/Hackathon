@@ -1,6 +1,7 @@
 package hr.droidcon.conference.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -16,8 +17,12 @@ import com.squareup.picasso.Picasso;
 import hr.droidcon.conference.BaseApplication;
 import hr.droidcon.conference.ConferenceActivity;
 import hr.droidcon.conference.R;
+import hr.droidcon.conference.database.DatabaseKt;
+import hr.droidcon.conference.events.FilterUpdateEvent;
 import hr.droidcon.conference.objects.Conference;
+import hr.droidcon.conference.utils.DeviceInfoKt;
 import hr.droidcon.conference.utils.WordColor;
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,6 +96,26 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
         holder.favorite.setImageResource(object.isFavorite(activity)
                 ? R.drawable.ic_favorite_grey600_18dp
                 : R.drawable.ic_favorite_outline_grey600_18dp);
+
+        holder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext().getApplicationContext();
+
+                boolean isFav = object.toggleFavorite(context);
+                holder.favorite.setImageResource(object.isFavorite(activity)
+                        ? R.drawable.ic_favorite_grey600_18dp
+                        : R.drawable.ic_favorite_outline_grey600_18dp);
+
+                boolean filterSetting = ((BaseApplication) context).isFilterFavorites();
+                EventBus.getDefault().post(new FilterUpdateEvent(filterSetting));
+                DatabaseKt.setFavorite(
+                        object.getConferenceId(),
+                        DeviceInfoKt.getDeviceId(context),
+                        isFav
+                );
+            }
+        });
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
